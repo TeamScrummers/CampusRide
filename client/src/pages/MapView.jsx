@@ -4,8 +4,9 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions'
 import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css'
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 
+// Later our mapbox token is hidden in an .env file, for now it be plainly put here. 
 //mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_KEY;
 mapboxgl.accessToken = 'pk.eyJ1IjoiemFjaGVyeW1jZG9uYWxkIiwiYSI6ImNsYmVmaGpyODBhejUzem83ZW0xN2phM2kifQ.hStvPgYcyb-uZGuHrPMEIQ';
 
@@ -52,11 +53,11 @@ class MapView extends React.Component {
       <div>
       {/* Populates map by referencing map's container property */}
       <div ref={el => (this.mapWrapper = el)} className="mapWrapper" /> 
-      <button className="addHome">
+      {/* <button className="addHome">
         <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
           Back to Landing
         </Link>
-      </button>
+      </button> */}
       </div>
       );
   }
