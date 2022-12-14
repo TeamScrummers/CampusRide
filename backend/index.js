@@ -6,6 +6,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// mySQL datbase connection info
+// If there is an auth problem/error
+//ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123'
+
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -13,14 +17,12 @@ const db = mysql.createConnection({
   database: "CampusRide",
 });
 
-//If there is a auth problem
-//ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123'
-
-// Register CRUD
+// Needs explanation
 app.get("/", (req, res) => {
   res.json("hello");
 });
 
+// Returns entire table
 app.get("/home", (req, res) => {
   const q = "SELECT * FROM account";
   db.query(q, (err, data) => {
@@ -32,6 +34,7 @@ app.get("/home", (req, res) => {
   });
 });
 
+// Create CRUD functionality otherwise known as register account
 app.post("/home", (req, res) => {
   const q = "INSERT INTO account (`email`, `name`, `password`) VALUES (?)";
   
@@ -47,6 +50,7 @@ app.post("/home", (req, res) => {
   });
 });
 
+// Delete CRUD functionality
 app.delete("/home/:id", (req, res) => {
   const accountId = req.params.id;
   const q = " DELETE FROM account WHERE id = ? ";
@@ -57,6 +61,7 @@ app.delete("/home/:id", (req, res) => {
   });
 });
 
+// Update CRUD functionality
 app.put("/home/:id", (req, res) => {
   const accountId = req.params.id;
   const q = "UPDATE account SET `email`= ?, `name`= ?, `password`= ? WHERE id = ?";
@@ -75,7 +80,8 @@ app.put("/home/:id", (req, res) => {
 
 
 // Basic Auth
-// Unfinished, does not do anything when there is a combination match. 
+// Unfinished, does not do anything meaningful when there is a combination match. 
+// Just outputs the data of the login match to console.
 app.post("/login", (req, res) => {
   const q = "SELECT * FROM account WHERE `email` = ? AND `password` = ?";
   
@@ -84,6 +90,7 @@ app.post("/login", (req, res) => {
     req.body.password,
   ];
 
+  // passes values as ?s in q query
   db.query(q, [...values],(err, data) => {
     if (err) {
       console.log(err);
@@ -94,25 +101,7 @@ app.post("/login", (req, res) => {
   });
 });
 
-// app.post("/login", (req, res) => {
-//   const email = req.body.email;
-//   const password = req.body.password;
-
-//   db.query("",
-//     [email, password])
-//   if (result) {
-//         res.send(result);
-//       } else {
-//         res.send({ message: "Wrong Email or Password Combination"});
-//       }
-//     }
-//   );
-
-
-
-
-
-
+// Listen to server and posts status message.
 app.listen(8800, () => {
   console.log("Connected to backend.");
 });

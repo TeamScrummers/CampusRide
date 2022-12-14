@@ -1,13 +1,14 @@
 import React from "react";
-import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+//import { useEffect } from "react";
 
 const Home = () => {
   const [account, setAccount] = useState([]);
 
-  // Renders a list of all accounts w/ mutation options. 
+  // Below code renders a list of all accounts w/ mutation (CRUD) options. 
+
   // useEffect(() => {
   //   const fetchAllAccounts = async () => {
   //     try {
@@ -22,6 +23,7 @@ const Home = () => {
 
   console.log(account);
 
+  // Sends promise for delete CRUD
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8800/Home/${id}`);
