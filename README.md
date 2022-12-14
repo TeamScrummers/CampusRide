@@ -3,20 +3,14 @@ CampusRide is a rideshare application made for carpooling students.
 
 Build instructions:
 
-cd campusride_app
+cd server
 
-npm install
-
-cd client
-
-npm install
-
-cd backend
+npm install --force
 
 npm start
 
 cd client
 
-npm start
+npm install --force
 
 npm start
