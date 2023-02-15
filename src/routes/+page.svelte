@@ -5,6 +5,7 @@
     <a href="/map">Map View | </a>
     <a href="/matched">Match Found Page | </a>
     <a href="/auth">User Auth Page | </a>
+    <a href="/admin">Admin TEST ONLY Page | </a>
   </div>
 </section>
 

@@ -28,5 +28,9 @@
   "type": "module",
   "volta": {
     "node": "18.13.0"
+  },
+  "dependencies": {
+    "firebase": "^9.17.1",
+    "firebase-admin": "^11.5.0"
   }
 }
