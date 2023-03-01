@@ -2,7 +2,7 @@
     import Button from '../components/Button.svelte'
     import Input from '../components/Input.svelte'
     import A from '../components/A.svelte'
-    import {userbaseStore, promiseStore} from '../stores'
+    import {userbaseStore, promiseStore} from '../store.js'
 
     let username
 
