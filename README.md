@@ -6,5 +6,7 @@ To install firebase SDK to app:
 
 
 To Run App:
-    npm install
-    npm run dev
+npm install
+npm run dev
+
+Read me 2
