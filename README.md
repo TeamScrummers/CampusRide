@@ -8,3 +8,5 @@ npm install firebase
 To Run App:
 npm install
 npm run dev
+
+Read me 2
