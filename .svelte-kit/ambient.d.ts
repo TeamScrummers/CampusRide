@@ -26,9 +26,47 @@
  * ```
  */
 declare module '$env/static/private' {
+<<<<<<< Updated upstream
 	export const GJS_DEBUG_TOPICS: string;
 	export const LESSOPEN: string;
 	export const USER: string;
+=======
+	export const ALLUSERSPROFILE: string;
+	export const APPDATA: string;
+	export const CHROME_CRASHPAD_PIPE_NAME: string;
+	export const COLOR: string;
+	export const COLORTERM: string;
+	export const CommonProgramFiles: string;
+	export const CommonProgramW6432: string;
+	export const COMPUTERNAME: string;
+	export const ComSpec: string;
+	export const DriverData: string;
+	export const EDITOR: string;
+	export const GIT_ASKPASS: string;
+	export const HOME: string;
+	export const HOMEDRIVE: string;
+	export const HOMEPATH: string;
+	export const INIT_CWD: string;
+	export const LANG: string;
+	export const LOCALAPPDATA: string;
+	export const LOGONSERVER: string;
+	export const NODE: string;
+	export const NODE_ENV: string;
+	export const NODE_EXE: string;
+	export const NPM_CLI_JS: string;
+	export const npm_command: string;
+	export const npm_config_cache: string;
+	export const npm_config_engine_strict: string;
+	export const npm_config_globalconfig: string;
+	export const npm_config_global_prefix: string;
+	export const npm_config_init_module: string;
+	export const npm_config_local_prefix: string;
+	export const npm_config_metrics_registry: string;
+	export const npm_config_node_gyp: string;
+	export const npm_config_noproxy: string;
+	export const npm_config_prefix: string;
+	export const npm_config_userconfig: string;
+>>>>>>> Stashed changes
 	export const npm_config_user_agent: string;
 	export const XDG_SESSION_TYPE: string;
 	export const GIT_ASKPASS: string;
@@ -139,9 +177,47 @@ declare module '$env/static/public' {
  */
 declare module '$env/dynamic/private' {
 	export const env: {
+<<<<<<< Updated upstream
 		GJS_DEBUG_TOPICS: string;
 		LESSOPEN: string;
 		USER: string;
+=======
+		ALLUSERSPROFILE: string;
+		APPDATA: string;
+		CHROME_CRASHPAD_PIPE_NAME: string;
+		COLOR: string;
+		COLORTERM: string;
+		CommonProgramFiles: string;
+		CommonProgramW6432: string;
+		COMPUTERNAME: string;
+		ComSpec: string;
+		DriverData: string;
+		EDITOR: string;
+		GIT_ASKPASS: string;
+		HOME: string;
+		HOMEDRIVE: string;
+		HOMEPATH: string;
+		INIT_CWD: string;
+		LANG: string;
+		LOCALAPPDATA: string;
+		LOGONSERVER: string;
+		NODE: string;
+		NODE_ENV: string;
+		NODE_EXE: string;
+		NPM_CLI_JS: string;
+		npm_command: string;
+		npm_config_cache: string;
+		npm_config_engine_strict: string;
+		npm_config_globalconfig: string;
+		npm_config_global_prefix: string;
+		npm_config_init_module: string;
+		npm_config_local_prefix: string;
+		npm_config_metrics_registry: string;
+		npm_config_node_gyp: string;
+		npm_config_noproxy: string;
+		npm_config_prefix: string;
+		npm_config_userconfig: string;
+>>>>>>> Stashed changes
 		npm_config_user_agent: string;
 		XDG_SESSION_TYPE: string;
 		GIT_ASKPASS: string;
