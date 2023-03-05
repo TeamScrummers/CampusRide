@@ -26,7 +26,6 @@
                   {center}
                   bind:zoom
                 >
-                  <Earthquakes />
                   <NavigationControl />
                   <GeolocateControl on:geolocate={e => console.log('geolocated', e.detail)} />
                   <Marker lat={marker.lat} lng={marker.lng} />
@@ -58,7 +57,6 @@
   <script>
     import { PUBLIC_MAPBOX_TOKEN } from '$env/static/public'
     import { Map, Geocoder, Marker, controls } from '$lib/components.js'
-    import Earthquakes from './_Earthquakes.svelte'
   
     const { GeolocateControl, NavigationControl } = controls
     const place = null

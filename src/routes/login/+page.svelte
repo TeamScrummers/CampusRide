@@ -1,21 +1,48 @@
-<h1>Login Page</h1>
-<p>Nonfunctional Buttons Below</p>
-<form action="action_page.php" method="post">
-    <div class="container">
-      <label for="uname"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="uname" required>
-  
-      <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
-  
-      <button type="submit">Login</button>
-      <label>
-        <input type="checkbox" checked="checked" name="remember"> Remember me
-      </label>
-    </div>
+<h1>Login Page2.0</h1>
+<p>Page page</p>
+<script>
+	import Tailwindcss from './Tailwindcss.svelte';
+    import Router from 'svelte-spa-router'
+    import SignUp from './routes/SignUp.svelte'
+    import SignIn from './routes/SignIn.svelte'
+    import ForgotPassword from './routes/ForgotPassword.svelte'
+    import {userbaseStore, userStore, promiseStore} from './store.js'
 
-    <div class="container" style="background-color:#f1f1f1">
-      <button type="button" class="cancelbtn"><a href="/">Back</a></button>
-      <span class="psw">Forgot <a href="/">password?</a></span>
-    </div>
-  </form>
+	const userbase = window.userbase
+    window.userbase = null
+
+    // stores
+    $userbaseStore = userbase
+    $userStore = null
+
+    $promiseStore = userbase.init({appId: 'cc34d760-bf44-4aba-8ed6-9e7db48bb9be'})
+        .then((session) => $userStore = session.user)
+
+    
+    function signout() {
+        $promiseStore = $userbaseStore.signOut().then(() => $userStore = null)
+    }
+</script>
+
+<Tailwindcss />
+
+<div class="container flex flex-col justify-center items-center w-screen h-screen mx-auto">
+    {#await $promiseStore.then(() => Promise.reject())}
+        Loading..Loading.. Loading.Login.
+    {:catch error}
+        {#if error}
+            <strong class="text-red-700 font-bold">ERROR! {error} </strong>
+        {/if}
+        {#if $userStore}
+            Hello, {$userStore.username}!
+            <button on:click={signout}>Logout</button>
+        {:else}
+            <h1>Welcome to to capmpus ride share</h1>
+            <Router routes={{
+                '/signup': SignUp,
+                '/signin': SignIn,
+                '/forgotpassword': ForgotPassword
+            }} />
+        {/if}
+    {/await}
+</div>
