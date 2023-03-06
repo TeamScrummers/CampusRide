@@ -1,11 +1,9 @@
 <svelte:head>
+  <!-- Mapbox GL  -->
   <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" >
-  <script type="module" 
-    src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js">
-  </script>
-  <script type="module" 
-    src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js">
-  </script>
+  <script type="module" src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+  <!-- Mapbox Directions -->
+  <script type="module" src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js"></script>
   <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.css" type="text/css">
   <style>
     body { margin: 0; padding: 0; }
@@ -19,9 +17,8 @@
   </style>
 </svelte:head>
 
-
 <body>
-  <!--  make a container for ui elements
+  <!--  FUTURE: make a container for ui elements
         pickup location (or geolocate)
         drop off location (campus/where on campus)
         latest arrival time
@@ -29,12 +26,12 @@
   <div class = "map-overlay" style="border: 2px solid; background-color: white;">  
     <a href="/">Back</a>
   </div>
-
+  
+  <!-- BUG: Far rightside of map isn't rendering correctly, div positioning issues? -->
   <div id="map"></div>
-  <script defer>
+  <script>
     // Should hide api key w/ .env file for future
     //mapboxgl.accessToken = process.env.PUBLIC_MAPBOX_TOKEN
-      alert("Alert Reached.")
       mapboxgl.accessToken = '';
       var map = new mapboxgl.Map({
         container: 'map',
@@ -43,9 +40,10 @@
         zoom: 11
       });
 
-      
+      // Adds directions form top left of page
       map.addControl(new MapboxDirections({accessToken: mapboxgl.accessToken}),'top-left');
-      //map.addControl(geolocation, 'top-right');
+      // Adds geolocation button top right of page
+      map.addControl(new mapboxgl.GeolocateControl({positionOptions: {enableHighAccuracy: true}, trackUserLocation: true, showUserHeading: true}))
   </script>
   
 </body>
