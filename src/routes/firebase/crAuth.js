@@ -1,7 +1,7 @@
 
     import { getAuth, createUserWithEmailAndPassword,
             signInWithEmailAndPassword, signOut } from "firebase/auth";
-    import {getDatabase, set, ref, update} from "firebase/database";
+    import { getDatabase, set, ref, update } from "firebase/database";
     import{ writable } from "svelte/store";
     import { app } from "./initialFirebase"
 
@@ -14,7 +14,7 @@
     email: " "
     })
 
-
+    //Resgistration function
     export function handleOnRegister(email, password){
         createUserWithEmailAndPassword(auth, email, password)
          .catch(function(error) {
@@ -29,6 +29,7 @@
             });
     }
 
+    //Login Function
     export function handleOnLogin(email, password){
         signInWithEmailAndPassword(auth, email, password)
         .catch(function(error) {
