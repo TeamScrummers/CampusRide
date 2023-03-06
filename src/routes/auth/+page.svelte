@@ -94,7 +94,7 @@
 <a href="/">Back</a>
 
 <script>
-    import{ handleOnRegister, handleOnLogin } from "../firebase/crAuth";
+    import{ handleOnRegister, handleOnLogin} from "../firebase/crAuth";
     let email;
     let password;
 </script>
