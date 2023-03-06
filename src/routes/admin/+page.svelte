@@ -2,20 +2,27 @@
 <a href="/">Back</a>
 
 <script>
-    import { writeToDatabase } from "../firebase/crDatabase"
+    import { createFromDatabase, readFromDatabaseOnValue, searchDb, readDb, searchFromDatabase} from "../firebase/crDatabase"
     function writeEntry() {
-
+        createFromDatabase("users/userId", { username: "name", email: "email"})
     }
-
-//Old code for testing auth
-//    import {authClass} from "../firebase/crAuth";
-//    
-//    const user = new authClass();
+    function readFromDb(){
+        readFromDatabaseOnValue("users/userId");
+        readFromDatabaseOnValue("users/userId");
+        console.log(readDb);
+    }
+    function searchFromDb(){
+        searchFromDatabase("users", "email", "email@email.com");
+        searchFromDatabase("users", "email", "email@email.com")
+        console.log(JSON.stringify(searchDb));
+    }
 </script>
 
 
 <div class="container" style="background-color:#f1f1f1">
-      <button type="button" on:click={writeEntry}>Help :D</button>
+      <button type="button" on:click={writeEntry}>Write Entry</button>
+      <button type="button" on:click={readFromDb}>Read From Db</button>
+      <button type="button" on:click={searchFromDb}>Search From Db</button>
 </div>
 
 

@@ -1,32 +1,44 @@
 import { app } from "./initialFirebase"
-import { getDatabase, ref, onValue, set, get, child, update } from "firebase/database";
+import { getDatabase, ref, onValue, set, get, child, update, 
+    orderByChild,equalTo, query, limitToFirst} from "firebase/database";
 
 const database = getDatabase(app);
-export let readDb;
+const rootRef = ref(database);
+export let readDb
+export let searchDb
 
 //Create Operation
 //  Location needs to be in format, without angle brackets: "<table>/" + <key>
 //        location: "users/" + userID
 //  Data needs to be in format, { value1, value2, value3...}
 //        data: { email: "email@email.com", password: "psswrd" }
-export function CreateFromDatabase(path, data){
+export function createFromDatabase(path, data){
     set(ref(database, path), data);
     console.log("Data written");
 }
 
-//Read operation
+//Read operation: Search
+//  Table is the first node of the json list. For users it will be:
+//          table: "user"
+//  Key is the specific key value we are looking for. Only use primary key name:
+//          key: "email"
+//  Value is the specific value we are looking for. 
+//          value: "email@email.com"
+export function searchFromDatabase(table, key, value){
+    const selectQ = query(ref(database, table), orderByChild(key), equalTo(value));
+    onValue(selectQ, (snapshot) => {
+        searchDb = snapshot.val();;
+    })
+}
+
+//Read operation: Known path
 //  Location needs to be in format, without angle brackets: "<table>/<pk>
 //          location: users/userID
-export function readFromDatabaseGet(path){
-    get(child(ref(database), "user/userId")).then((snapshot) => {
-        if(snapshot.exists()){
-            console.log(snapshot.val());
-        } else {
-            console.log("No Data avilable");
-        }
-    }).catch((error) => {
-        console.error(error);
-    });
+export function readFromDatabaseOnValue(path){
+    let data;
+    onValue(ref(database, path), (snapshot) => {
+        readDb = snapshot.val();
+    })
 }
 
 //Update operation
