@@ -2,10 +2,9 @@
 <a href="/">Back</a>
 
 <script>
-    import {firestoreClass} from "../firebase/crFirestore"
-    const db = new firestoreClass();
+    import { writeToDatabase } from "../firebase/crDatabase"
     function writeEntry() {
-        db.createEntry();
+
     }
 
 //Old code for testing auth
