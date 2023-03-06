@@ -1,81 +1,51 @@
-<section class="content">
-    <div class="container">
-      <h1>Map View</h1>
-      <a href="/">Back</a>
-      <div class="content-wrap">
-            <div class="section-txt" id="geocoder">
-              <form>
-              <Geocoder value="College Station, Texas, United States" accessToken={PUBLIC_MAPBOX_TOKEN} on:result={placeChanged} on:clear={() => mapComponent.setCenter({ lng: 0, lat: 0 })} />
-              {#if place}
-                <dl>
-                  <dt>Name:</dt>
-                  <dd>{place.label}</dd>
-                  <dt>Geolocation:</dt>
-                  <dd>lat: {place.geometry.lat}, lng: {place.geometry.lng}</dd>
-                </dl>
-              {/if}
-              </form>
-            </div>
-            <div class="section-txt" id="map">
-              <div class="map-wrap">
-                <Map
-                  bind:this={mapComponent}
-                  accessToken={PUBLIC_MAPBOX_TOKEN}
-                  on:recentre={recentre}
-                  on:drag={drag}
-                  {center}
-                  bind:zoom
-                >
-                  <NavigationControl />
-                  <GeolocateControl on:geolocate={e => console.log('geolocated', e.detail)} />
-                  <Marker lat={marker.lat} lng={marker.lng} />
-                </Map>
-              </div>
-              {#if center}
-                <dt>Geolocation:</dt>
-                <dd>lat: {center.lat}, lng: {center.lng}</dd>
-                <dd>zoom: {zoom}</dd>
-              {/if}
-        </div>
-      </div>
-    </div>
-  </section>
-  
-  <style>
-    :global(#logo svg) {
-      fill: white;
-      height: 60px;
-    }
-  
-    .map-wrap {
-      width: 100%;
-      height: 600px;
-    }
-  
-  </style>
-  
-  <script>
-    import { PUBLIC_MAPBOX_TOKEN } from '$env/static/public'
-    import { Map, Geocoder, Marker, controls } from '$lib/components.js'
-  
-    const { GeolocateControl, NavigationControl } = controls
-    const place = null
-  
-    let center = { lat: 30.5949963128281, lng: -96.30896051870995 }
-    let marker = center
-    let zoom = 11.15
-    let mapComponent
-  
-    function placeChanged (e) {
-      const { result } = e.detail
-      mapComponent.setCenter(result.center, 14)
-    }
-  
-    function recentre ({ detail }) {
-      center = detail.center
-    }
-  
-    function drag ({ detail }) {
-      marker = detail.center
-    }
+<svelte:head>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" >
+  <script type="module" 
+    src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js">
   </script>
+  <script type="module" 
+    src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js">
+  </script>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.css" type="text/css">
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    .map-overlay {
+      position: absolute;
+      top: 140px;
+      left: 10px;
+      z-index: 1;
+    }
+  </style>
+</svelte:head>
+
+
+<body>
+  <!--  make a container for ui elements
+        pickup location (or geolocate)
+        drop off location (campus/where on campus)
+        latest arrival time
+        Follow Uber's UI/UX flow -->
+  <div class = "map-overlay" style="border: 2px solid; background-color: white;">  
+    <a href="/">Back</a>
+  </div>
+
+  <div id="map"></div>
+  <script defer>
+    // Should hide api key w/ .env file for future
+    //mapboxgl.accessToken = process.env.PUBLIC_MAPBOX_TOKEN
+      alert("Alert Reached.")
+      mapboxgl.accessToken = 'pk.eyJ1IjoiemFjaGVyeW1jZG9uYWxkIiwiYSI6ImNsYmVmaGpyODBhejUzem83ZW0xN2phM2kifQ.hStvPgYcyb-uZGuHrPMEIQ';
+      var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v12',
+        center: [-96.3344,30.6280 ], // cstat lat long
+        zoom: 11
+      });
+
+      
+      map.addControl(new MapboxDirections({accessToken: mapboxgl.accessToken}),'top-left');
+      //map.addControl(geolocation, 'top-right');
+  </script>
+  
+</body>
