@@ -3,9 +3,6 @@ import { getDatabase, ref, onValue, set, get, child, update,
     orderByChild,equalTo, query, limitToFirst} from "firebase/database";
 
 const database = getDatabase(app);
-const rootRef = ref(database);
-export let readDb
-export let searchDb
 
 //Create Operation
 //  Location needs to be in format, without angle brackets: "<table>/" + <key>
