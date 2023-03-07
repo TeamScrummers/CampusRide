@@ -27,7 +27,7 @@ export function createFromDatabase(path, data){
 export function searchFromDatabase(table, key, value){
     const selectQ = query(ref(database, table), orderByChild(key), equalTo(value));
     onValue(selectQ, (snapshot) => {
-        searchDb = snapshot.val();;
+        searchDb = snapshot.val();
     })
 }
 
