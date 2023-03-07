@@ -18,6 +18,7 @@ export function createFromDatabase(path, data){
 }
 
 //Read operation: Search
+//  Function has to be called by an async function!
 //  Table is the first node of the json list. For users it will be:
 //          table: "user"
 //  Key is the specific key value we are looking for. Only use primary key name:
@@ -26,20 +27,24 @@ export function createFromDatabase(path, data){
 //          value: "email@email.com"
 export function searchFromDatabase(table, key, value){
     const selectQ = query(ref(database, table), orderByChild(key), equalTo(value));
-    onValue(selectQ, (snapshot) => {
-        searchDb = snapshot.val();
+    return new Promise(resolve => {
+        onValue(selectQ, (snapshot) => {
+            resolve(snapshot.val());
+        })  
     })
 }
 
 //Read operation: Known path
+//  Function has to be called byan async function!
 //  Location needs to be in format, without angle brackets: "<table>/<pk>
 //          location: users/userID
 export function readFromDatabaseOnValue(path){
-    let data;
-    onValue(ref(database, path), (snapshot) => {
-        readDb = snapshot.val();
+    return new Promise(resolve => {
+        onValue(ref(database, path), (snapshot) => {
+            resolve(snapshot.val());
+        })
     })
-}
+};
 
 //Update operation
 export function updateFromDatabase(path, data){
