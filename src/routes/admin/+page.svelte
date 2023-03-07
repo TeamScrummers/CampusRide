@@ -6,14 +6,12 @@
     function writeEntry() {
         createFromDatabase("users/userId", { username: "name", email: "email"})
     }
-    function readFromDb(){
-        readFromDatabaseOnValue("users/userId");
-        readFromDatabaseOnValue("users/userId");
-        console.log(readDb);
+    async function readFromDb(){
+        var result = await readFromDatabaseOnValue("users/userId")
+        console.log(result);
     }
-    function searchFromDb(){
-        searchFromDatabase("users", "email", "kcantu7@leomail.tamuc.edu");
-        var result = Object.keys(searchDb);
+    async function searchFromDb(){
+        var result = Object.keys( await searchFromDatabase("users", "email", "kcantu7@leomail.tamuc.edu"));
         console.log(result[0]);
     }
 </script>
