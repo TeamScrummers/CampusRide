@@ -12,7 +12,7 @@
         console.log(readDb);
     }
     function searchFromDb(){
-        searchFromDatabase("users", "email", "email@email.com");
+        searchFromDatabase("users", "email", "kcantu7@leomail.tamuc.edu");
         var result = Object.keys(searchDb);
         console.log(result[0]);
     }

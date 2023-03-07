@@ -1,48 +1,97 @@
-<h1>Login Page2.0</h1>
-<p>Page page</p>
 <script>
-	import Tailwindcss from './Tailwindcss.svelte';
-    import Router from 'svelte-spa-router'
-    import SignUp from './routes/SignUp.svelte'
-    import SignIn from './routes/SignIn.svelte'
-    import ForgotPassword from './routes/ForgotPassword.svelte'
-    import {userbaseStore, userStore, promiseStore} from './store.js'
-
-	const userbase = window.userbase
-    window.userbase = null
-
-    // stores
-    $userbaseStore = userbase
-    $userStore = null
-
-    $promiseStore = userbase.init({appId: 'cc34d760-bf44-4aba-8ed6-9e7db48bb9be'})
-        .then((session) => $userStore = session.user)
-
-    
-    function signout() {
-        $promiseStore = $userbaseStore.signOut().then(() => $userStore = null)
-    }
+    import{ handleOnLogin } from "../firebase/crAuth";
+    let emailLog;
+    let passwordLog;
 </script>
 
-<Tailwindcss />
 
-<div class="container flex flex-col justify-center items-center w-screen h-screen mx-auto">
-    {#await $promiseStore.then(() => Promise.reject())}
-        Loading..Loading.. Loading.Login.
-    {:catch error}
-        {#if error}
-            <strong class="text-red-700 font-bold">ERROR! {error} </strong>
-        {/if}
-        {#if $userStore}
-            Hello, {$userStore.username}!
-            <button on:click={signout}>Logout</button>
-        {:else}
-            <h1>Welcome to to capmpus ride share</h1>
-            <Router routes={{
-                '/signup': SignUp,
-                '/signin': SignIn,
-                '/forgotpassword': ForgotPassword
-            }} />
-        {/if}
-    {/await}
+<body>
+<form on:submit={ handleOnLogin(emailLog, passwordLog) }>
+    <div class="container">
+        <h1>Login</h1>
+        <hr>
+
+        <label for="email"><b>Email</b></label>
+        <input type="text" name="email" placeholder="email" bind:value={emailLog}>
+
+        <label for="password"><b>Password</b></label>
+        <input type="password" name="password" placeholder="password" bind:value={passwordLog}>
+        <button name="submitData" class="registerbtn">Login</button>
+
+        <hr>
+    </div>
+</form>
+
+<div class="container signin">
+    <p>Don't have an account? <a href="../auth">Register</a>.</p>
+    <p>Return home <a href="/">Home</a>.</p>
 </div>
+</body>
+
+
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: black;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+
+    .container {
+        padding: 16px;
+        background-color: white;
+    }
+
+
+    input[type=text],
+    input[type=password] {
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        display: list-block;
+        border: none;
+        background: #f1f1f1;
+    }
+
+    input[type=text]:focus,
+    input[type=password]:focus {
+        background-color: #ddd;
+        outline: none;
+    }
+
+
+    hr {
+        border: 1px solid #f1f1f1;
+        margin-bottom: 25px;
+    }
+
+
+    .registerbtn {
+        background-color: #04AA6D;
+        color: white;
+        padding: 16px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 50%;
+        opacity: 0.9;
+    }
+
+    .registerbtn:hover {
+        opacity: 1;
+    }
+
+
+    a {
+        color: dodgerblue;
+    }
+
+
+    .signin {
+        background-color: #f1f1f1;
+        text-align: center;
+    }
+</style>

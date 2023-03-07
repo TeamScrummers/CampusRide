@@ -20,5 +20,4 @@
     fill: white;
     height: 60px;
   }
-
 </style>
