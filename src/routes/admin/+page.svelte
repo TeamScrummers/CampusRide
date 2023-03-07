@@ -13,8 +13,8 @@
     }
     function searchFromDb(){
         searchFromDatabase("users", "email", "email@email.com");
-        searchFromDatabase("users", "email", "email@email.com")
-        console.log(JSON.stringify(searchDb));
+        var result = Object.keys(searchDb);
+        console.log(result[0]);
     }
 </script>
 
