@@ -9,7 +9,7 @@
   
 </script>
 
-<section>
+<!-- <section>
   <div class = "map-overlay">
     Destination Coords: {$destinationCoords}
     <br>
@@ -17,5 +17,5 @@
     <br>
     User Coords: {$userCoords}
   </div>
-</section>
+</section> -->
 <DirectionsDriver></DirectionsDriver>
