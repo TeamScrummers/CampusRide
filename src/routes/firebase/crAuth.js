@@ -10,7 +10,7 @@
     const database = getDatabase(app);
 
 
-    //Resgistration function
+    //Registration function
     export function handleOnRegister(email, password){
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
