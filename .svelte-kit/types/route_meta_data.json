@@ -2,8 +2,12 @@
 	"/": [],
 	"/admin": [],
 	"/auth": [],
+	"/home": [],
 	"/loginold": [],
 	"/login": [],
 	"/map": [],
-	"/matched": []
+	"/matched": [],
+	"/tripenroute": [],
+	"/tripover": [],
+	"/trippickup": []
 }
