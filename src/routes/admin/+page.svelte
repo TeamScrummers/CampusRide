@@ -2,6 +2,7 @@
 <a href="/">Back</a>
 
 <script>
+    import { goto } from '$app/navigation'
     //crDatabse
     import { createFromDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/crDatabase"
     
@@ -33,15 +34,27 @@
     import {provideDriverList} from "../firebase/crDrivers.js"
 
     function requestDriverList(){
-        provideDriverList();
+        return provideDriverList();
     }
-</script>
 
+    function acceptDriver (){
+        // remove driver from pool
+        // redirect both passenger & driver
+        goto('/trippickup')
+        return null
+    }
+
+    //DriverList.svelte
+    import DriverList from './DriverList.svelte';
+    let child
+
+</script>
 
 <div class="container" style="background-color:#f1f1f1">
       <button type="button" on:click={writeEntry}>Write Entry</button>
       <button type="button" on:click={readFromDb}>Read From Db</button>
       <button type="button" on:click={searchFromDb}>Search From Db</button>
+      <br><br>
 </div>
 
 
@@ -49,8 +62,45 @@
 <div class="container" style="background-color:#f1f1f1">
     <button type="button" on:click={requestTrip}>Request a trip</button>
     <button type="button" on:click={matchMade}>Accept match?</button>
+    <br><br>
 </div>
 
 <div class="container" style="background-color:#f1f1f1">
     <button type="button" on:click={requestDriverList}>Request Driver List</button>
 </div>
+
+<div class="container" style="background-color:#f1f1f1">
+
+</div>
+
+<div class="container" style="background-color:#f1f1f1">
+    <DriverList bind:this={child} on:show={e => child.shown = e.detail}>
+        <ul>
+            {#await requestDriverList()}
+                <li><p>Driver: Searching for Matches</p></li> 
+            {:then info}
+                <li> <p>
+                    Driver 1: {info} <button type="button" on:click={acceptDriver}>Accept Driver</button>
+                </p></li>
+            {:catch error}
+                <li><p style="color: red">{error.message}</p></li>
+            {/await}
+        
+            {#await requestDriverList()}
+                <li><p>Driver: Searching for Matches</p></li>
+            {:then info}
+                <li> <p>
+                    Driver 2: {info} <button type="button" on:click={acceptDriver}>Accept Driver</button>
+                </p></li>
+            {:catch error}
+                <li><p style="color: red">{error.message}</p></li>
+            {/await}
+        </ul>
+    </DriverList>
+</div> 
+
+<!-- 
+<div class="container" style="background-color:#f1f1f1">
+<button type="button" on:click={'Test'}>Extra Button</button>
+</div> 
+-->

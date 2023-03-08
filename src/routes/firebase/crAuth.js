@@ -3,6 +3,7 @@
             signInWithEmailAndPassword, signOut } from "firebase/auth";
     import { getDatabase, set, ref, update} from "firebase/database";
     import { app } from "./initialFirebase"
+    import { goto } from '$app/navigation'
 
     // Initialize Firebase
     const auth = getAuth();
@@ -54,6 +55,8 @@
                     .then(() => {
     // Data saved
                         alert('user logged in successfully');
+                        goto('/home')
+
 
                     })
                     .catch((error) => {
