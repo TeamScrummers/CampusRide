@@ -31,17 +31,20 @@
     }
 
     //crDrivers.js
-    import {provideDriverList} from "../firebase/crDrivers.js"
+    import {provideDriverList, provideDriverLocation} from "../firebase/crDrivers.js"
 
     function requestDriverList(){
         return provideDriverList();
     }
+    //crStore.js
+    import { get } from 'svelte/store'
+    import { storedID, storedLocation } from '../firebase/crStore.js';
 
-    function acceptDriver (){
-        // remove driver from pool
-        // redirect both passenger & driver
+    async function acceptDriver (id){
+        let address = await provideDriverLocation(id)
+        storedID.set(id)
+        storedLocation.set(address)
         goto('/trippickup')
-        return null
     }
 
     //DriverList.svelte
@@ -74,33 +77,28 @@
 </div>
 
 <div class="container" style="background-color:#f1f1f1">
-    <DriverList bind:this={child} on:show={e => child.shown = e.detail}>
-        <ul>
-            {#await requestDriverList()}
-                <li><p>Driver: Searching for Matches</p></li> 
-            {:then info}
-                <li> <p>
-                    Driver 1: {info} <button type="button" on:click={acceptDriver}>Accept Driver</button>
-                </p></li>
-            {:catch error}
-                <li><p style="color: red">{error.message}</p></li>
-            {/await}
+    <!-- <DriverList bind:this={child} on:show={e => child.shown = e.detail}> -->
+    <ul>
         
-            {#await requestDriverList()}
-                <li><p>Driver: Searching for Matches</p></li>
-            {:then info}
-                <li> <p>
-                    Driver 2: {info} <button type="button" on:click={acceptDriver}>Accept Driver</button>
-                </p></li>
-            {:catch error}
-                <li><p style="color: red">{error.message}</p></li>
-            {/await}
-        </ul>
-    </DriverList>
+        {#await requestDriverList()}
+            <li><p>Driver: Searching for Matches</p></li> 
+        {:then info}
+            <li> <p>
+                Driver 1: {info} <button type="button" on:click={() => acceptDriver(info)}>Accept Driver</button>
+            </p></li>
+        {:catch error}
+            <li><p style="color: red">{error.message}</p></li>
+        {/await}
+    
+        {#await requestDriverList()}
+            <li><p>Driver: Searching for Matches</p></li>
+        {:then info}
+            <li> <p>
+                Driver 2: {info} <button type="button" on:click={() => acceptDriver(info)}>Accept Driver</button>
+            </p></li>
+        {:catch error}
+            <li><p style="color: red">{error.message}</p></li>
+        {/await}
+    </ul>
+<!-- </DriverList> -->
 </div> 
-
-<!-- 
-<div class="container" style="background-color:#f1f1f1">
-<button type="button" on:click={'Test'}>Extra Button</button>
-</div> 
--->
