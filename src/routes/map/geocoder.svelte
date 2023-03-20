@@ -62,7 +62,6 @@
 
   // execute
   loadScript("https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js", geolocateCode);
-
 </script>
 
 <body>

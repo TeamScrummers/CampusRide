@@ -31,9 +31,10 @@
 	function writeEntry() {
         createFromDatabase("users/userId", { username: "name", email: "email"})
     }
-    async function readFromDb(){
-        var result = await readFromDatabaseOnValue("users/userId")
-        console.log(result);
+    async function readFromDb(id){
+        var result = Object.values(await readFromDatabaseOnValue("users/" + id))
+        console.log(result[1]);
+		return result[1]
     }
     async function searchFromDb(){
         var result = Object.keys( await searchFromDatabase("users", "email", "kcantu7@leomail.tamuc.edu"));
@@ -55,14 +56,17 @@
     //crDrivers.js
     import {provideDriverList, provideDriverLocation} from "../firebase/crDrivers.js"
 
-    function requestDriverList(){
-        return provideDriverList();
+    async function requestDriverList(info){
+        var id = await provideDriverList();
+		var name = readFromDb(id);
+		return name;
     }
     //crStore.js
     import { get } from 'svelte/store'
     import { storedID, storedLocation } from '../firebase/crStore.js';
 
-    async function acceptDriver (id){
+    async function acceptDriver (info){
+		var id = await provideDriverList();
         let address = await provideDriverLocation(id)
         storedID.set(id)
         storedLocation.set(address)
@@ -73,19 +77,15 @@
 <section>
 	<div class = "map-overlay">
 		<p> 
-			{user1.firstName} {user1.lastName}'s Latest Arrival: {time1} <br>
-			{user2.firstName} {user2.lastName}'s Latest Arrival: {time2} <br>
-			Comparison: {match} <br>
-			<button type="button" on:click={() => goto('/trippickup')}>Submit</button>
 		</p>
-		<div class >
-			<h4>Driver Found!</h4>
+		<div class = "driver-list" >
+			<h4 style="color: black; text-align: center;">Drivers Found:</h4>
 			<ul>
 				{#await requestDriverList()}
 					<li><p>Driver: Searching for Matches</p></li> 
 				{:then info}
-					<li> <p>
-						Driver 1: {info} <button type="button" on:click={() => acceptDriver(info)}>Accept Driver</button>
+					<li> <p style="color: black;">
+						Driver 1: {info} <button type="button" class="accept-button" on:click={() => acceptDriver(info)}>Accept Driver</button>
 					</p></li>
 				{:catch error}
 					<li><p style="color: red">{error.message}</p></li>
@@ -95,3 +95,37 @@
 	</div>
 </section>
 <Map></Map>
+
+<style>
+	    .map-overlay{
+        background-color: rgb(209, 209, 209);
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        position: absolute;
+        top: -75px;
+        bottom: -200px;
+        left: -75px;
+        width: 300px;
+      }
+
+	  .driver-list{
+		background-color: hsl(0, 0%, 92%);
+		border-radius: 20%
+	  }
+
+	  .accept-button{
+		background-color: #04AA6D;
+        color: white;
+        padding: 1px 1px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 25%;
+        opacity: 0.9;
+        border-radius: 10%;
+	  }
+
+	  .accept-button:hover{
+        opacity: 1;
+	  }
+
+</style>
