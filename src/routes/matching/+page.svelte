@@ -23,9 +23,9 @@
 	// var.getTime(x,y,z)
 
 	// HARD CODING FOR TESTING
-	destinationCoords.set('-96.4676986,30.6463875')
-	latestArrival.set('10:00')
-	userCoords.set('-96.3442659,30.5832877')
+	// destinationCoords.set('-96.4676986,30.6463875')
+	// latestArrival.set('10:00')
+	// userCoords.set('-96.3442659,30.5832877')
 	// END HARD CODING
 
 	function writeEntry() {
@@ -80,6 +80,14 @@
 		</p>
 		<div class = "driver-list" >
 			<h4 style="color: black; text-align: center;">Drivers Found:</h4>
+		<!-- <p> 
+			{user1.firstName} {user1.lastName}'s Latest Arrival: {time1} <br>
+			{user2.firstName} {user2.lastName}'s Latest Arrival: {time2} <br>
+			Comparison: {match} <br>
+			<button type="button" on:click={() => goto('/trippickup')}>Submit</button>
+		</p> -->
+		<div class >
+			<h4>Driver Found!</h4>
 			<ul>
 				{#await requestDriverList()}
 					<li><p>Driver: Searching for Matches</p></li> 

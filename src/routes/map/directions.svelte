@@ -161,7 +161,8 @@
       'circle-color': '#3887be'
     }
   });
-  var coords = [-96.469596,30.642855];
+  //var coords = [-96.469596,30.642855];
+  var coords = get(destinationCoords)
   const end = {
     type: 'FeatureCollection',
     features: [

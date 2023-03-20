@@ -26,6 +26,19 @@
       width:400px;
       margin: 75px;
     }
+    #instructions {
+      position: absolute;
+      top: 0%;
+      left: 2%;
+      z-index: 1;
+      border: 2px solid;
+      background-color: white;
+      height:600px;
+      width:400px;
+      margin: 75px;
+      position: absolute;
+      font-family: sans-serif;
+          }
   </style>
 </svelte:head>
 
@@ -126,9 +139,10 @@
     for (const step of steps) {
     tripInstructions += `<li>${step.maneuver.instruction}</li>`;
     }
-    instructions.innerHTML = `<p><strong>Trip duration: ${Math.floor(
-    data.duration / 60
-    )} min </strong></p><ol>${tripInstructions}</ol>`;
+    instructions.innerHTML = 
+      `<p><strong>Trip Distance: ${Math.floor(data.distance*0.000621371)} miles <br>
+      Trip Duration: ${Math.floor(data.duration / 60)}
+      min </strong></p><ol>${tripInstructions}</ol>`;
   }
 
   map.on('load', () => {
@@ -161,7 +175,8 @@
       'circle-color': '#3887be'
     }
   });
-  var coords = [-96.469596,30.642855];
+  //var coords = [-96.469596,30.642855];
+  var coords = get(destinationCoords)
   const end = {
     type: 'FeatureCollection',
     features: [
@@ -225,5 +240,6 @@
 
 <body>
   <!-- BUG: Far rightside of map isn't rendering correctly, div issues? -->
+  <div id="instructions"></div>
   <div id="map"></div>
 </body>
