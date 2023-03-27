@@ -7,5 +7,5 @@
 			"$lib/*": ["src/lib/*"]
 		}
 	},
-	"include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.svelte"]
+	"include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.svelte", "src/firebase-messaging-sw, "static/firebase-messaging-sw.js".js"]
 }
