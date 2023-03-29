@@ -19,6 +19,8 @@
     <a href="/trippickup">Trip Pick Up | </a>
     <a href="/tripenroute">Trip Enroute | </a>
     <a href="/tripover">Trip Over | </a>
+    <a href="/notifications">Notifications | </a>
+
   </div>
 </section>
 
