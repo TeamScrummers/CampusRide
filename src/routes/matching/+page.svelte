@@ -80,12 +80,10 @@
 		</p>
 		<div class = "driver-list" >
 			<h4 style="color: black; text-align: center;">Drivers Found:</h4>
-		<!-- <p> 
 			{user1.firstName} {user1.lastName}'s Latest Arrival: {time1} <br>
 			{user2.firstName} {user2.lastName}'s Latest Arrival: {time2} <br>
 			Comparison: {match} <br>
 			<button type="button" on:click={() => goto('/trippickup')}>Submit</button>
-		</p> -->
 		<div class >
 			<h4>Driver Found!</h4>
 			<ul>
