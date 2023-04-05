@@ -3,7 +3,7 @@ export class Driver {
     this.name = name;
     this.phoneNumber = phoneNumber;
     this.vehicleType = vehicleType;
-    this.available = available,
+    this.available = available;
   }
 
   // Create a Driver object to JSON data

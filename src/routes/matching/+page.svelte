@@ -3,14 +3,20 @@
 	import { goto } from '$app/navigation'
 	import Map from '../map/map.svelte';
 	import { Driver, Passenger, MatchedRide } from './MatchedRide.js';
+	// Accessing Stores
+	import { get } from "svelte/store";
+    import { appMode } from "../firebase/crStore";
+	
 
-	// Example objects
+
+	// Test objects
 	const driver = new Driver("John Doe", "+1-555-123-4567", "SUV", true);
 	const passenger = new Passenger("Jane Smith", "+1-555-987-6543", "789 Broad St, Anytown, USA", "123 Elm St, Anytown, USA");
 	const MatchedRideObj = new MatchedRide(driver, passenger, "$25");
 
+
 	onMount(async () => {
-    // do stuff
+    // do stuff?
   	});
 </script>
 
@@ -25,6 +31,7 @@
 		  <li>Pickup location: {MatchedRideObj.pickupLocation}</li>
 		  <li>Destination: {MatchedRideObj.destination}</li>
 		  <li>Price: {MatchedRideObj.tripPrice}</li>
+		  <li>App Mode: {get(appMode)}</li>
 		</ul>
 		
 		<button on:click={null}>Confirm ride</button>
