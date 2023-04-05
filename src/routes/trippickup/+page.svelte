@@ -9,20 +9,13 @@
   
 </script>
 
-<!--
 <section>
- <section>
   <div class = "map-overlay">
     Destination Coords: {$destinationCoords}
     <br>
-    Time: {$latestArrival}
-    <br>
-    User Coords: {$userCoords}
-    <br>
-    Driver coords: {driverLocation}
     <h1>On the way</h1>
   </div>
-</section> -->
+</section>
 <DirectionsDriver></DirectionsDriver>
 
 <style>
