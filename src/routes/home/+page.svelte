@@ -19,11 +19,14 @@
   
 	function driverMode() {
 		appMode.set("Driver")
+    // I need an obj to pass, how can I get the obj? When user logs in they get info, we rip that info and store in a store. store obj? 
+    // add user to matchmaking pool (call the function)
 		goto('/matching')
 	}
 
 	function passengerMode() {
 		appMode.set("Passenger")
+    // add user to matchmaking pool (call the function)
 		goto('/matching')
 	}
 

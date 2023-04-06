@@ -2,7 +2,8 @@
 	import { onMount } from "svelte";
 	import { goto } from '$app/navigation'
 	import Map from '../map/map.svelte';
-	import { Driver, Passenger, MatchedRide } from './MatchedRide.js';
+	import { User } from './User.js';
+	import { Trip } from "./Trip";
 	// Accessing Stores
 	import { get } from "svelte/store";
     import { appMode } from "../firebase/crStore";
@@ -10,9 +11,17 @@
 
 
 	// Test objects
-	const driver = new Driver("John Doe", "+1-555-123-4567", "SUV", true);
-	const passenger = new Passenger("Jane Smith", "+1-555-987-6543", "789 Broad St, Anytown, USA", "123 Elm St, Anytown, USA");
-	const MatchedRideObj = new MatchedRide(driver, passenger, "$25");
+	const noonMarch2023 = new Date(2023, 2, 20, 12, 0, 0, 0);
+	const noonToday = new Date();
+	noonToday.setHours(12, 0, 0, 0);
+	const driver = new User('UID1', 'John', 'Doe', '555-1234', '123 Main St', '456 Elm St', 'sedan', true, noonToday);
+	const passengers = [
+		new User('UID2', 'Jane', 'Doe', '555-5678', '123 Main St', '456 Elm St', null, false, noonToday),
+		new User('UID3', 'Bob', 'Smith', '555-9012', '123 Main St', '456 Elm St', null, true, noonToday)
+	];
+	const trip = new Trip('TID1', driver, passengers, '123 Main St', '456 Elm St', 20.00, noonToday);
+	//console.log(trip.toJSON());
+
 
 
 	onMount(async () => {
@@ -22,23 +31,25 @@
 
 <section>
 	<div class = "map-overlay">
-		{#if MatchedRideObj}
+		{#if trip}
 		<h1>Your ride has been matched!</h1>
 		<ul>
-		  <li>Driver name: {MatchedRideObj.name}</li>
-		  <li>Driver phone number: {MatchedRideObj.phoneNumber}</li>
-		  <li>Vehicle type: {MatchedRideObj.vehicleType}</li>
-		  <li>Pickup location: {MatchedRideObj.pickupLocation}</li>
-		  <li>Destination: {MatchedRideObj.destination}</li>
-		  <li>Price: {MatchedRideObj.tripPrice}</li>
-		  <li>App Mode: {get(appMode)}</li>
+			<li>Trip ID: {trip.tripId}</li>
+			<li>Driver name: {trip.driver.firstName} {trip.driver.lastName}</li>
+			<li>Driver phone number: {trip.driver.phoneNumber}</li>
+			<li>Vehicle type: {trip.driver.vehicleType}</li>
+			<li>Pickup location: {trip.startLocation}</li>
+			<li>Destination: {trip.driver.endLocation}</li>
+			<li>Price: {trip.fare}</li>
+			<li>Date: {trip.date}</li>
+			<li>App Mode: {get(appMode)}</li>
+			<!-- Display List of Passenger destinations -->
 		</ul>
-		
 		<button on:click={null}>Confirm ride</button>
-	  {:else}
-		<h1>No available rides found</h1>
-	  {/if}
-		<button type="button" on:click={() => goto('/trippickup')}>Submit</button>
+		{:else}
+			<h1>No available rides found</h1>
+		{/if}
+			<button type="button" on:click={() => goto('/trippickup')}>Submit</button>
 	</div>
 </section>
 
