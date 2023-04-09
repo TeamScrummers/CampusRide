@@ -57,7 +57,8 @@
     import {User} from '../firebase/User.js'
     const userProflie = new User("Test User", "John", "Doe", "555-1324", "321 South St", "456 Maple Ave", "sedan", true, "thirtyMinutesFromNow")
     function pushUserProfile(){
-        pushAnObjectToDatabase(userProflie);
+        pushAnObjectToDatabase("users", userProflie);
+        console.log("Push successful")
     }
 
 </script>
