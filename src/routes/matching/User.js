@@ -1,5 +1,5 @@
 export class User {
-  constructor(userId, firstName, lastName, phoneNumber, startLocation = null, endLocation = null, vehicleType, available = false, latestArrival = null) {
+  constructor(userId, firstName, lastName, phoneNumber, startLocation = null, endLocation = null, vehicleType, available = false, latestArrival = null, mode) {
     this.userId = userId;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -9,6 +9,7 @@ export class User {
     this.vehicleType = vehicleType;
     this.available = available;
     this.latestArrival = latestArrival;
+    this.mode = mode;
   }
 
   // Create a User object to JSON data
@@ -23,12 +24,13 @@ export class User {
       vehicleType: this.vehicleType,
       available: this.available,
       latestArrival: this.latestArrival,
+      mode: this.mode,
     };
   }
 
   // Create a User object from JSON data
   static fromJSON(data) {
-    const user = new User(data.userId, data.firstName, data.lastName, data.phoneNumber, data.startLocation, data.endLocation, data.vehicleType, data.available, data.latestArrival);
+    const user = new User(data.userId, data.firstName, data.lastName, data.phoneNumber, data.startLocation, data.endLocation, data.vehicleType, data.available, data.latestArrival, data.mode);
     return user;
   }
 }
