@@ -17,8 +17,3 @@ export async function provideDriverName (uid) {
   console.log(result[0])
   return result[1]
 }
-
-export function addDriverToANewTrip(driverID, arrivalTime){
-  var tripID = Math.random() * 100
-  createFromDatabase("trips/" + tripID, {"driverID":driverID, "arrivalTime":arrivalTime});
-}
