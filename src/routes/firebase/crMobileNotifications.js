@@ -1,4 +1,4 @@
-import {LocalNotificationSchema, LocalNotifications} from "@capacitor/local-notifications"
+import {LocalNotifications} from "@capacitor/local-notifications"
 
 export async function sendTheUserAPushNotifcation(){
   LocalNotifications.schedule({
