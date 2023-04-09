@@ -1,5 +1,5 @@
 <script>
-    import{ handleOnLogin } from "../firebase/crAuth";
+    import{ handleOnLogin } from "../firebase/Auth"
     let emailLog;
     let passwordLog;
 </script>

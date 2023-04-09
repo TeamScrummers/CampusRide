@@ -1,5 +1,5 @@
 <script>
-    import { requestPermission } from '../firebase/crNotifications'
+    import { requestPermission } from '../firebase/Notifications'
    
    
    

@@ -4,7 +4,7 @@
 <script>
     import { goto } from '$app/navigation'
     //crDatabse
-    import { createANodeInDatabase, pushAnObjectToDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/crDatabase"
+    import { createANodeInDatabase, pushAnObjectToDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/Database"
     
     function writeEntry() {
         createANodeInDatabase("users/userId", { username: "name", email: "email"})
@@ -22,7 +22,7 @@
     }
 
     //crTrip
-    import{ createTrip, updateTrip } from "../firebase/crTrip.js"
+    import{ createTrip, updateTrip } from "../firebase/Trip.js"
 
     async function requestTrip(){
         var passengerId = Object.keys(await searchFromDatabase("users", "email", "email@email.com"))
@@ -34,14 +34,14 @@
     }
 
     //crDrivers.js
-    import {provideDriverList, provideDriverLocation} from "../firebase/crDrivers.js"
+    import {provideDriverList, provideDriverLocation} from "../firebase/Drivers.js"
 
     function requestDriverList(){
         return provideDriverList();
     }
     //crStore.js
     import { get } from 'svelte/store'
-    import { storedID, storedLocation } from '../firebase/crStore.js';
+    import { storedID, storedLocation } from '../firebase/Store.js'
 
     async function acceptDriver (id){
         let address = await provideDriverLocation(id)
@@ -51,7 +51,7 @@
     }
 
     //notifications
-    import {sendTheUserAPushNotifcation} from '../firebase/crMobileNotifications.js'
+    import {sendTheUserAPushNotifcation} from '../firebase/PushNotifications.js'
 
     //Push A User object
     import {User} from '../firebase/User.js'

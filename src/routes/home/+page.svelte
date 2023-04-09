@@ -11,7 +11,7 @@
   import Locateuser from '../map/locateuser.svelte';
   import { goto } from '$app/navigation'
   import { onMount } from 'svelte';
-  import { destinationCoords, latestArrival, userCoords} from '../firebase/crStore.js';
+  import { destinationCoords, latestArrival, userCoords} from '../firebase/Store.js
   import Geocoder from '../map/geocoder.svelte';
   onMount(() => {
   const startTime = document.getElementById("startTime");
