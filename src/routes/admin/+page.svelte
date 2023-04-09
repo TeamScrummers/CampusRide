@@ -50,9 +50,9 @@
         goto('/trippickup')
     }
 
-    //DriverList.svelte
-    import DriverList from './DriverList.svelte';
-    let child
+    //notifications
+    import {sendTheUserAPushNotifcation} from '../firebase/crMobileNotifications.js'
+
 
 </script>
 
@@ -73,10 +73,6 @@
 
 <div class="container" style="background-color:#f1f1f1">
     <button type="button" on:click={requestDriverList}>Request Driver List</button>
-</div>
-
-<div class="container" style="background-color:#f1f1f1">
-
 </div>
 
 <div class="container" style="background-color:#f1f1f1">
@@ -103,5 +99,9 @@
             <li><p style="color: red">{error.message}</p></li>
         {/await}
     </ul>
-<!-- </DriverList> -->
 </div> 
+
+<div class="container" style="background-color:#f1f1f1">
+    <button type="button" on:click={sendTheUserAPushNotifcation}>Notify Yourself</button>
+    <br><br>
+</div>
