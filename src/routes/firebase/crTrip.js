@@ -1,8 +1,8 @@
-import {createFromDatabase, updateFromDatabase} from "./crDatabase"
+import {createANodeInDatabase, updateFromDatabase} from "./crDatabase"
 
 export function createTrip(path, passenger, pickup, destionation){
     // Trips: tripId,   diverId,    passengerId,    pickupGPS,  destionationGPS
-    createFromDatabase(path, {
+    createANodeInDatabase(path, {
         driverId: "",
         passengerId: passenger,
         pickupGPS: pickup,

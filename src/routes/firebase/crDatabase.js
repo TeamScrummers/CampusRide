@@ -7,7 +7,7 @@ const database = getDatabase(app);
 /**
  * @brief Module that OVERWRITES data into the Realtime database
  *
- * Local function that writes data into the firebase, JSON tree, 
+ * Local function that writes data into the firebase, JSON tree 
  * realtime database. Must be provided with a path to the database and 
  * a key:value pair list. Data WILL BE OVERWRITTEN if the path given 
  * already exists.
@@ -18,7 +18,7 @@ const database = getDatabase(app);
  * @param data The list of key:value pairs to be stored. For javascript
  * it should be in the format: { key1:value1, key2:value2,...}
  */
-export function createFromDatabase(path, data){
+export function createANodeInDatabase(path, data){
     set(ref(database, path), data);
     console.log("The provided data has been written to the database.");
 }

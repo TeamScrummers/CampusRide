@@ -4,7 +4,7 @@
 	import { User } from './user.js'; 
 	import Map from '../map/map.svelte';
 	import { destinationCoords, latestArrival, userCoords} from '../firebase/crStore.js';
-	import { createFromDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/crDatabase"
+	import { createANodeInDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/crDatabase"
 
 
 	// Test Objects
@@ -29,7 +29,7 @@
 	// END HARD CODING
 
 	function writeEntry() {
-        createFromDatabase("users/userId", { username: "name", email: "email"})
+        createANodeInDatabase("users/userId", { username: "name", email: "email"})
     }
     async function readFromDb(id){
         var result = Object.values(await readFromDatabaseOnValue("users/" + id))
