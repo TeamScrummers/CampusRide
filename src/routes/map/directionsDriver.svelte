@@ -45,7 +45,7 @@
 <script>
   import { onMount } from 'svelte';
   import { get } from 'svelte/store';
-  import { destinationCoords, userCoords} from '../firebase/crStore.js';
+  import { destinationCoords, userCoords} from '../firebase/Store.js
   
   // script loading 
   function loadScript(url, callback) {

@@ -25,15 +25,14 @@ export const dictionary = {
 		"/admin": [3],
 		"/auth": [4],
 		"/home": [5],
-		"/loginold": [7],
 		"/login": [6],
-		"/map": [8],
-		"/matched": [9],
-		"/matching": [10],
-		"/notifications": [11],
-		"/tripenroute": [12],
-		"/tripover": [13],
-		"/trippickup": [14]
+		"/map": [7],
+		"/matched": [8],
+		"/matching": [9],
+		"/notifications": [10],
+		"/tripenroute": [11],
+		"/tripover": [12],
+		"/trippickup": [13]
 	};
 
 export const hooks = {
