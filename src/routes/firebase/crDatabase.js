@@ -1,6 +1,6 @@
 import { app } from "./initialFirebase"
 import { getDatabase, ref, onValue, set, get, child, update, 
-    orderByChild,equalTo, query, limitToFirst} from "firebase/database";
+    orderByChild,equalTo, query, limitToFirst, push} from "firebase/database";
 
 const database = getDatabase(app);
 
@@ -63,4 +63,8 @@ export function readFromDatabaseOnValue(path){
 
 export function updateFromDatabase(path, data){
     update(ref(database, path), data)
+}
+
+export function pushAnObjectToDatabase(path, object){
+    push(ref(database, path), object)
 }

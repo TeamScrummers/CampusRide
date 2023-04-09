@@ -4,7 +4,7 @@
 <script>
     import { goto } from '$app/navigation'
     //crDatabse
-    import { createFromDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/crDatabase"
+    import { createFromDatabase, pushAnObjectToDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/crDatabase"
     
     function writeEntry() {
         createFromDatabase("users/userId", { username: "name", email: "email"})
@@ -53,6 +53,12 @@
     //notifications
     import {sendTheUserAPushNotifcation} from '../firebase/crMobileNotifications.js'
 
+    //Push A User object
+    import {User} from '../firebase/User.js'
+    const userProflie = new User("Test User", "John", "Doe", "555-1324", "321 South St", "456 Maple Ave", "sedan", true, "thirtyMinutesFromNow")
+    function pushUserProfile(){
+        pushAnObjectToDatabase(userProflie);
+    }
 
 </script>
 
@@ -103,5 +109,10 @@
 
 <div class="container" style="background-color:#f1f1f1">
     <button type="button" on:click={sendTheUserAPushNotifcation}>Notify Yourself</button>
+    <br><br>
+</div>
+
+<div class="container" style="background-color:#f1f1f1">
+    <button type="button" on:click={pushUserProfile}>Push User Profile</button>
     <br><br>
 </div>
