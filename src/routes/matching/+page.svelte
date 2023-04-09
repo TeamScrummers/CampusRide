@@ -3,8 +3,8 @@
 	import { latestArrival1, latestArrival2} from './stores.js';
 	import { User } from './user.js'; 
 	import Map from '../map/map.svelte';
-	import { destinationCoords, latestArrival, userCoords} from '../firebase/crStore.js';
-	import { createANodeInDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/crDatabase"
+	import { destinationCoords, latestArrival, userCoords} from '../firebase/Store.js'
+	import { createANodeInDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/Database.js"
 
 
 	// Test Objects
@@ -42,7 +42,7 @@
     }
 
     //crTrip
-    import{ createTrip, updateTrip } from "../firebase/crTrip.js"
+    import{ createTrip, updateTrip } from "../firebase/Trip.js"
 
     async function requestTrip(){
         var passengerId = Object.keys(await searchFromDatabase("users", "email", "email@email.com"))
@@ -54,7 +54,7 @@
     }
 
     //crDrivers.js
-    import {provideDriverList, provideDriverLocation} from "../firebase/crDrivers.js"
+    import {provideDriverList, provideDriverLocation} from "../firebase/Drivers.js"
 
     async function requestDriverList(info){
         var id = await provideDriverList();
@@ -63,7 +63,7 @@
     }
     //crStore.js
     import { get } from 'svelte/store'
-    import { storedID, storedLocation } from '../firebase/crStore.js';
+    import { storedID, storedLocation } from '../firebase/Store.js'
 
     async function acceptDriver (info){
 		var id = await provideDriverList();

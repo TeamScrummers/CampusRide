@@ -16,7 +16,7 @@
 
 <script>
     import { onMount } from 'svelte';
-    import { destinationCoords } from '../firebase/crStore';
+    import { destinationCoords } from '../firebase/Store
 
     // script loading 
     function loadScript(url, callback) {
