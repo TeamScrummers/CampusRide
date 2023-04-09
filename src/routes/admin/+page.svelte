@@ -4,14 +4,17 @@
 <script>
     import { goto } from '$app/navigation'
     //crDatabse
-    import { writeToDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/crDatabase"
+    import { createFromDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/crDatabase"
     
     function writeEntry() {
-        writeToDatabase("users/userId", { username: "name", email: "email"})
+        createFromDatabase("users/userId", { username: "name", email: "email"})
     }
     async function readFromDb(){
-        var result = await readFromDatabaseOnValue("users/userId")
-        console.log(result);
+            var result = await readFromDatabaseOnValue("users/userId")
+            console.log(JSON.stringify(result))
+            return JSON.stringify(result)
+
+ 
     }
     async function searchFromDb(){
         var result = Object.keys( await searchFromDatabase("users", "email", "kcantu7@leomail.tamuc.edu"));
@@ -80,7 +83,7 @@
     <!-- <DriverList bind:this={child} on:show={e => child.shown = e.detail}> -->
     <ul>
         
-        {#await requestDriverList()}
+        {#await readFromDb()}
             <li><p>Driver: Searching for Matches</p></li> 
         {:then info}
             <li> <p>

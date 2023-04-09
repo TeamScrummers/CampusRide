@@ -9,4 +9,23 @@ To Run App:
 npm install
 npm run dev
 
-Read me 2
+
+Dependency
+
+	Capacitor:
+		Run the following commands in the desired project directory:
+			npm install @capacitor/core @capacitor/cli @capacitor/android @capacitor/local-notifications
+			npx cap init
+				web asset directory: build (everything can be left as default or select yes)
+
+		You may have to run "npm audit fix" to fix depreciated svelte dependencies
+
+To build the project
+
+	npm run build
+	npx cap sync
+
+
+For Testing, download Android Studio. Once downloaded, run:
+	For Linux:
+		npx cap open android
