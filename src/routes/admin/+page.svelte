@@ -4,14 +4,17 @@
 <script>
     import { goto } from '$app/navigation'
     //crDatabse
-    import { writeToDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/crDatabase"
+    import { createANodeInDatabase, pushAnObjectToDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/Database"
     
     function writeEntry() {
-        writeToDatabase("users/userId", { username: "name", email: "email"})
+        createANodeInDatabase("users/userId", { username: "name", email: "email"})
     }
     async function readFromDb(){
-        var result = await readFromDatabaseOnValue("users/userId")
-        console.log(result);
+            var result = await readFromDatabaseOnValue("users/userId")
+            console.log(JSON.stringify(result))
+            return JSON.stringify(result)
+
+ 
     }
     async function searchFromDb(){
         var result = Object.keys( await searchFromDatabase("users", "email", "kcantu7@leomail.tamuc.edu"));
@@ -19,7 +22,7 @@
     }
 
     //crTrip
-    import{ createTrip, updateTrip } from "../firebase/crTrip.js"
+    import{ createTrip, updateTrip } from "../firebase/Trip.js"
 
     async function requestTrip(){
         var passengerId = Object.keys(await searchFromDatabase("users", "email", "email@email.com"))
@@ -31,14 +34,14 @@
     }
 
     //crDrivers.js
-    import {provideDriverList, provideDriverLocation} from "../firebase/crDrivers.js"
+    import {provideDriverList, provideDriverLocation} from "../firebase/Drivers.js"
 
     function requestDriverList(){
         return provideDriverList();
     }
     //crStore.js
     import { get } from 'svelte/store'
-    import { storedID, storedLocation } from '../firebase/crStore.js';
+    import { storedID, storedLocation } from '../firebase/Store.js'
 
     async function acceptDriver (id){
         let address = await provideDriverLocation(id)
@@ -47,9 +50,16 @@
         goto('/trippickup')
     }
 
-    //DriverList.svelte
-    import DriverList from './DriverList.svelte';
-    let child
+    //notifications
+    import {sendTheUserAPushNotifcation} from '../firebase/PushNotifications.js'
+
+    //Push A User object
+    import {User} from '../firebase/User.js'
+    const userProflie = new User("Test User", "John", "Doe", "555-1324", "321 South St", "456 Maple Ave", "sedan", true, "thirtyMinutesFromNow")
+    function pushUserProfile(){
+        pushAnObjectToDatabase("users", userProflie);
+        console.log("Push successful")
+    }
 
 </script>
 
@@ -73,14 +83,10 @@
 </div>
 
 <div class="container" style="background-color:#f1f1f1">
-
-</div>
-
-<div class="container" style="background-color:#f1f1f1">
     <!-- <DriverList bind:this={child} on:show={e => child.shown = e.detail}> -->
     <ul>
         
-        {#await requestDriverList()}
+        {#await readFromDb()}
             <li><p>Driver: Searching for Matches</p></li> 
         {:then info}
             <li> <p>
@@ -100,5 +106,14 @@
             <li><p style="color: red">{error.message}</p></li>
         {/await}
     </ul>
-<!-- </DriverList> -->
 </div> 
+
+<div class="container" style="background-color:#f1f1f1">
+    <button type="button" on:click={sendTheUserAPushNotifcation}>Notify Yourself</button>
+    <br><br>
+</div>
+
+<div class="container" style="background-color:#f1f1f1">
+    <button type="button" on:click={pushUserProfile}>Push User Profile</button>
+    <br><br>
+</div>

@@ -6,7 +6,7 @@
 	import { Trip } from "./Trip";
 	// Accessing Stores
 	import { get } from "svelte/store";
-    import { appMode } from "../firebase/crStore";
+    import { appMode } from "../firebase/Store";
 	
 
 
@@ -24,9 +24,55 @@
 
 
 
-	onMount(async () => {
-    // do stuff?
-  	});
+	// HARD CODING FOR TESTING
+	// destinationCoords.set('-96.4676986,30.6463875')
+	// latestArrival.set('10:00')
+	// userCoords.set('-96.3442659,30.5832877')
+	// END HARD CODING
+
+	function writeEntry() {
+        createANodeInDatabase("users/userId", { username: "name", email: "email"})
+    }
+    async function readFromDb(id){
+        var result = Object.values(await readFromDatabaseOnValue("users/" + id))
+        console.log(result[1]);
+		return result[1]
+    }
+    async function searchFromDb(){
+        var result = Object.keys( await searchFromDatabase("users", "email", "kcantu7@leomail.tamuc.edu"));
+        console.log(result[0]);
+    }
+
+    //crTrip
+    import{ createTrip, updateTrip } from "../firebase/Trip.js"
+
+    async function requestTrip(){
+        var passengerId = Object.keys(await searchFromDatabase("users", "email", "email@email.com"))
+        createTrip(passengerId[0], "801 Fairview Ave", "3100 SH-47, Bryan, TX 77807, United States");
+    }
+    async function matchMade(){
+        var driverId = Object.keys(await searchFromDatabase("users", "email", "kcantu7@leomail.tamuc.edu"))
+        updateTrip("001", driverId[0])
+    }
+
+    //crDrivers.js
+    import {provideDriverList, provideDriverLocation} from "../firebase/Drivers.js"
+
+    async function requestDriverList(info){
+        var id = await provideDriverList();
+		var name = readFromDb(id);
+		return name;
+    }
+    //crStore.js
+    import { storedID, storedLocation } from '../firebase/Store.js'
+
+    async function acceptDriver (info){
+		var id = await provideDriverList();
+        let address = await provideDriverLocation(id)
+        storedID.set(id)
+        storedLocation.set(address)
+        goto('/trippickup')
+    }
 </script>
 
 <section>

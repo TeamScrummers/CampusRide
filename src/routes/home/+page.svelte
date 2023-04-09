@@ -13,7 +13,7 @@
   import { onMount } from 'svelte';
   // Accessing Stores
 	import { writable } from 'svelte/store'
-  import { destinationCoords, latestArrival, userCoords, appMode} from '../firebase/crStore.js';
+  import { destinationCoords, latestArrival, userCoords, appMode} from '../firebase/Store.js';
   import Geocoder from '../map/geocoder.svelte';
 
   
@@ -45,7 +45,7 @@
 <section>
   <div class = "map-overlay">
     <div class="location-overlay">
-      <h4>Where are you going? </h4>
+      <h4 style="color:#000000;text-align:center">Where are you going?</h4>
       <Geocoder></Geocoder>
     </div>
 
