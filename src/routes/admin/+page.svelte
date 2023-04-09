@@ -4,10 +4,10 @@
 <script>
     import { goto } from '$app/navigation'
     //crDatabse
-    import { createFromDatabase, pushAnObjectToDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/crDatabase"
+    import { createANodeInDatabase, pushAnObjectToDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/crDatabase"
     
     function writeEntry() {
-        createFromDatabase("users/userId", { username: "name", email: "email"})
+        createANodeInDatabase("users/userId", { username: "name", email: "email"})
     }
     async function readFromDb(){
             var result = await readFromDatabaseOnValue("users/userId")
