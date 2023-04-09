@@ -53,10 +53,6 @@ export function searchFromDatabase(table, key, value){
     })
 }
 
-//Read operation: Known path
-//  Function has to be called byan async function!
-//  Location needs to be in format, without angle brackets: "<table>/<pk>
-//          location: users/userID
 export function readFromDatabaseOnValue(path){
     return new Promise(resolve => {
         onValue(ref(database, path), (snapshot) => {
@@ -65,7 +61,6 @@ export function readFromDatabaseOnValue(path){
     })
 };
 
-//Update operation
 export function updateFromDatabase(path, data){
     update(ref(database, path), data)
 }
