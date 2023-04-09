@@ -14,3 +14,4 @@ export const userObj = writable('')
 
 // These should be offloaded to the database at a later date.
 export const matchMakingPool = writable([])
+export const waitingPool = writable([])

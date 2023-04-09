@@ -49,7 +49,14 @@
 		{:else}
 			<h1>No available rides found</h1>
 		{/if}
-			<button type="button" on:click={() => goto('/trippickup')}>Submit</button>
+			<button type="button" on:click={() => goto('/trippickup')}>
+				Go to trip pickup
+			</button>
+
+			<button on:click={() => goto('/MatchMakingTest')}>
+				Go to MatchMakingTest
+			</button>
+			
 	</div>
 </section>
 
