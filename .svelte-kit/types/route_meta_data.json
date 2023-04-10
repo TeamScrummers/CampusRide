@@ -9,6 +9,9 @@
 	"/auth": [
 		"src/routes/+layout.js"
 	],
+	"/driver": [
+		"src/routes/+layout.js"
+	],
 	"/home": [
 		"src/routes/+layout.js"
 	],
@@ -18,9 +21,6 @@
 	"/map": [
 		"src/routes/+layout.js"
 	],
-	"/matched": [
-		"src/routes/+layout.js"
-	],
 	"/matching": [
 		"src/routes/+layout.js"
 	],
@@ -28,6 +28,9 @@
 		"src/routes/+layout.js"
 	],
 	"/notifications": [
+		"src/routes/+layout.js"
+	],
+	"/passenger": [
 		"src/routes/+layout.js"
 	],
 	"/tripenroute": [

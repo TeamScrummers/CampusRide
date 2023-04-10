@@ -10,24 +10,9 @@
   import Locateuser from '../map/locateuser.svelte';
   import { goto } from '$app/navigation'
   import { onMount } from 'svelte';
-  // Accessing Stores
-	import { writable } from 'svelte/store'
+  import { writable } from 'svelte/store'
   import { destinationCoords, latestArrival, userCoords, appMode} from '../firebase/Store.js';
   import Geocoder from '../map/geocoder.svelte';
-
-  
-	function driverMode() {
-		appMode.set("Driver")
-    // add user to matchmaking pool (call the function)
-		goto('/driver')
-	}
-
-	function passengerMode() {
-		appMode.set("Passenger")
-    // add user to matchmaking pool (call the function)
-		goto('/passenger')
-	}
-
 
   onMount(() => {
     const startTime = document.getElementById("startTime");
@@ -37,12 +22,17 @@
     }, false);
   })
 
+  function submitPassenger() {
+
+  }
+
 
 </script>
 
 <section>
   <div class = "map-overlay">
     <div class="location-overlay">
+      <h4 style="color:#000000;text-align:center;font-weight: bold">Passenger Mode</h4>
       <h4 style="color:#000000;text-align:center">Where are you going?</h4>
       <Geocoder></Geocoder>
     </div>
@@ -55,17 +45,11 @@
         <input type="time" id="startTime" />
       </form>
     </div>
-
-    <!-- Maybe do reverse geocoding to display user's address (or nearby address) -->
-    <!-- Destination Coords: {$destinationCoords}
-    <br>
-    Time: {$latestArrival}
-    <br>
-    User Coords: {$userCoords}
-    <br> -->
     <div class = "button-container">
-      <button type="button" class="mode-button" on:click={() => passengerMode()}>Passenger Mode</button>
-      <button type="button" class="mode-button" on:click={() => driverMode()}>Driver Mode</button>
+      <button type="button" class="mode-button" on:click={() => submitPassenger() }>Submit</button>
+      <button type="button" class="mode-button" on:click={() => goto('/trippickup')}>
+        Go to trip pickup
+    </button>
     </div>
   </div>
 </section>
