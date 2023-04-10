@@ -1,6 +1,5 @@
 export class User {
-  constructor(userId, firstName, lastName, phoneNumber, startLocation = null, endLocation = null, vehicleType, available = false, latestArrival = null, mode) {
-    this.userId = userId;
+  constructor(firstName, lastName, phoneNumber, startLocation = null, endLocation = null, vehicleType, available = false, latestArrival = null, mode) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.phoneNumber = phoneNumber;
@@ -8,14 +7,13 @@ export class User {
     this.endLocation = endLocation;
     this.vehicleType = vehicleType;
     this.available = available;
-    this.latestArrival = latestArrival;
+    this.latestArrival = latestArrival ? new Date(latestArrival) : null;
     this.mode = mode;
   }
 
   // Create a User object to JSON data
   toJSON() {
     return {
-      userId: this.userId,
       firstName: this.firstName,
       lastName: this.lastName,
       phoneNumber: this.phoneNumber,
@@ -23,14 +21,18 @@ export class User {
       endLocation: this.endLocation,
       vehicleType: this.vehicleType,
       available: this.available,
-      latestArrival: this.latestArrival,
+      latestArrival: this.latestArrival ? this.latestArrival.toISOString() : null,
       mode: this.mode,
     };
   }
 
-  // Create a User object from JSON data
-  static fromJSON(data) {
-    const user = new User(data.userId, data.firstName, data.lastName, data.phoneNumber, data.startLocation, data.endLocation, data.vehicleType, data.available, data.latestArrival, data.mode);
+  /**
+   * @brief Takes JSON and converts it to user.prototype object
+   * @param {object} data - A JSON with data
+   * @returns - An object of User class
+  */
+  fromJSON(data) {
+    const user = new User(data.firstName, data.lastName, data.phoneNumber, data.startLocation, data.endLocation, data.vehicleType, data.available, data.latestArrival ? new Date(data.latestArrival) : null, data.mode);
     return user;
   }
 }

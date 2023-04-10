@@ -17,16 +17,18 @@
     }
     .map-overlay {
       position: absolute;
-      top: 20%;
-      left: 2%;
+      margin-top: 10px;
+      margin-left: 10px;
+      padding: 10px;
       z-index: 1;
       border: 2px solid;
-      background-color: white;
-      height:600px;
-      width:400px;
-      margin: 75px;
+      color:#000000;
+      background-color: lightgray;
+      position: relative;
+      height: auto;
+      width: fit-content;
     }
-    #instructions {
+    .instructions {
       position: absolute;
       top: 0%;
       left: 2%;
@@ -139,9 +141,9 @@
       tripInstructions += `<li>${step.maneuver.instruction}</li>`;
       }
       instructions.innerHTML = 
-        `<p><strong>Trip Distance: ${Math.floor(data.distance*0.000621371)} miles <br>
+        `<h4><strong>Trip Distance: ${Math.floor(data.distance*0.000621371)} miles <br>
         Trip Duration: ${Math.floor(data.duration / 60)}
-        min </strong></p><ol>${tripInstructions}</ol>`;
+        min </strong></h4><ol>${tripInstructions}</ol>`;
     }
 
     map.on('load', () => {
@@ -239,6 +241,6 @@
 
 <body>
   <!-- BUG: Far rightside of map isn't rendering correctly, div issues? -->
-  <div id="instructions"></div>
+  <div id="instructions" class = map-overlay></div>
   <div id="map"></div>
 </body>

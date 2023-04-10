@@ -1,5 +1,6 @@
 import { get, writable } from "svelte/store";
 import { matchMakingPool, waitingPool } from "../firebase/Store";
+import { deleteDataFromDatabase, loopThroughDatabase, pushAnObjectToDatabase, searchFromDatabase } from "../firebase/Database";
 
 const thirtyMinutesFromNow = new Date(Date.now() + 30 * 60000);
 
@@ -8,6 +9,10 @@ const thirtyMinutesFromNow = new Date(Date.now() + 30 * 60000);
  * @param {object} newObject - The object to added to matchMakingPool[].
 */
 function addMatchMakingObject(newObject) {
+  let tempDate = newObject.latestArrival
+  newObject.latestArrival = dateToISO(newObject.latestArrival)
+  pushAnObjectToDatabase(`matchMakingPool/`, newObject)
+  newObject.latestArrival = tempDate
   matchMakingPool.update(arr => [...arr, newObject]);
 }
 
@@ -16,7 +21,29 @@ function addMatchMakingObject(newObject) {
  * @param {object} newObject - The object to added to waitingPool[].
 */
 function addWaitingObject(newObject) {
+  let tempDate = newObject.latestArrival
+  newObject.latestArrival = dateToISO(newObject.latestArrival)
+  pushAnObjectToDatabase(`waitingPool/`, newObject)
+  newObject.latestArrival = tempDate
   waitingPool.update(arr => [...arr, newObject]);
+}
+
+/**
+ * @brief Parses a date obj and returns a Date object
+ * @param {object} obj - Object to parse, usually string in ISO format
+ * @return {Date} A Date object
+ */
+export function stringToDate(obj) {
+  return new Date(Date.parse(obj));
+}
+
+/**
+ * @brief Converts a date object to its ISO string equal
+ * @param {Date} date - The date object to be converted
+ * @returns {string} The ISO string representation of the date
+ */
+export function dateToISO(date) {
+  return date.toISOString();
 }
 
 
@@ -25,7 +52,20 @@ function addWaitingObject(newObject) {
  * @param {object} user - The user to remove from the match making pool.
 */
 export function removeFromMatchMaking(user) {
-  // getting from svelte store then returning to svelte store
+
+  function deleteMatchedObject(childSnapshot) {
+    console.log('Comparing:', childSnapshot.val().phoneNumber, user.phoneNumber);
+    if (childSnapshot.val().phoneNumber == user.phoneNumber) {
+      console.log('Deleting:', childSnapshot.val());
+      deleteDataFromDatabase(`matchMakingPool/`, childSnapshot.key);
+    }
+    else {
+      console.log("deleteMatchedObject Else Trigger");
+    }
+  }
+
+  loopThroughDatabase(`matchMakingPool/`, deleteMatchedObject);
+
   const index = get(matchMakingPool).findIndex((obj) => obj === user);
   if (index !== -1) {
     matchMakingPool.update(arr => {
@@ -73,16 +113,21 @@ export function updateMatchMaking(user) {
  * @param {Array<object>} userPool - An array of user objects to search through for the best match.
  * @returns {Array<object>} - An array with the matched driver and passenger objects.
 */
-export function matchMake(userPool) {
+export async function matchMake(userPool) {
   // Filter users to only include drivers and passengers
-  const drivers = get(userPool).filter(user => user.mode === 'driver');
-  const passengers = get(userPool).filter(user => user.mode === 'passenger');
-
+  // const drivers = get(userPool).filter(user => user.mode === 'driver');
+  // const passengers = get(userPool).filter(user => user.mode === 'passenger');
+  let drivers = []
+  let passengers = []
+  drivers.push(await searchFromDatabase("users", "mode", "driver"))
+  passengers.push(await searchFromDatabase("users", "mode", "passenger"))
   // Find smallest difference in latestArrivals
   let smallestDifference = Infinity; // upper limit for time difference
   let bestMatch = null;
   for (const driver of drivers) {
+    console.log(driver)
     for (const passenger of passengers) {
+      console.log(passenger)
       const timeDifference = Math.abs(driver.latestArrival - passenger.latestArrival);
       if (timeDifference < smallestDifference) {
         smallestDifference = timeDifference;

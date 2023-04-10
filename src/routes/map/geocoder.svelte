@@ -17,6 +17,8 @@
 <script>
     import { onMount } from 'svelte';
     import { destinationCoords } from '../firebase/Store.js'
+    import { updateFromDatabase } from '../firebase/Database.js';
+    import { getUserID } from '../firebase/Auth.js';
 
     // script loading 
     function loadScript(url, callback) {
@@ -53,6 +55,8 @@
     //results.innerText = e.result.center; // returns center coords
     coords = e.result.center;
     destinationCoords.set(coords)
+    const userID = getUserID();
+    updateFromDatabase(`users/${userID}`, {endLocation: coords[0]+','+coords[1]});
     });
     // Clear results container when search is cleared.
     geocoder.on('clear', () => {
