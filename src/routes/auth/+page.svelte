@@ -1,5 +1,5 @@
 <script>
-    import{ handleOnRegister } from "../firebase/crAuth"
+    import{ handleOnRegister } from "../firebase/Auth"
     let emailReg;
     let passwordReg;
 </script>

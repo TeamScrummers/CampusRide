@@ -29,6 +29,11 @@ export function handleOnRegister(email, password){
         });
 }
 
+/**
+ * @brief Handles loging in with Firebase Auth, logs time when last login. 
+ * @param string email - User email for login
+ * @param string password - User password for login
+*/
 export function handleOnLogin(email, password){
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -38,7 +43,8 @@ export function handleOnLogin(email, password){
                 last_login: lgDate,
             })
                 .then(() => {
-                    alert('user logged in successfully');
+                    alert('user logged in successfully')
+                    console.log(getUserID())
                     goto('/home')
                 })
                 .catch((error) => {
@@ -52,3 +58,14 @@ export function handleOnLogin(email, password){
             alert(errorMessage);
         });
 }
+
+export function getUserID() {
+    const user = auth.currentUser;
+    if (user) {
+      // User logged in already or has just logged in.
+      return user.uid;
+    } else {
+      // User not logged in or has just logged out.
+      return null;
+    }
+  }
