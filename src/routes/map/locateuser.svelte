@@ -23,7 +23,7 @@ function geoFindMe() {
       status.textContent = "";
     //   mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
     //   mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
-    //   map box need you to pass lng then lat for methods  
+    //   map box needs you to pass lng then lat for methods  
     userCoords.set(longitude.toString()+','+latitude.toString())
       
     }

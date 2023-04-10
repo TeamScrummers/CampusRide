@@ -1,26 +1,28 @@
 <script>
+	import { onMount } from "svelte";
 	import { goto } from '$app/navigation'
-	import { latestArrival1, latestArrival2} from './stores.js';
-	import { User } from './user.js'; 
 	import Map from '../map/map.svelte';
-	import { destinationCoords, latestArrival, userCoords} from '../firebase/Store.js'
-	import { createANodeInDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/Database.js"
+	import { User } from './User.js';
+	import { Trip } from "./Trip";
+	// Accessing Stores
+	import { get } from "svelte/store";
+    import { appMode } from "../firebase/Store";
+	
 
 
-	// Test Objects
-	let user1 = new User('Zachery', 'McDonald', latestArrival1)
-	let user2 = new User('Jason', 'Bourne', latestArrival2)
+	// Test objects
+	const noonMarch2023 = new Date(2023, 2, 20, 12, 0, 0, 0);
+	const noonToday = new Date();
+	noonToday.setHours(12, 0, 0, 0);
+	const driver = new User('UID1', 'John', 'Doe', '555-1234', '123 Main St', '456 Elm St', 'sedan', true, noonToday);
+	const passengers = [
+		new User('UID2', 'Jane', 'Doe', '555-5678', '123 Main St', '456 Elm St', null, false, noonToday),
+		new User('UID3', 'Bob', 'Smith', '555-9012', '123 Main St', '456 Elm St', null, true, noonToday)
+	];
+	const trip = new Trip('TID1', driver, passengers, '123 Main St', '456 Elm St', 20.00, noonToday);
+	//console.log(trip.toJSON());
 
-	// Testing
-	let time1 = user1.latestArrival
-	let time2 = user2.latestArrival
-	let match = user1.compareTime(user1.latestArrival, user2.latestArrival)
 
-	// let thirthyMin = 1800000;
-
-	// Useful methods for date() objs:
-	// var.setHours(x,y,z)
-	// var.getTime(x,y,z)
 
 	// HARD CODING FOR TESTING
 	// destinationCoords.set('-96.4676986,30.6463875')
@@ -62,7 +64,6 @@
 		return name;
     }
     //crStore.js
-    import { get } from 'svelte/store'
     import { storedID, storedLocation } from '../firebase/Store.js'
 
     async function acceptDriver (info){
@@ -76,35 +77,40 @@
 
 <section>
 	<div class = "map-overlay">
-		<p> 
-		</p>
-		<div class = "driver-list" >
-			<h4 style="color: black; text-align: center;">Drivers Found:</h4>
-			{user1.firstName} {user1.lastName}'s Latest Arrival: {time1} <br>
-			{user2.firstName} {user2.lastName}'s Latest Arrival: {time2} <br>
-			Comparison: {match} <br>
-			<button type="button" on:click={() => goto('/trippickup')}>Submit</button>
-		<div class >
-			<h4>Driver Found!</h4>
-			<ul>
-				{#await requestDriverList()}
-					<li><p>Driver: Searching for Matches</p></li> 
-				{:then info}
-					<li> <p style="color: black;">
-						Driver 1: {info} <button type="button" class="accept-button" on:click={() => acceptDriver(info)}>Accept Driver</button>
-					</p></li>
-				{:catch error}
-					<li><p style="color: red">{error.message}</p></li>
-				{/await}
-			</ul>
-		</div>
+		{#if trip}
+		<h1>Your ride has been matched!</h1>
+		<ul>
+			<li>Trip ID: {trip.tripId}</li>
+			<li>Driver name: {trip.driver.firstName} {trip.driver.lastName}</li>
+			<li>Driver phone number: {trip.driver.phoneNumber}</li>
+			<li>Vehicle type: {trip.driver.vehicleType}</li>
+			<li>Pickup location: {trip.startLocation}</li>
+			<li>Destination: {trip.driver.endLocation}</li>
+			<li>Price: {trip.fare}</li>
+			<li>Date: {trip.date}</li>
+			<li>App Mode: {get(appMode)}</li>
+			<!-- Display List of Passenger destinations -->
+		</ul>
+		<button on:click={null}>Confirm ride</button>
+		{:else}
+			<h1>No available rides found</h1>
+		{/if}
+			<button type="button" on:click={() => goto('/trippickup')}>
+				Go to trip pickup
+			</button>
+
+			<button on:click={() => goto('/MatchMakingTest')}>
+				Go to MatchMakingTest
+			</button>
+			
 	</div>
 </section>
+
 <Map></Map>
 
 <style>
 	    .map-overlay{
-        background-color: rgb(209, 209, 209);
+        background-color: rgb(255, 255, 255);
         font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         position: absolute;
         top: -75px;
@@ -112,26 +118,4 @@
         left: -75px;
         width: 300px;
       }
-
-	  .driver-list{
-		background-color: hsl(0, 0%, 92%);
-		border-radius: 20%
-	  }
-
-	  .accept-button{
-		background-color: #04AA6D;
-        color: white;
-        padding: 1px 1px;
-        margin: 8px 0;
-        border: none;
-        cursor: pointer;
-        width: 25%;
-        opacity: 0.9;
-        border-radius: 10%;
-	  }
-
-	  .accept-button:hover{
-        opacity: 1;
-	  }
-
 </style>
