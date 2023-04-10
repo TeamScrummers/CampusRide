@@ -3,7 +3,7 @@
 <!-- User's Location: {$userCoords} -->
 
 <script>
-import { userCoords } from '../firebase/Store.js
+import { userCoords } from '../firebase/Store.js'
 import { onMount } from 'svelte';
 //onMount(() => {})
 

@@ -4,7 +4,7 @@ export function createANewTrip(tripObject){
     pushAnObjectToDatabase("trips/", tripObject)
 }
 
-export function updateTripChild(tripId, data){
+export function updateTrip(tripId, data){
     updateFromDatabase("trips/"+ tripId, {
         driverId: data
     });
