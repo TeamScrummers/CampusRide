@@ -11,16 +11,34 @@
   import Locateuser from '../map/locateuser.svelte';
   import { goto } from '$app/navigation'
   import { onMount } from 'svelte';
-  import { destinationCoords, latestArrival, userCoords} from '../firebase/Store.js
+  // Accessing Stores
+	import { writable } from 'svelte/store'
+  import { destinationCoords, latestArrival, userCoords, appMode} from '../firebase/Store.js';
   import Geocoder from '../map/geocoder.svelte';
-  onMount(() => {
-  const startTime = document.getElementById("startTime");
 
-  startTime.addEventListener("input", () => {
-  //valueSpan.innerText = startTime.value;
-  latestArrival.set(startTime.value)
-  }, false);
-})
+  
+	function driverMode() {
+		appMode.set("Driver")
+    // I need an obj to pass, how can I get the obj? When user logs in they get info, we rip that info and store in a store. store obj? 
+    // add user to matchmaking pool (call the function)
+		goto('/matching')
+	}
+
+	function passengerMode() {
+		appMode.set("Passenger")
+    // add user to matchmaking pool (call the function)
+		goto('/matching')
+	}
+
+
+  onMount(() => {
+    const startTime = document.getElementById("startTime");
+    startTime.addEventListener("input", () => {
+      //valueSpan.innerText = startTime.value;
+      latestArrival.set(startTime.value)
+    }, false);
+  })
+
 
 </script>
 
@@ -33,7 +51,7 @@
 
     <Locateuser></Locateuser>
     <div class = "time-overlay">
-      <h4 style="color:#000000;text-align:center;padding:7px">When do you need to be there?</h4>
+      <h4>When do you need to be there?</h4>
       <form style="text-align:center; padding:10px">
         <label for="startTime"></label>
         <input type="time" id="startTime" />
@@ -47,56 +65,57 @@
     <br>
     User Coords: {$userCoords}
     <br> -->
-    <button type="button" class="registerbtn" on:click={() => goto('/matching')}>Request Ride</button>
+    <div class = "button-container">
+      <button type="button" class="mode-button" on:click={() => passengerMode()}>Passenger Mode</button>
+      <button type="button" class="mode-button" on:click={() => driverMode()}>Driver Mode</button>
+    </div>
   </div>
 </section>
 
 <Map></Map>
 
 <style>
-      .map-overlay{
-        background-color: rgb(209, 209, 209);
-        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-        position: absolute;
-        top: -75px;
-        bottom: -200px;
-        left: -75px;
-        width: 300px;
-      }
-
-      .time-overlay{
-        background-color: white;
-        border-radius:309;
-        position: relative;
-        top: 50px;
-      }
-      
-      .location-overlay{
-        background-color: hsl(0, 0%, 93%);
-        border-radius:30%;
-        position: relative;
-        top: 50px;
-      }
-  
-    .registerbtn {
-        background-color: #04AA6D;
-        color: white;
-        padding: 16px 2px;
-        margin: 8px 0;
-        border: none;
-        cursor: pointer;
-        width: 75%;
-        opacity: 0.9;
-        border-radius: 50%;
-        position: absolute;
-        top: 350px;
-        left: 40px;
-        height: 200px;
-        font-size: 40px;
-        font-style: italic;
+  .map-overlay{
+    color:#000000;
+    text-align:center;
+    background-color: lightgray;
+    position: relative;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 10px;
+    height: auto;
+    width: fit-content;
+    z-index: 1;
     }
 
-    .registerbtn:hover {
-        opacity: 1;
-    }
+  .location-overlay{
+    position: relative;
+  }
+
+  .time-overlay{
+    position: relative;
+  }
+    
+  .mode-button {
+    position: relative;
+    background-color: #04AA6D;
+    color: white;
+    margin: 10px 10;
+    cursor: pointer;
+    opacity: .7;
+    height: 50px;
+    width: 75%;
+    font-size: 40px;
+    font-style: italic;
+    display: inline-block;
+    font-size: 25px;
+  }
+
+  .button-container {
+    text-align: center;
+  }
+
+  .mode-button:hover {
+    opacity: 1;
+  }
 </style>

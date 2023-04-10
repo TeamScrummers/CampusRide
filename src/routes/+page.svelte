@@ -9,10 +9,8 @@
 <section class="content">
   <div class="container">
     <h1>Default Testing Page</h1>
-    <a href="/login">Landing Page | </a>
+    <a href="/login">Landing Page (Login) | </a>
     <a href="/home">Home Page | </a>
-    <a href="/login">Login Page | </a>
-    <a href="/map">Map View | </a>
     <a href="/matched">Match Found Page | </a>
     <a href="/auth">User Auth Page | </a>
     <a href="/admin">Admin TEST ONLY Page | </a>
@@ -20,6 +18,7 @@
     <a href="/tripenroute">Trip Enroute | </a>
     <a href="/tripover">Trip Over | </a>
     <a href="/notifications">Notifications | </a>
+    <a href="/matchmakingtest">MatchMakingTest | </a>
 
   </div>
 </section>
