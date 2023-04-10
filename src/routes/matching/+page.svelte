@@ -44,11 +44,11 @@
     }
 
     //crTrip
-    import{ createTrip, updateTrip } from "../firebase/Trip.js"
+    import{ createANewTrip, updateTrip } from "../firebase/Trip.js"
 
     async function requestTrip(){
         var passengerId = Object.keys(await searchFromDatabase("users", "email", "email@email.com"))
-        createTrip(passengerId[0], "801 Fairview Ave", "3100 SH-47, Bryan, TX 77807, United States");
+        createANewTrip(passengerId[0], "801 Fairview Ave", "3100 SH-47, Bryan, TX 77807, United States");
     }
     async function matchMade(){
         var driverId = Object.keys(await searchFromDatabase("users", "email", "kcantu7@leomail.tamuc.edu"))

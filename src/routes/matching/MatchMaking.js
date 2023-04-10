@@ -1,7 +1,7 @@
 // Import match making pool
 // This should be a DB call later.
 import { get, writable } from "svelte/store";
-import { matchMakingPool, waitingPool } from "../firebase/crStore";
+import { matchMakingPool, waitingPool } from "../firebase/Store";
 
 const thirtyMinutesFromNow = new Date(Date.now() + 30 * 60000);
 
