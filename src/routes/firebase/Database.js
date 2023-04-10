@@ -53,6 +53,11 @@ export function searchFromDatabase(table, key, value){
     })
 }
 
+/**
+ * @brief Returns data from real time database
+ * @param {path} path - Firebase path to be read
+ * @returns - Promise at path location
+*/
 export function readFromDatabaseOnValue(path){
     return new Promise(resolve => {
         onValue(ref(database, path), (snapshot) => {
@@ -61,10 +66,43 @@ export function readFromDatabaseOnValue(path){
     })
 };
 
+/**
+ * @brief Updates DB by writing data to path
+ * @param {path} path - Firebase path to be updated
+ * @param {object} data - Data to be written?
+*/
 export function updateFromDatabase(path, data){
     update(ref(database, path), data)
 }
 
+/**
+ * @brief Pushes an object to the database
+ * @param {path} path - Firebase path to be pushed to
+ * @param {object} object - Object to be pushed
+*/
 export function pushAnObjectToDatabase(path, object){
     push(ref(database, path), object)
 }
+
+/**
+ * @brief Deletes data from real time database
+ * @param {path} path - Firebase path to be updated
+ * @param {string} field - Field to be deleted
+*/
+export function deleteDataFromDatabase(path, field) {
+    console.log("Deleting...")
+    update(ref(database, path), { [field]: null });
+}
+
+/**
+ * @brief Loops through every entry in a Firebase path and performs an action on each entry.
+ * @param {path} path - Firebase path to be read
+ * @param {function} action - Action to be performed on each entry. The action function should take a single argument, which is the child snapshot.
+*/
+export function loopThroughDatabase(path, action){
+    onValue(ref(database, path), (snapshot) => {
+        snapshot.forEach((childSnapshot) => {
+            action(childSnapshot);
+        });
+    });
+};

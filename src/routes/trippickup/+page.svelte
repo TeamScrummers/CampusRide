@@ -12,12 +12,16 @@
 <DirectionsDriver></DirectionsDriver>
 
 <style>
-  .map-overlay{
-      background-color: rgb(209, 209, 209);
-        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-        position:relative;
-        top: 400px;
-        height: 100px;
-        width: 70%
-  }
+.map-overlay{
+    color:#000000;
+    text-align:center;
+    background-color: lightgray;
+    position: relative;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 10px;
+    height: auto;
+    width: fit-content;
+    z-index: 1;
+    }
 </style>

@@ -7,7 +7,6 @@
 
 <script>
   import Map from '../map/map.svelte';
-  import Locateuser from '../map/locateuser.svelte';
   import { goto } from '$app/navigation'
   import { onMount } from 'svelte';
   // Accessing Stores
@@ -27,42 +26,14 @@
     // add user to matchmaking pool (call the function)
 		goto('/passenger')
 	}
-
-
-  onMount(() => {
-    const startTime = document.getElementById("startTime");
-    startTime.addEventListener("input", () => {
-      //valueSpan.innerText = startTime.value;
-      latestArrival.set(startTime.value)
-    }, false);
-  })
-
-
 </script>
 
 <section>
   <div class = "map-overlay">
     <div class="location-overlay">
-      <h4 style="color:#000000;text-align:center">Where are you going?</h4>
-      <Geocoder></Geocoder>
+      <h4 style="color:#000000;text-align:center">Driving or Riding?</h4>
     </div>
-
-    <Locateuser></Locateuser>
-    <div class = "time-overlay">
-      <h4>When do you need to be there?</h4>
-      <form style="text-align:center; padding:10px">
-        <label for="startTime"></label>
-        <input type="time" id="startTime" />
-      </form>
-    </div>
-
-    <!-- Maybe do reverse geocoding to display user's address (or nearby address) -->
-    <!-- Destination Coords: {$destinationCoords}
-    <br>
-    Time: {$latestArrival}
-    <br>
-    User Coords: {$userCoords}
-    <br> -->
+    <!-- Make the map auto locate the user for effect -->
     <div class = "button-container">
       <button type="button" class="mode-button" on:click={() => passengerMode()}>Passenger Mode</button>
       <button type="button" class="mode-button" on:click={() => driverMode()}>Driver Mode</button>

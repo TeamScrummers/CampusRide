@@ -7,25 +7,45 @@
 
 <script>
   import Map from '../map/map.svelte';
-  import Locateuser from '../map/locateuser.svelte';
+  import { locateUser } from '../map/locateuser';
   import { goto } from '$app/navigation'
-  import { onMount } from 'svelte';
-  import { writable } from 'svelte/store'
-  import { destinationCoords, latestArrival, userCoords, appMode} from '../firebase/Store.js';
+  import { latestArrival } from '../firebase/Store.js';
   import Geocoder from '../map/geocoder.svelte';
+  import { readFromDatabaseOnValue, updateFromDatabase } from '../firebase/Database';
+  import { getUserID } from '../firebase/Auth.js';
+  import { timeStringToDate } from './timeStringToDate';
+  import { updateMatchMaking } from '../matching/MatchMaking';
+  import { User } from '../matching/User';
 
-  onMount(() => {
-    const startTime = document.getElementById("startTime");
-    startTime.addEventListener("input", () => {
-      //valueSpan.innerText = startTime.value;
-      latestArrival.set(startTime.value)
-    }, false);
-  })
-
-  function submitPassenger() {
-
+  let timeInput = '';
+  function handleTimeInput(event) {
+    timeInput = event.target.value;
   }
 
+  async function submitPassenger() {
+    // hh:mm to date obj
+    let timeOutput = timeStringToDate(timeInput)
+
+    // Updating Svelte Store
+    latestArrival.set(timeOutput)
+
+    // Updating DB
+    const userID = getUserID()
+    // locateUser() updates startLocation
+    locateUser()
+    updateFromDatabase(`users/${userID}`, {available: true})
+    // <Geocoder></Geocoder> updates endLocation
+    updateFromDatabase(`users/${userID}`, {latestArrival: timeOutput.toISOString()})
+    updateFromDatabase(`users/${userID}`, {mode: "passenger"})
+    // Write endLocation
+    var localUser = new User()
+    localUser = localUser.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
+
+    // Writes user to matchmaking pool
+    //updateMatchMaking(localUser)
+
+    goto('/trippickup')
+  }
 
 </script>
 
@@ -37,19 +57,19 @@
       <Geocoder></Geocoder>
     </div>
 
-    <Locateuser></Locateuser>
     <div class = "time-overlay">
+      
+
       <h4>When do you need to be there?</h4>
       <form style="text-align:center; padding:10px">
-        <label for="startTime"></label>
-        <input type="time" id="startTime" />
+        <input type="time" bind:value={timeInput} on:input={handleTimeInput} />
       </form>
     </div>
     <div class = "button-container">
       <button type="button" class="mode-button" on:click={() => submitPassenger() }>Submit</button>
-      <button type="button" class="mode-button" on:click={() => goto('/trippickup')}>
+      <!-- <button type="button" class="mode-button" on:click={() => goto('/trippickup')}>
         Go to trip pickup
-    </button>
+    </button> -->
     </div>
   </div>
 </section>

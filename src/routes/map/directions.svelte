@@ -30,9 +30,9 @@
 </svelte:head>
 
 <script>
-  import { onMount } from 'svelte';
-  import { get } from 'svelte/store';
-  import { destinationCoords, userCoords} from '../firebase/Store.js
+  import { onMount } from 'svelte'
+  import { get } from 'svelte/store'
+  import { destinationCoords, userCoords} from '../firebase/Store.js'
   
   // script loading 
   function loadScript(url, callback) {
