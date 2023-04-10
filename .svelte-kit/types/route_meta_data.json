@@ -1,0 +1,45 @@
+{
+	"/": [
+		"src/routes/+layout.js",
+		"src/routes/+layout.js"
+	],
+	"/admin": [
+		"src/routes/+layout.js"
+	],
+	"/auth": [
+		"src/routes/+layout.js"
+	],
+	"/driver": [
+		"src/routes/+layout.js"
+	],
+	"/home": [
+		"src/routes/+layout.js"
+	],
+	"/login": [
+		"src/routes/+layout.js"
+	],
+	"/map": [
+		"src/routes/+layout.js"
+	],
+	"/matching": [
+		"src/routes/+layout.js"
+	],
+	"/matchmakingtest": [
+		"src/routes/+layout.js"
+	],
+	"/notifications": [
+		"src/routes/+layout.js"
+	],
+	"/passenger": [
+		"src/routes/+layout.js"
+	],
+	"/tripenroute": [
+		"src/routes/+layout.js"
+	],
+	"/tripover": [
+		"src/routes/+layout.js"
+	],
+	"/trippickup": [
+		"src/routes/+layout.js"
+	]
+}
