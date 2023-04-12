@@ -2,9 +2,9 @@
 <!-- Preloading Mapbox Scripts -->
 <script>
   import { goto } from "$app/navigation";
-  import Navbar from "./navbar/navbar.svelte"
-  import { linkUtil } from "./utils/linkUtils.js"
-  goto('/home')
+  if (!import.meta.env.SSR) {
+    goto('/login')
+  }
 </script>
 
 <svelte:head>
@@ -13,7 +13,6 @@
   <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'></script>
 </svelte:head>
 
-<Navbar data={ linkUtil } />
 
 <section class="content">
   <div class="container">
