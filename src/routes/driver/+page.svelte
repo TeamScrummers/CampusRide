@@ -33,7 +33,6 @@
     // Updating DB
     const userID = getUserID()
     // locateUser() updates startLocation
-    locateUser()
     updateFromDatabase(`users/${userID}`, {available: true})
     // <Geocoder></Geocoder> updates endLocation
     updateFromDatabase(`users/${userID}`, {latestArrival: timeOutput.toISOString()})
@@ -47,6 +46,9 @@
 
     goto('/trippickup')
   }
+
+// Get user's location when they load the page
+locateUser()
 
 </script>
 

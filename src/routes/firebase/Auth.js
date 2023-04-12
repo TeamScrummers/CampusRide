@@ -59,6 +59,11 @@ export function handleOnLogin(email, password){
         });
 }
 
+
+/**
+ * Gets the currently authenicated user's ID. 
+ * @returns {string|null} - Returns the user's unique ID as a string or null if no user is logged in.
+ */
 export function getUserID() {
     const user = auth.currentUser;
     if (user) {

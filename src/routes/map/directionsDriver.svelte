@@ -88,7 +88,7 @@
     var start = userString.map(Number);
     //console.log(start)
     //var start = [-96.3344,30.6280];
-    console.log(start)
+    console.log("Starting COORDS: "+ start)
     async function getRoute(end) {
     // make a directions request using driving profile
     // an arbitrary start will always be the same
