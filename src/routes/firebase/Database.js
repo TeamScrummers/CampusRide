@@ -106,3 +106,33 @@ export function loopThroughDatabase(path, action){
         });
     });
 };
+
+
+
+/**
+ * @brief Method that will listen for an object at a speciific node path
+ *
+ * This function will provide a listener to the database while also 
+ * ensuring the first value read is 
+ *
+ * @param path The location in the JSON tree to create the data. This
+ * parameter requires a string input in the following format to match
+ * entity-relationship: "\<table>/\<primaryKey>"
+ * @param data The list of key:value pairs to be stored. For javascript
+ * it should be in the format: { key1:value1, key2:value2,...}
+ */
+
+export function listenToANodeOnDatbase(path){
+    let passThrough = waitForANodeOnDatbase(path)
+    console.log(passThrough)
+
+}
+
+async function waitForANodeOnDatbase(path){
+    new Promise(resolve => {
+        onValue(ref(database,path), (snapshot) => {
+            resolve(snapshot.val());
+        })  
+    })
+
+}
