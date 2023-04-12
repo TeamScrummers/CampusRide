@@ -1,7 +1,7 @@
 import { app } from "./initialFirebase"
 import { getDatabase, ref, onValue, set, get, child, update, 
-    orderByChild,equalTo, query, limitToFirst, push} from "firebase/database";
-
+    orderByChild,equalTo, query, limitToFirst, push, } from "firebase/database";
+import { User } from "../matching/User";
 const database = getDatabase(app);
 
 /**
@@ -106,3 +106,84 @@ export function loopThroughDatabase(path, action){
         });
     });
 };
+
+/**
+ * @brief Loops through every entry in a Firebase path once and performs an action on each entry.
+ * @param {path} path - Firebase path to be read
+ * @param {function} action - Action to be performed on each entry. The action function should take a single argument, which is the child snapshot.
+*/
+export async function loopThroughDatabaseOnce(path, action) {
+  const databaseRef = ref(database, path);
+  const snapshot = await get(databaseRef);
+  snapshot.forEach((childSnapshot) => {
+    action(childSnapshot);
+  });
+};
+
+/**
+ * Reads a User object from the db
+ * @param {string} userId - The unique identifier for the user object
+ * @returns {object|null} - The User object, or null if the user was not found
+ */
+export async function readUserFromDatabase(userId) {
+    const path = `users/${userId}`;
+    const userJson = await readFromDatabaseOnValue(path);
+    // If user exists in the database, parse the JSON into a User object
+    if (userJson) {
+      const user = User.fromJSON(userJson);
+      console.log(`User with userId ${userId} has been read from the database`);
+      return user;
+    }
+    // If user does not exist in the database, return null
+    console.log(`User with userId ${userId} was not found in the database`);
+    return null;
+  }
+
+/**
+ * Writes a User object to the db
+ * @param {string} userId - The currently logged in UID for the user object
+ * @param {object} user - The User object to be written to the database
+ */
+export async function writeUserToDatabase(userId, user) {
+  const path = `users/${userId}`;
+  // Convert the User object to a JSON
+  const userJson = user.toJSON();
+
+  // Write the JSON object to the database
+  await createANodeInDatabase(path, userJson);
+
+  console.log(`User with userId ${userId} has been written to the database`);
+}
+
+/**
+ * Reads a Trip object from the db
+ * @param {string} TripId - The unique identifier for the Trip object
+ * @returns {object|null} - The Trip object, or null if the Trip was not found
+ */
+export async function readTripFromDatabase(TripId) {
+    const path = `trips/${TripId}`;
+    const tripJson = await readFromDatabaseOnValue(path);
+    // If Trip exists in the database, parse the JSON into a Trip object
+    if (tripJson) {
+      const trip = Trip.fromJSON(tripJson);
+      console.log(`Trip with TripId ${TripId} has been read from the database`);
+      return trip;
+    }
+    // If trip does not exist in the database, return null
+    console.log(`Trip with TripId ${TripId} was not found in the database`);
+    return null;
+  }
+
+/**
+* @brief Writes a trip object to the db
+* @param {object} trip - The Trip object to be written to the database
+* @returns - New realtime database tripId of the new trip entry
+*/
+export async function writeTripToDatabase(trip) {
+ const path = 'trips';
+ const tripJson = trip.toJSON();
+ const { key: tripId } = await pushAnObjectToDatabase(path, tripJson);
+ console.log(`Trip with TripId ${tripId} has been written to the database`);
+ return tripId;
+}
+

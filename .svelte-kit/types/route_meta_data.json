@@ -9,6 +9,9 @@
 	"/auth": [
 		"src/routes/+layout.js"
 	],
+	"/driveracceptingTest": [
+		"src/routes/+layout.js"
+	],
 	"/driver": [
 		"src/routes/+layout.js"
 	],
