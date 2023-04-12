@@ -74,10 +74,10 @@
   </div>
 </section>
 
-<Map></Map>
+<!-- <Map></Map> -->
 
 <style>
-  .map-overlay{
+  /* .map-overlay{
     color:#000000;
     text-align:center;
     background-color: lightgray;
@@ -88,7 +88,7 @@
     height: auto;
     width: fit-content;
     z-index: 1;
-    }
+    } */
 
   .location-overlay{
     position: relative;
@@ -96,6 +96,7 @@
 
   .time-overlay{
     position: relative;
+    text-align: center;
   }
     
   .mode-button {
@@ -115,9 +116,11 @@
 
   .button-container {
     text-align: center;
+    text-align: center;
   }
 
   .mode-button:hover {
     opacity: 1;
+    text-align: center;
   }
 </style>
