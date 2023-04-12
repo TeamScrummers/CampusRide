@@ -52,6 +52,9 @@
 
     //notifications
     import {sendTheUserAPushNotifcation} from '../firebase/PushNotifications.js'
+    import {sendDriverAcceptedNotifcation} from '../firebase/PushNotifications.js'
+    import {sendPassengerAvailableNotifcation} from '../firebase/PushNotifications.js'
+    import {sendDriverArrivedNotifcation} from '../firebase/PushNotifications.js'
 
     //Push A User object
     import {User} from '../firebase/User.js'
@@ -110,6 +113,21 @@
 
 <div class="container" style="background-color:#f1f1f1">
     <button type="button" on:click={sendTheUserAPushNotifcation}>Notify Yourself</button>
+    <br><br>
+</div>
+
+<div class="container" style="background-color:#f1f1f1">
+    <button type="button" on:click={sendDriverAcceptedNotifcation}>Driver Accepted</button>
+    <br><br>
+</div>
+
+<div class="container" style="background-color:#f1f1f1">
+    <button type="button" on:click={sendPassengerAvailableNotifcation}>Passenger Available</button>
+    <br><br>
+</div>
+
+<div class="container" style="background-color:#f1f1f1">
+    <button type="button" on:click={sendDriverArrivedNotifcation}>Driver Arrived</button>
     <br><br>
 </div>
 
