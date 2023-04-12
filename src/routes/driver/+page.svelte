@@ -45,7 +45,7 @@
     // Writes user to matchmaking pool
     //updateMatchMaking(localUser)
 
-    goto('/trippickup')
+    goto('/accept')
   }
 
 </script>
