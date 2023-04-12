@@ -32,6 +32,9 @@ declare module '$env/static/private' {
 	export const ChocolateyInstall: string;
 	export const ChocolateyLastPathUpdate: string;
 	export const COLOR: string;
+	export const CHROME_CRASHPAD_PIPE_NAME: string;
+	export const COLOR: string;
+	export const COLORTERM: string;
 	export const CommonProgramFiles: string;
 	export const CommonProgramW6432: string;
 	export const COMPUTERNAME: string;
@@ -49,6 +52,16 @@ declare module '$env/static/private' {
 	export const INIT_CWD: string;
 	export const LOCALAPPDATA: string;
 	export const LOGONSERVER: string;
+	export const GIT_ASKPASS: string;
+	export const HOME: string;
+	export const HOMEDRIVE: string;
+	export const HOMEPATH: string;
+	export const INIT_CWD: string;
+	export const INTEL_DEV_REDIST: string;
+	export const LANG: string;
+	export const LOCALAPPDATA: string;
+	export const LOGONSERVER: string;
+	export const MIC_LD_LIBRARY_PATH: string;
 	export const NODE: string;
 	export const NODE_ENV: string;
 	export const NODE_EXE: string;
@@ -79,6 +92,9 @@ declare module '$env/static/private' {
 	export const OneDrive: string;
 	export const OneDriveCommercial: string;
 	export const OneDriveConsumer: string;
+	export const OneDrive: string;
+	export const OneDriveConsumer: string;
+	export const ORIGINAL_XDG_CURRENT_DESKTOP: string;
 	export const OS: string;
 	export const Path: string;
 	export const PATHEXT: string;
@@ -99,6 +115,8 @@ declare module '$env/static/private' {
 	export const TEMP: string;
 	export const TERMINAL_EMULATOR: string;
 	export const TERM_SESSION_ID: string;
+	export const TERM_PROGRAM: string;
+	export const TERM_PROGRAM_VERSION: string;
 	export const TMP: string;
 	export const USERDOMAIN: string;
 	export const USERDOMAIN_ROAMINGPROFILE: string;
@@ -107,6 +125,14 @@ declare module '$env/static/private' {
 	export const VBOX_MSI_INSTALL_PATH: string;
 	export const windir: string;
 	export const __INTELLIJ_COMMAND_HISTFILE__: string;
+	export const VBOX_HWVIRTEX_IGNORE_SVM_IN_USE: string;
+	export const VBOX_MSI_INSTALL_PATH: string;
+	export const VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
+	export const VSCODE_GIT_ASKPASS_MAIN: string;
+	export const VSCODE_GIT_ASKPASS_NODE: string;
+	export const VSCODE_GIT_IPC_HANDLE: string;
+	export const VSCODE_INJECTION: string;
+	export const windir: string;
 }
 
 /**
@@ -142,6 +168,9 @@ declare module '$env/dynamic/private' {
 		ChocolateyInstall: string;
 		ChocolateyLastPathUpdate: string;
 		COLOR: string;
+		CHROME_CRASHPAD_PIPE_NAME: string;
+		COLOR: string;
+		COLORTERM: string;
 		CommonProgramFiles: string;
 		CommonProgramW6432: string;
 		COMPUTERNAME: string;
@@ -159,6 +188,16 @@ declare module '$env/dynamic/private' {
 		INIT_CWD: string;
 		LOCALAPPDATA: string;
 		LOGONSERVER: string;
+		GIT_ASKPASS: string;
+		HOME: string;
+		HOMEDRIVE: string;
+		HOMEPATH: string;
+		INIT_CWD: string;
+		INTEL_DEV_REDIST: string;
+		LANG: string;
+		LOCALAPPDATA: string;
+		LOGONSERVER: string;
+		MIC_LD_LIBRARY_PATH: string;
 		NODE: string;
 		NODE_ENV: string;
 		NODE_EXE: string;
@@ -189,6 +228,9 @@ declare module '$env/dynamic/private' {
 		OneDrive: string;
 		OneDriveCommercial: string;
 		OneDriveConsumer: string;
+		OneDrive: string;
+		OneDriveConsumer: string;
+		ORIGINAL_XDG_CURRENT_DESKTOP: string;
 		OS: string;
 		Path: string;
 		PATHEXT: string;
@@ -209,6 +251,8 @@ declare module '$env/dynamic/private' {
 		TEMP: string;
 		TERMINAL_EMULATOR: string;
 		TERM_SESSION_ID: string;
+		TERM_PROGRAM: string;
+		TERM_PROGRAM_VERSION: string;
 		TMP: string;
 		USERDOMAIN: string;
 		USERDOMAIN_ROAMINGPROFILE: string;
@@ -217,6 +261,14 @@ declare module '$env/dynamic/private' {
 		VBOX_MSI_INSTALL_PATH: string;
 		windir: string;
 		__INTELLIJ_COMMAND_HISTFILE__: string;
+		VBOX_HWVIRTEX_IGNORE_SVM_IN_USE: string;
+		VBOX_MSI_INSTALL_PATH: string;
+		VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
+		VSCODE_GIT_ASKPASS_MAIN: string;
+		VSCODE_GIT_ASKPASS_NODE: string;
+		VSCODE_GIT_IPC_HANDLE: string;
+		VSCODE_INJECTION: string;
+		windir: string;
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: string]: string | undefined;
 	}

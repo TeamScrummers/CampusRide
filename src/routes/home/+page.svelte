@@ -13,6 +13,8 @@
 	import { writable } from 'svelte/store'
   import { destinationCoords, latestArrival, userCoords, appMode} from '../firebase/Store.js';
   import Geocoder from '../map/geocoder.svelte';
+  import Navbar from "../navbar/navbar.svelte"
+  import { linkUtil } from "../utils/linkUtils"
 
   
 	function driverMode() {
@@ -28,20 +30,20 @@
 	}
 </script>
 
+<Navbar data={ linkUtil } />
+
 <section>
   <div class = "map-overlay">
     <div class="location-overlay">
       <h4 style="color:#000000;text-align:center">Driving or Riding?</h4>
     </div>
     <!-- Make the map auto locate the user for effect -->
-    <div class = "button-container">
+   <!--<div class = "button-container">
       <button type="button" class="mode-button" on:click={() => passengerMode()}>Passenger Mode</button>
       <button type="button" class="mode-button" on:click={() => driverMode()}>Driver Mode</button>
-    </div>
+    </div> --> 
   </div>
 </section>
-
-<Map></Map>
 
 <style>
   .map-overlay{
