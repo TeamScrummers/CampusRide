@@ -9,25 +9,15 @@ export const linkUtil = {
     copyrightNotice: `ConsultingNinja  © 2022`,
     altText: 'Logo',
     links:[
-        {url:'#/',
+        {url:'/driver',
         displayInNav: true,
         displayInFooter: true,
-        linkText: 'Home'
+        linkText: 'Driver'
     },
-    {url:'#/about',
+    {url:'/passenger',
     displayInNav: true,
     displayInFooter: true,
-    linkText: 'About'
-    },
-    {url:'#/contact',
-    displayInNav: true,
-    displayInFooter: true,
-    linkText: 'Contact'
-    },
-    {url:'#/help',
-    displayInNav: true,
-    displayInFooter: true,
-    linkText: 'Help'
+    linkText: 'Passenger'
     },
     {url:'#/notfound',
     displayInNav: false,
