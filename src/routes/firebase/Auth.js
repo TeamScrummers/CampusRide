@@ -16,7 +16,7 @@ export function handleOnRegister(email, password){
                 password: password
             })
                 .then(() => {
-                    alert('user created successfully');
+                    alert('User Registered Successfully');
                 })
                 .catch((error) => {
                     alert(error);
@@ -43,7 +43,7 @@ export function handleOnLogin(email, password){
                 last_login: lgDate,
             })
                 .then(() => {
-                    alert('user logged in successfully')
+                    //alert('user logged in successfully')
                     console.log(getUserID())
                     goto('/home')
                 })

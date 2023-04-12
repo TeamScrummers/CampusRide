@@ -42,7 +42,6 @@
     // Write endLocation
     var localUser = new User()
     localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
-    updateFromDatabase(`users/${userID}`, {vehicleType: vehicleType})
     // Writes user to matchmaking pool
     //updateMatchMaking(localUser)
     locateUser()
