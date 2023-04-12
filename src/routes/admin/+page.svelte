@@ -3,9 +3,15 @@
 
 <script>
     import { goto } from '$app/navigation'
-    //crDatabse
-    import { createANodeInDatabase, pushAnObjectToDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/Database"
+    import { listenToANodeOnDatbase, createANodeInDatabase, pushAnObjectToDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/Database"
+    import { createANewTrip, updateTrip } from "../firebase/Trip.js"
+    import {provideDriverList, provideDriverLocation} from "../firebase/Drivers.js"
+    import { storedID, storedLocation } from '../firebase/Store.js'
+    import {sendTheUserAPushNotifcation} from '../firebase/PushNotifications.js'
+    import {User} from '../firebase/User.js'
     
+    listenToANodeOnDatbase("users/Xs2gMrAJtvTP8u1Ffvfv8nVyzAw1")
+
     function writeEntry() {
         createANodeInDatabase("users/userId", { username: "name", email: "email"})
     }
@@ -13,16 +19,12 @@
             var result = await readFromDatabaseOnValue("users/userId")
             console.log(JSON.stringify(result))
             return JSON.stringify(result)
-
- 
     }
     async function searchFromDb(){
         var result = Object.keys( await searchFromDatabase("users", "email", "kcantu7@leomail.tamuc.edu"));
         console.log(result[0]);
     }
 
-    //crTrip
-    import{ createANewTrip, updateTrip } from "../firebase/Trip.js"
 
     async function requestTrip(){
         var passengerId = Object.keys(await searchFromDatabase("users", "email", "email@email.com"))
@@ -33,15 +35,9 @@
         updateTrip("001", driverId[0])
     }
 
-    //crDrivers.js
-    import {provideDriverList, provideDriverLocation} from "../firebase/Drivers.js"
-
     function requestDriverList(){
         return provideDriverList();
     }
-    //crStore.js
-    import { get } from 'svelte/store'
-    import { storedID, storedLocation } from '../firebase/Store.js'
 
     async function acceptDriver (id){
         let address = await provideDriverLocation(id)
@@ -49,17 +45,13 @@
         storedLocation.set(address)
         goto('/trippickup')
     }
-
-    //notifications
-    import {sendTheUserAPushNotifcation} from '../firebase/PushNotifications.js'
-
-    //Push A User object
-    import {User} from '../firebase/User.js'
     const userProflie = new User("Test User", "John", "Doe", "555-1324", "321 South St", "456 Maple Ave", "sedan", true, "thirtyMinutesFromNow")
     function pushUserProfile(){
         pushAnObjectToDatabase("users", userProflie);
         console.log("Push successful")
     }
+
+    
 
 </script>
 
