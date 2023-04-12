@@ -26,12 +26,10 @@
  * ```
  */
 declare module '$env/static/private' {
-	export const ACSvcPort: string;
 	export const ALLUSERSPROFILE: string;
 	export const APPDATA: string;
 	export const ChocolateyInstall: string;
 	export const ChocolateyLastPathUpdate: string;
-	export const COLOR: string;
 	export const CHROME_CRASHPAD_PIPE_NAME: string;
 	export const COLOR: string;
 	export const COLORTERM: string;
@@ -43,15 +41,6 @@ declare module '$env/static/private' {
 	export const EDITOR: string;
 	export const FPS_BROWSER_APP_PROFILE_STRING: string;
 	export const FPS_BROWSER_USER_PROFILE_STRING: string;
-	export const FP_NO_HOST_CHECK: string;
-	export const GNUPLOT_LIB: string;
-	export const HOME: string;
-	export const HOMEDRIVE: string;
-	export const HOMEPATH: string;
-	export const IDEA_INITIAL_DIRECTORY: string;
-	export const INIT_CWD: string;
-	export const LOCALAPPDATA: string;
-	export const LOGONSERVER: string;
 	export const GIT_ASKPASS: string;
 	export const HOME: string;
 	export const HOMEDRIVE: string;
@@ -88,10 +77,6 @@ declare module '$env/static/private' {
 	export const npm_package_version: string;
 	export const NPM_PREFIX_NPM_CLI_JS: string;
 	export const NUMBER_OF_PROCESSORS: string;
-	export const OculusBase: string;
-	export const OneDrive: string;
-	export const OneDriveCommercial: string;
-	export const OneDriveConsumer: string;
 	export const OneDrive: string;
 	export const OneDriveConsumer: string;
 	export const ORIGINAL_XDG_CURRENT_DESKTOP: string;
@@ -108,13 +93,10 @@ declare module '$env/static/private' {
 	export const PROMPT: string;
 	export const PSModulePath: string;
 	export const PUBLIC: string;
-	export const RlsSvcPort: string;
 	export const SESSIONNAME: string;
 	export const SystemDrive: string;
 	export const SystemRoot: string;
 	export const TEMP: string;
-	export const TERMINAL_EMULATOR: string;
-	export const TERM_SESSION_ID: string;
 	export const TERM_PROGRAM: string;
 	export const TERM_PROGRAM_VERSION: string;
 	export const TMP: string;
@@ -122,9 +104,6 @@ declare module '$env/static/private' {
 	export const USERDOMAIN_ROAMINGPROFILE: string;
 	export const USERNAME: string;
 	export const USERPROFILE: string;
-	export const VBOX_MSI_INSTALL_PATH: string;
-	export const windir: string;
-	export const __INTELLIJ_COMMAND_HISTFILE__: string;
 	export const VBOX_HWVIRTEX_IGNORE_SVM_IN_USE: string;
 	export const VBOX_MSI_INSTALL_PATH: string;
 	export const VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
@@ -162,12 +141,10 @@ declare module '$env/static/public' {
  */
 declare module '$env/dynamic/private' {
 	export const env: {
-		ACSvcPort: string;
 		ALLUSERSPROFILE: string;
 		APPDATA: string;
 		ChocolateyInstall: string;
 		ChocolateyLastPathUpdate: string;
-		COLOR: string;
 		CHROME_CRASHPAD_PIPE_NAME: string;
 		COLOR: string;
 		COLORTERM: string;
@@ -179,15 +156,6 @@ declare module '$env/dynamic/private' {
 		EDITOR: string;
 		FPS_BROWSER_APP_PROFILE_STRING: string;
 		FPS_BROWSER_USER_PROFILE_STRING: string;
-		FP_NO_HOST_CHECK: string;
-		GNUPLOT_LIB: string;
-		HOME: string;
-		HOMEDRIVE: string;
-		HOMEPATH: string;
-		IDEA_INITIAL_DIRECTORY: string;
-		INIT_CWD: string;
-		LOCALAPPDATA: string;
-		LOGONSERVER: string;
 		GIT_ASKPASS: string;
 		HOME: string;
 		HOMEDRIVE: string;
@@ -224,10 +192,6 @@ declare module '$env/dynamic/private' {
 		npm_package_version: string;
 		NPM_PREFIX_NPM_CLI_JS: string;
 		NUMBER_OF_PROCESSORS: string;
-		OculusBase: string;
-		OneDrive: string;
-		OneDriveCommercial: string;
-		OneDriveConsumer: string;
 		OneDrive: string;
 		OneDriveConsumer: string;
 		ORIGINAL_XDG_CURRENT_DESKTOP: string;
@@ -244,13 +208,10 @@ declare module '$env/dynamic/private' {
 		PROMPT: string;
 		PSModulePath: string;
 		PUBLIC: string;
-		RlsSvcPort: string;
 		SESSIONNAME: string;
 		SystemDrive: string;
 		SystemRoot: string;
 		TEMP: string;
-		TERMINAL_EMULATOR: string;
-		TERM_SESSION_ID: string;
 		TERM_PROGRAM: string;
 		TERM_PROGRAM_VERSION: string;
 		TMP: string;
@@ -258,9 +219,6 @@ declare module '$env/dynamic/private' {
 		USERDOMAIN_ROAMINGPROFILE: string;
 		USERNAME: string;
 		USERPROFILE: string;
-		VBOX_MSI_INSTALL_PATH: string;
-		windir: string;
-		__INTELLIJ_COMMAND_HISTFILE__: string;
 		VBOX_HWVIRTEX_IGNORE_SVM_IN_USE: string;
 		VBOX_MSI_INSTALL_PATH: string;
 		VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
