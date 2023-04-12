@@ -3,7 +3,9 @@
   import { searchFromDatabase, readFromDatabaseOnValue } from "../firebase/Database";
   import { User } from "../matching/User";
   import { Trip } from "../firebase/Trip"
-    import { goto } from "$app/navigation";
+  import { goto } from "$app/navigation";
+  import { passengerLocation, driverLocation, destinationCoords } from "../firebase/Store";
+  import { get, writable } from "svelte/store";
 
   export let mode = "passenger"
   export let passengers = []
@@ -17,7 +19,7 @@
     const passengersObj = await searchFromDatabase("users", "mode", "passenger");
     const passengersArray = Object.keys(passengersObj).map(key => passengersObj[key])
     passengers = passengersArray
-    console.log(passengers);
+    //console.log(passengers);
     var localUser = new User()
     localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
   }
@@ -25,7 +27,35 @@
     var localUser = new User()
     localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
 
-    Trip.makeTrip(localUser, User.fromJSON(passenger))
+    // Makes a trip entry in DB
+    const tripObj = await Trip.makeTrip(localUser, User.fromJSON(passenger))
+    //console.log("TripId from tripObj: " + await tripObj.tripId)
+
+    // svelte store stop gap
+    //passengerLocation.set(tripObj.passenger.startLocation) // passenger starting pos
+    //driverLocation.set(tripObj.driver.startLocation) // driver starting pos
+    //destinationCoords.set(tripObj.endLocation) // end of trip
+    //console.log("Passenger Location" + get(passengerLocation))
+    //console.log("Destination Location" + get(destinationCoords))
+    //console.log("Driver Coord" + get(driverLocation))
+
+    goto("/trippickup")
+  }
+
+  async function acceptDriver (driver) {
+    
+
+    const tripObj =  Trip.makeTrip(User.fromJSON(driver), localUser)
+    //console.log("TripId from tripObj: " + await tripObj.tripId)
+
+    // svelte store stop gap
+    //passengerLocation.set(tripObj.passenger.startLocation) // passenger starting pos
+    //driverLocation.set(tripObj.driver.startLocation) // driver starting pos
+    //destinationCoords.set(tripObj.endLocation) // end of trip
+    //console.log("Passenger Location" + get(passengerLocation))
+    //console.log("Destination Location" + get(destinationCoords))
+    //console.log("Driver Coord" + get(driverLocation))
+
     goto("/trippickup")
   }
 </script>
@@ -42,8 +72,9 @@
     <p>Latest Arrival Time: {new Date(passenger.latestArrival).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
     <button on:click={acceptPassenger(passenger)}>Accept</button>
   </div>
-  
   {/each}
 {:else}
-  <p>Searching for Matches...</p>
+  <p>Driver Match Found!</p>
+  <!-- <button on:click={acceptDriver(localUser)}>Accept</button> -->
+  <button on:click={goto("/trippickup")}>Accept Driver</button>
 {/if}

@@ -77,12 +77,16 @@ export function updateFromDatabase(path, data){
 
 /**
  * @brief Pushes an object to the database
- * @param {path} path - Firebase path to be pushed to
+ * @param {string} path - Firebase path to be pushed to
  * @param {object} object - Object to be pushed
-*/
+ * @returns {Promise<string>} Promise that resolves to the generated key
+ */
 export function pushAnObjectToDatabase(path, object){
-    push(ref(database, path), object)
-}
+    const newObjectRef = push(ref(database, path), object);
+    return get(newObjectRef).then((snapshot) => {
+      return snapshot.key;
+    });
+  }
 
 /**
  * @brief Deletes data from real time database
@@ -166,11 +170,11 @@ export async function readTripFromDatabase(TripId) {
     // If Trip exists in the database, parse the JSON into a Trip object
     if (tripJson) {
       const trip = Trip.fromJSON(tripJson);
-      console.log(`Trip with TripId ${TripId} has been read from the database`);
+      //console.log(`Trip with TripId ${TripId} has been read from the database`);
       return trip;
     }
     // If trip does not exist in the database, return null
-    console.log(`Trip with TripId ${TripId} was not found in the database`);
+    //console.log(`Trip with TripId ${TripId} was not found in the database`);
     return null;
   }
 
@@ -180,10 +184,13 @@ export async function readTripFromDatabase(TripId) {
 * @returns - New realtime database tripId of the new trip entry
 */
 export async function writeTripToDatabase(trip) {
- const path = 'trips';
- const tripJson = trip.toJSON();
- const { key: tripId } = await pushAnObjectToDatabase(path, tripJson);
- console.log(`Trip with TripId ${tripId} has been written to the database`);
- return tripId;
+    const path = 'trips';
+    const tripJson = trip.toJSON();
+    //console.log('tripJson:', tripJson);
+    const result = await pushAnObjectToDatabase(path, tripJson);
+    //console.log('push result:', result);
+    const tripId = result;
+    //console.log(`Trip with TripId ${tripId} has been written to the database`);
+    return tripId;
 }
 
