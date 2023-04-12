@@ -154,3 +154,36 @@ export async function writeUserToDatabase(userId, user) {
 
   console.log(`User with userId ${userId} has been written to the database`);
 }
+
+/**
+ * Reads a Trip object from the db
+ * @param {string} TripId - The unique identifier for the Trip object
+ * @returns {object|null} - The Trip object, or null if the Trip was not found
+ */
+export async function readTripFromDatabase(TripId) {
+    const path = `trips/${TripId}`;
+    const tripJson = await readFromDatabaseOnValue(path);
+    // If Trip exists in the database, parse the JSON into a Trip object
+    if (tripJson) {
+      const trip = Trip.fromJSON(tripJson);
+      console.log(`Trip with TripId ${TripId} has been read from the database`);
+      return trip;
+    }
+    // If trip does not exist in the database, return null
+    console.log(`Trip with TripId ${TripId} was not found in the database`);
+    return null;
+  }
+
+/**
+* @brief Writes a trip object to the db
+* @param {object} trip - The Trip object to be written to the database
+* @returns - New realtime database tripId of the new trip entry
+*/
+export async function writeTripToDatabase(trip) {
+ const path = 'trips';
+ const tripJson = trip.toJSON();
+ const { key: tripId } = await pushAnObjectToDatabase(path, tripJson);
+ console.log(`Trip with TripId ${tripId} has been written to the database`);
+ return tripId;
+}
+

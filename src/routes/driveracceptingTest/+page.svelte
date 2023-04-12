@@ -1,8 +1,8 @@
 <script>
   import { getUserID } from "../firebase/Auth";
   import { searchFromDatabase, readFromDatabaseOnValue } from "../firebase/Database";
-  import { matchMake } from "../matching/MatchMaking";
   import { User } from "../matching/User";
+  import { Trip } from "../firebase/Trip"
 
   export let mode = "passenger"
   export let passengers = []
@@ -20,15 +20,12 @@
     console.log(passengers);
     var localUser = new User()
     localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
-
-    match = [localUser,]
   }
   async function acceptPassenger (passenger) {
     var localUser = new User()
     localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
 
-    match = [localUser,passenger]
-    //makeTrip(match)
+    Trip.makeTrip(localUser, User.fromJSON(passenger))
   }
 </script>
 
