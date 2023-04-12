@@ -39,8 +39,8 @@
     updateFromDatabase(`users/${userID}`, {mode: "passenger"})
     // Write endLocation
     var localUser = new User()
-    localUser = localUser.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
-
+    localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
+    updateFromDatabase(`users/${userID}`, {vehicleType: vehicleType})
     // Writes user to matchmaking pool
     //updateMatchMaking(localUser)
     locateUser()
