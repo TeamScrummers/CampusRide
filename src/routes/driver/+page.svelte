@@ -83,8 +83,6 @@
   </div>
 </section>
 
-<Map></Map>
-
 <style>
   .map-overlay{
     color:#000000;

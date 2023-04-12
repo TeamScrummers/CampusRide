@@ -1,8 +1,10 @@
 <!-- default page -->
 <!-- Preloading Mapbox Scripts -->
 <script>
+  import { goto } from "$app/navigation";
   import Navbar from "./navbar/navbar.svelte"
   import { linkUtil } from "./utils/linkUtils.js"
+  goto('/home')
 </script>
 
 <svelte:head>
