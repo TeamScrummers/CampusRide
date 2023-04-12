@@ -1,24 +1,15 @@
-import {pushAnObjectToDatabase, updateFromDatabase} from "./Database"
-
-export function createANewTrip(tripObject){
-    pushAnObjectToDatabase("trips/", tripObject)
-}
-
-export function updateTrip(tripId, data){
-    updateFromDatabase("trips/"+ tripId, {
-        driverId: data
-    });
-}
+import { User } from "../matching/User";
+import { writeTripToDatabase } from "./Database";
 
 export class Trip {
-    constructor(tripId, driver, passengers, startLocation, endLocation, fare, date) {
+    constructor(tripId, driver, passenger, startLocation, endLocation, fare, date) {
       this.tripId = tripId;
       this.driver = driver;
-      this.passengers = passengers;
+      this.passenger = passenger;
       this.startLocation = startLocation;
       this.endLocation = endLocation;
       this.fare = fare;
-      this.date = date;
+      this.date = date ? new Date(date) : null;
     }
 
     /**
@@ -26,34 +17,59 @@ export class Trip {
      * @param {object} driver - User object that represents the driver
      * @param {object} passenger - User object that represents the passenger
     */
-    makeTrip(driver, passenger) {
-      // Code
+    static makeTrip(driver, passenger) {
+        console.log(driver)
+        const tripObj = new Trip(null, driver, passenger, passenger.startLocation, driver.endLocation, 10.50, driver.latestArrival)
+        writeTripToDatabase(tripObj)
     }
-    // Convert Trip object to JSON data
+
+    // passenger requests a ride
+    // this makes a trip
+    // when a driver accepts the ride to add driver to the trip
+    // we flip passengers available status and event listners do the work?
+    // 
+    // vs
+    // passenger goes to array
+    // driver goes to array
+    // display relevent passengers in array to driver
+    // driver accepts passenger
+    // pair is pushed to makeTrip() to make a trip obj
+    // push this to DB?
+    // issue: How can we tell passenger when they are picked?
+    // answer: flip 'available' data field and track its changes.
+
+  /**
+   * @brief Takes a trip object and converts it to JSON, JS date objs get converted to ISO format
+   * @returns - A serialized JSON of the trip object
+  */
     toJSON() {
       return {
         tripId: this.tripId,
         driver: this.driver.toJSON(), // calling User.js toJSON()
-        passengers: this.passengers.map((passenger) => passenger.toJSON()), // calling User.js toJSON()
+        passenger: this.passenger.toJSON(), // calling User.js toJSON()
         startLocation: this.startLocation,
         endLocation: this.endLocation,
         fare: this.fare,
-        date: this.date,
+        date: this.date ? this.date.toISOString() : null,
       };
     }
   
-    // Create Trip object from JSON data
+  /**
+   * @brief Takes JSON and converts it to trip object, ISO format gets converted to js date objects
+   * @param {object} data - A JSON with relevant data
+   * @returns - An object of Trip class
+  */
     static fromJSON(data) {
-      const driver = User.fromJSON(data.driver); // calling User.js toJSON()
-      const passengers = data.passengers.map((passenger) => User.fromJSON(passenger)); // calling User.js fromJSON()
+      const driver = User.fromJSON(data.driver); // calling User.js fromJSON()
+      const passenger = User.fromJSON(data.passenger) // calling User.js fromJSON()
       const trip = new Trip(
         data.tripId,
         driver,
-        passengers,
+        passenger,
         data.startLocation,
         data.endLocation,
         data.fare,
-        data.date
+        data.date ? new Date(data.date) : null,
       );
       return trip;
     }
