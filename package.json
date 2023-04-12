@@ -39,6 +39,7 @@
     "firebase": "^9.18.0",
     "firebase-admin": "^11.5.0",
     "jQuery": "^1.7.4",
+    "stripe": "^12.0.0",
     "svelte-spa-router": "^3.3.0"
   }
 }
