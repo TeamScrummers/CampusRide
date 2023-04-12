@@ -57,7 +57,7 @@
     import {sendDriverArrivedNotifcation} from '../firebase/PushNotifications.js'
 
     //Push A User object
-    import {User} from '../firebase/User.js'
+    import { User } from '../matching/User'
     const userProflie = new User("Test User", "John", "Doe", "555-1324", "321 South St", "456 Maple Ave", "sedan", true, "thirtyMinutesFromNow")
     function pushUserProfile(){
         pushAnObjectToDatabase("users", userProflie);

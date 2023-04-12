@@ -1,58 +1,80 @@
 <script>
-    import { getUserID } from "../firebase/Auth";
-    import { searchFromDatabase, readFromDatabaseOnValue } from "../firebase/Database";
-    import { matchMake } from "../matching/MatchMaking";
-    import { User } from "../matching/User";
-  
-    export let mode = "passenger"
-    export let passengers = []
-    export let match = []
-    const userID = getUserID()
-  
-    async function passengerMode() {
-      mode = 'passenger'
-    }
-    async function driverMode() {
-      mode = 'driver';
-      const passengersObj = await searchFromDatabase("users", "mode", "passenger");
-      const passengersArray = Object.keys(passengersObj).map(key => passengersObj[key])
-      passengers = passengersArray
-      console.log(passengers);
-      var localUser = new User()
-      localUser = User.fromJSON(await readFromDatabaseOnValue('users/${userID}/'))
-  
-      match = [localUser,]
-    }
-    async function acceptPassenger (passenger) {
-      var localUser = new User()
-      localUser = User.fromJSON(await readFromDatabaseOnValue('users/${userID}/'))
-  
-      match = [localUser,passenger]
-      //makeTrip(match)
-    }
-  </script>
-  
-  <b>Test Page for Driver Accepting Passenger & Passengers In Queue</b>
-  <button on:click={passengerMode}>Passenger Mode</button>
-  <button on:click={driverMode}>Set mode to driver and log passengers</button>
-  
-  {#if mode === 'driver'}
-    {#each passengers as passenger}
-      <p>{passenger.firstName} {passenger.lastName} <button on:click={acceptPassenger(passenger)}>Accept</button> </p>
-    {/each}
-  {:else}
-    <p>Mode is not driver</p>
-  {/if}
+  import { getUserID } from "../firebase/Auth";
+  import { searchFromDatabase, readFromDatabaseOnValue } from "../firebase/Database";
+  import { User } from "../matching/User";
+  import { Trip } from "../firebase/Trip"
+  import { goto } from "$app/navigation";
+  import { passengerLocation, driverLocation, destinationCoords } from "../firebase/Store";
+  import { get, writable } from "svelte/store";
 
+  export let mode = "passenger"
+  export let passengers = []
+  const userID = getUserID()
 
-  <style>
-    .button{
-        height: fit-content
-    }
-    .p{
-        text-align: center;
-    }
+  async function passengerMode() {
+    mode = 'passenger'
+  }
+  async function driverMode() {
+    mode = 'driver';
+    const passengersObj = await searchFromDatabase("users", "mode", "passenger");
+    const passengersArray = Object.keys(passengersObj).map(key => passengersObj[key])
+    passengers = passengersArray
+    //console.log(passengers);
+    var localUser = new User()
+    localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
+  }
+  async function acceptPassenger (passenger) {
+    var localUser = new User()
+    localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
 
+    // Makes a trip entry in DB
+    const tripObj = await Trip.makeTrip(localUser, User.fromJSON(passenger))
+    //console.log("TripId from tripObj: " + await tripObj.tripId)
 
+    // svelte store stop gap
+    //passengerLocation.set(tripObj.passenger.startLocation) // passenger starting pos
+    //driverLocation.set(tripObj.driver.startLocation) // driver starting pos
+    //destinationCoords.set(tripObj.endLocation) // end of trip
+    //console.log("Passenger Location" + get(passengerLocation))
+    //console.log("Destination Location" + get(destinationCoords))
+    //console.log("Driver Coord" + get(driverLocation))
 
-  </style>
+    goto("/trippickup")
+  }
+
+  async function acceptDriver (driver) {
+    
+
+    const tripObj =  Trip.makeTrip(User.fromJSON(driver), localUser)
+    //console.log("TripId from tripObj: " + await tripObj.tripId)
+
+    // svelte store stop gap
+    //passengerLocation.set(tripObj.passenger.startLocation) // passenger starting pos
+    //driverLocation.set(tripObj.driver.startLocation) // driver starting pos
+    //destinationCoords.set(tripObj.endLocation) // end of trip
+    //console.log("Passenger Location" + get(passengerLocation))
+    //console.log("Destination Location" + get(destinationCoords))
+    //console.log("Driver Coord" + get(driverLocation))
+
+    goto("/trippickup")
+  }
+</script>
+
+<h3>Active Passengers</h3><br>
+<!-- <button on:click={passengerMode}>Passenger Mode</button> -->
+<button on:click={driverMode}>Request Passengers</button>
+<br>
+
+{#if mode === 'driver'}
+  {#each passengers as passenger}
+  <div style="border: 1px solid black; padding: 10px; margin: 5px; width: auto; display: inline-block">
+    <p>{passenger.firstName} {passenger.lastName}</p>
+    <p>Latest Arrival Time: {new Date(passenger.latestArrival).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+    <button on:click={acceptPassenger(passenger)}>Accept</button>
+  </div>
+  {/each}
+{:else}
+  <p>Driver Match Found!</p>
+  <!-- <button on:click={acceptDriver(localUser)}>Accept</button> -->
+  <button on:click={goto("/trippickup")}>Accept Driver</button>
+{/if}

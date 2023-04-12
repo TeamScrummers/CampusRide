@@ -16,11 +16,13 @@ export class Trip {
      * @brief Takes an array of two user objects to make a trip object out of.
      * @param {object} driver - User object that represents the driver
      * @param {object} passenger - User object that represents the passenger
+     * @returns - New Trip Obj based off of user pair & db data
     */
     static makeTrip(driver, passenger) {
-        console.log(driver)
-        const tripObj = new Trip(null, driver, passenger, passenger.startLocation, driver.endLocation, 10.50, driver.latestArrival)
-        writeTripToDatabase(tripObj)
+        //console.log(driver)
+        const tripObj = new Trip(null, driver, passenger, passenger.startLocation, driver.endLocation, 10, driver.latestArrival)
+        tripObj.tripId = writeTripToDatabase(tripObj)
+        return tripObj
     }
 
     // passenger requests a ride

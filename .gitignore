@@ -25,3 +25,4 @@ yarn-error.log*
 
 # svelte kit generated code
 .svelte-kit/
+.env
