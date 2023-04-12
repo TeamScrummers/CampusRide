@@ -1,6 +1,5 @@
 import {  } from '../matching/User.js'
 import { User } from '../matching/User.js';
-import { Trip } from '../matching/Trip.js';
 import { writable } from 'svelte/store'
 
 export const storedID = writable('Loading...')
