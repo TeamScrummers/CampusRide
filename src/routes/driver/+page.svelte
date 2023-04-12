@@ -54,7 +54,7 @@
   <div class = "map-overlay">
     <div class="location-overlay">
       <h4 style="color:#000000;text-align:center;font-weight: bold">Driver Mode</h4>
-      <h4 style="color:#000000;text-align:center">Where are you going?</h4>
+      <h4 style="color:#000000;text-align:center">Where are you going too ?</h4>
       <Geocoder></Geocoder>
     </div>
 
@@ -62,7 +62,7 @@
       
 
       <h4>When do you need to be there?</h4>
-      <form style="text-align:center; padding:10px">
+      <form style="center; padding:10px">
         <input type="time" bind:value={timeInput} on:input={handleTimeInput} />
       </form>
     </div>
@@ -83,10 +83,10 @@
   </div>
 </section>
 
-<Map></Map>
+<!-- <Map></Map> -->
 
 <style>
-  .map-overlay{
+  /* .map-overlay{
     color:#000000;
     text-align:center;
     background-color: lightgray;
@@ -97,7 +97,7 @@
     height: auto;
     width: fit-content;
     z-index: 1;
-    }
+    } */
 
   .location-overlay{
     position: relative;
@@ -105,6 +105,7 @@
 
   .time-overlay{
     position: relative;
+    text-align: center;
   }
     
   .mode-button {
@@ -131,6 +132,7 @@
   }
   .vehicle-type-overlay{
   position: relative;
+  text-align: center;
   }
 
 </style>
