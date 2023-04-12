@@ -1,10 +1,17 @@
 <!-- default page -->
 <!-- Preloading Mapbox Scripts -->
+<script>
+  import Navbar from "./navbar/navbar.svelte"
+  import { linkUtil } from "./utils/linkUtils.js"
+</script>
+
 <svelte:head>
   <script type="module" src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
   <script type="module" src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js"></script>
   <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'></script>
 </svelte:head>
+
+<Navbar data={ linkUtil } />
 
 <section class="content">
   <div class="container">
@@ -18,7 +25,7 @@
     <a href="/tripover">Trip Over | </a>
     <a href="/notifications">Notifications | </a>
     <a href="/matchmakingtest">MatchMakingTest | </a>
-
+    <a href="/navbar">Navbar | </a>
   </div>
 </section>
 
