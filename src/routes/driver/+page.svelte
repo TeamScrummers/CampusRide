@@ -16,6 +16,8 @@
   import { timeStringToDate } from '../passenger/timeStringToDate';
   import { updateMatchMaking } from '../matching/MatchMaking';
   import { User } from '../matching/User';
+  import {sendTheUserAPushNotifcation, sendDriverArrivedNotifcation, sendPassengerAvailableNotifcation, sendDriverAcceptedNotifcation} from "../firebase/PushNotifications"
+
 
   let timeInput = ''
   let vehicleType = ''
@@ -44,7 +46,7 @@
     // Writes user to matchmaking pool
     //updateMatchMaking(localUser)
 
-    goto('/trippickup')
+    goto('/accept')
   }
 
 // Get user's location when they load the page
@@ -56,7 +58,7 @@ locateUser()
   <div class = "map-overlay">
     <div class="location-overlay">
       <h4 style="color:#000000;text-align:center;font-weight: bold">Driver Mode</h4>
-      <h4 style="color:#000000;text-align:center">Where are you going?</h4>
+      <h4 style="color:#000000;text-align:center">Where are you going too ?</h4>
       <Geocoder></Geocoder>
     </div>
 
@@ -64,7 +66,7 @@ locateUser()
       
 
       <h4>When do you need to be there?</h4>
-      <form style="text-align:center; padding:10px">
+      <form style="center; padding:10px">
         <input type="time" bind:value={timeInput} on:input={handleTimeInput} />
       </form>
     </div>
@@ -75,7 +77,7 @@ locateUser()
         </form>
     </div>
     <div class = "button-container">
-      <button type="button" class="mode-button" on:click={() => submitDriver() }>Submit</button>
+      <button type="button" class="mode-button" on:click={sendPassengerAvailableNotifcation} on:click={() => submitDriver() }>Submit</button>
       <!-- <button type="button" class="mode-button" on:click={() => goto('/trippickup')}>
         Go to trip pickup
     </button> -->
@@ -85,10 +87,8 @@ locateUser()
   </div>
 </section>
 
-<Map></Map>
-
 <style>
-  .map-overlay{
+  /* .map-overlay{
     color:#000000;
     text-align:center;
     background-color: lightgray;
@@ -99,7 +99,7 @@ locateUser()
     height: auto;
     width: fit-content;
     z-index: 1;
-    }
+    } */
 
   .location-overlay{
     position: relative;
@@ -107,6 +107,7 @@ locateUser()
 
   .time-overlay{
     position: relative;
+    text-align: center;
   }
     
   .mode-button {
@@ -133,6 +134,7 @@ locateUser()
   }
   .vehicle-type-overlay{
   position: relative;
+  text-align: center;
   }
 
 </style>
