@@ -8,7 +8,15 @@ export class Trip {
       this.fare = fare;
       this.date = date;
     }
-  
+
+    /**
+     * @brief Takes an array of two user objects to make a trip object out of.
+     * @param {object} driver - User object that represents the driver
+     * @param {object} passenger - User object that represents the passenger
+    */
+    makeTrip(driver, passenger) {
+      // Code
+    }
     // Convert Trip object to JSON data
     toJSON() {
       return {

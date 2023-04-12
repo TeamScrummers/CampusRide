@@ -9,6 +9,7 @@
 <section class="content">
   <div class="container">
     <h1>Default Testing Page</h1>
+    
     <a href="/login">Landing Page (Login) | </a>
     <a href="/home">Home Page | </a>
     <a href="/auth">User Auth Page | </a>
@@ -18,6 +19,7 @@
     <a href="/tripover">Trip Over | </a>
     <a href="/notifications">Notifications | </a>
     <a href="/matchmakingtest">MatchMakingTest | </a>
+    <a href="/driveracceptingTest">Accepting Passengers Test| </a>
 
   </div>
 </section>
