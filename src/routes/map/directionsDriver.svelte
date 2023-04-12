@@ -7,7 +7,14 @@
   <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.css" type="text/css">
 
   <style>
-    body { margin: 0; padding: 0; }
+    html {
+      height: 100%;
+    }
+    body {
+      margin: 0;
+      padding: 0; 
+      height: 100%;
+    }
     #map { 
       position: absolute; 
       top: 0; 
@@ -25,7 +32,7 @@
       color:#000000;
       background-color: lightgray;
       position: relative;
-      height: auto;
+      height: 100%;
       width: fit-content;
     }
     .instructions {
@@ -35,7 +42,7 @@
       z-index: 1;
       border: 2px solid;
       background-color: white;
-      height:600px;
+      height:100%;
       width:400px;
       margin: 75px;
       position: absolute;

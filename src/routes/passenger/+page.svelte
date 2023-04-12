@@ -16,6 +16,8 @@
   import { timeStringToDate } from './timeStringToDate';
   import { updateMatchMaking } from '../matching/MatchMaking';
   import { User } from '../matching/User';
+  import {sendTheUserAPushNotifcation, sendDriverArrivedNotifcation, sendPassengerAvailableNotifcation, sendDriverAcceptedNotifcation} from "../firebase/PushNotifications"
+
 
   let timeInput = '';
   function handleTimeInput(event) {
@@ -70,7 +72,7 @@
       </form>
     </div>
     <div class = "button-container">
-      <button type="button" class="mode-button" on:click={() => submitPassenger() }>Submit</button>
+      <button type="button" class="mode-button" on:click={sendDriverAcceptedNotifcation} on:click={() => submitPassenger() }>Submit</button>
       <!-- <button type="button" class="mode-button" on:click={() => goto('/trippickup')}>
         Go to trip pickup
     </button> -->
@@ -78,10 +80,8 @@
   </div>
 </section>
 
-<Map></Map>
-
 <style>
-  .map-overlay{
+  /* .map-overlay{
     color:#000000;
     text-align:center;
     background-color: lightgray;
@@ -92,7 +92,7 @@
     height: auto;
     width: fit-content;
     z-index: 1;
-    }
+    } */
 
   .location-overlay{
     position: relative;
@@ -100,6 +100,7 @@
 
   .time-overlay{
     position: relative;
+    text-align: center;
   }
     
   .mode-button {
@@ -119,9 +120,11 @@
 
   .button-container {
     text-align: center;
+    text-align: center;
   }
 
   .mode-button:hover {
     opacity: 1;
+    text-align: center;
   }
 </style>
