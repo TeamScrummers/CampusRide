@@ -56,6 +56,7 @@
     coords = e.result.center;
     destinationCoords.set(coords)
     const userID = getUserID();
+    // DB Update
     updateFromDatabase(`users/${userID}`, {endLocation: coords[0]+','+coords[1]});
     });
     // Clear results container when search is cleared.
