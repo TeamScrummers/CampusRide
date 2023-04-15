@@ -16,26 +16,30 @@ export const nodes = [
 	() => import('./nodes/12'),
 	() => import('./nodes/13'),
 	() => import('./nodes/14'),
-	() => import('./nodes/15')
+	() => import('./nodes/15'),
+	() => import('./nodes/16'),
+	() => import('./nodes/17')
 ];
 
 export const server_loads = [];
 
 export const dictionary = {
 		"/": [2],
-		"/admin": [3],
-		"/auth": [4],
-		"/driver": [5],
-		"/home": [6],
-		"/login": [7],
-		"/map": [8],
-		"/matching": [9],
-		"/matchmakingtest": [10],
-		"/notifications": [11],
-		"/passenger": [12],
-		"/tripenroute": [13],
-		"/tripover": [14],
-		"/trippickup": [15]
+		"/accept2": [4],
+		"/accept": [3],
+		"/admin": [5],
+		"/auth": [6],
+		"/driver": [7],
+		"/home": [8],
+		"/login": [9],
+		"/map": [10],
+		"/matching": [11],
+		"/matchmakingtest": [12],
+		"/notifications": [13],
+		"/passenger": [14],
+		"/tripenroute": [15],
+		"/tripover": [16],
+		"/trippickup": [17]
 	};
 
 export const hooks = {
