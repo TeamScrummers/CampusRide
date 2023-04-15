@@ -27,6 +27,7 @@
     <a href="/notifications">Notifications | </a>
     <a href="/matchmakingtest">MatchMakingTest | </a>
     <a href="/navbar">Navbar | </a>
+    <a href="/accept2">DAPP | </a>
   </div>
 </section>
 
