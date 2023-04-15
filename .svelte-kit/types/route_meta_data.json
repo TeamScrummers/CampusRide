@@ -3,6 +3,9 @@
 		"src/routes/+layout.js",
 		"src/routes/+layout.js"
 	],
+	"/accept2": [
+		"src/routes/+layout.js"
+	],
 	"/accept": [
 		"src/routes/+layout.js"
 	],
