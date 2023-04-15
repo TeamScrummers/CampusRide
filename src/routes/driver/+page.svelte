@@ -16,6 +16,8 @@
   import { timeStringToDate } from '../passenger/timeStringToDate';
   import { updateMatchMaking } from '../matching/MatchMaking';
   import { User } from '../matching/User';
+  import {sendTheUserAPushNotifcation, sendDriverArrivedNotifcation, sendPassengerAvailableNotifcation, sendDriverAcceptedNotifcation} from "../firebase/PushNotifications"
+
 
   let timeInput = ''
   let vehicleType = ''
@@ -73,7 +75,7 @@
         </form>
     </div>
     <div class = "button-container">
-      <button type="button" class="mode-button" on:click={() => submitDriver() }>Submit</button>
+      <button type="button" class="mode-button" on:click={sendPassengerAvailableNotifcation} on:click={() => submitDriver() }>Submit</button>
       <!-- <button type="button" class="mode-button" on:click={() => goto('/trippickup')}>
         Go to trip pickup
     </button> -->
