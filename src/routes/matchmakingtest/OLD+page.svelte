@@ -3,11 +3,30 @@
   import { matchMake, removeFromMatchMaking, updateMatchMaking,  } from '../matching/MatchMaking.js';
   import { User } from '../matching/User.js';
   import { get, writable } from "svelte/store";
-  import { matchMakingPool, waitingPool, storedPair } from "../firebase/Store.js";
+  import { matchMakingPool, waitingPool } from "../firebase/Store.js";
 
-  var result;
+  // Fancy button code
+  import { getUserID } from '../firebase/Auth.js';
+  export let text = "Match Make";
   export let onClickMatch = () => {
-    storedPair.set(matchMake(matchMakingPool))
+    // for (const user of users) {
+    //   updateMatchMaking(user)
+    // }
+    // Subscribe to the matchMakingPool and waitingPool stores and log their values when they are updated
+    matchMakingPool.subscribe(value => {
+      console.log("matchMakingPool:")
+      console.log(value)
+    })
+    waitingPool.subscribe(value => {
+      console.log("waitingPool:")
+      console.log(value)
+    })
+
+    console.log("MatchMake:")
+    var result = matchMake(matchMakingPool)
+    console.log(result)
+    console.log("End MatchMaking Tests")
+
   };
 
   export let onClickUpdate = () => {
@@ -16,20 +35,9 @@
     }
   };
 
-  export let onClickDelete1 = () => {
+  export let onClickDelete = () => {
     removeFromMatchMaking(user1)
   };
-  export let onClickDelete2 = () => {
-    removeFromMatchMaking(user2)
-  };
-  export let onClickDelete3 = () => {
-    removeFromMatchMaking(user3)
-  };
-  export let onClickDelete4 = () => {
-    removeFromMatchMaking(user4)
-  };
-
-
 
 
   
@@ -55,20 +63,10 @@
 <h1>MatchMaking Test Page</h1>
 <div>
   <button onclick="window.history.back()">Go Back</button>
+  <button on:click={onClickMatch}>{text}</button>
   <button on:click={onClickUpdate}>{"Update Match Making Pool"}</button>
-  <button on:click={onClickMatch}>{"Make A Match"}</button>
-  <div>
-    <button on:click={onClickDelete1}>{"Remove John"}</button>
-    <button on:click={onClickDelete2}>{"Remove Jane"}</button>
-    <button on:click={onClickDelete3}>{"Remove Bob"}</button>
-    <button on:click={onClickDelete4}>{"Remove Gos"}</button>
-  </div>
+  <button on:click={onClickDelete}>{"Remove From Match Making Pool"}</button>
 </div>
 <div>
-  <h2>Match Making Pool:</h2>
-  <div>{JSON.stringify($matchMakingPool)}</div>
-  <h2>Waiting Pool:</h2>
-  <div>{JSON.stringify($waitingPool)}</div>
-  <h2>Matched Pair:</h2>
-  <div>{JSON.stringify($storedPair)}</div>
+  asd
 </div>

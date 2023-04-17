@@ -35,22 +35,20 @@
     // Updating DB
     const userID = getUserID()
     // locateUser() updates startLocation
+    locateUser()
     updateFromDatabase(`users/${userID}`, {available: true})
     // <Geocoder></Geocoder> updates endLocation
     updateFromDatabase(`users/${userID}`, {latestArrival: timeOutput.toISOString()})
     updateFromDatabase(`users/${userID}`, {mode: "driver"})
     // Write endLocation
     var localUser = new User()
-    localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
-    updateFromDatabase(`users/${userID}`, {vehicleType: vehicleType})
+    localUser = localUser.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
+
     // Writes user to matchmaking pool
     //updateMatchMaking(localUser)
 
     goto('/accept')
   }
-
-// Get user's location when they load the page
-locateUser()
 
 </script>
 
