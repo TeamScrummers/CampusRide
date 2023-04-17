@@ -3,6 +3,9 @@
 		"src/routes/+layout.js",
 		"src/routes/+layout.js"
 	],
+	"/accept": [
+		"src/routes/+layout.js"
+	],
 	"/admin": [
 		"src/routes/+layout.js"
 	],
@@ -37,6 +40,15 @@
 		"src/routes/+layout.js"
 	],
 	"/passenger": [
+		"src/routes/+layout.js"
+	],
+	"/payment": [
+		"src/routes/+layout.js"
+	],
+	"/payment/cancel": [
+		"src/routes/+layout.js"
+	],
+	"/payment/success": [
 		"src/routes/+layout.js"
 	],
 	"/tripenroute": [
