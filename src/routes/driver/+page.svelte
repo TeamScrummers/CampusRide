@@ -59,7 +59,9 @@ locateUser()
     <div class="location-overlay">
       <h4 style="color:#000000;text-align:center;font-weight: bold">Driver Mode</h4>
       <h4 style="color:#000000;text-align:center">Where are you going to?</h4>
-      <Geocoder></Geocoder>
+      <div style="display: flex; justify-content: center; align-items: center;">
+        <Geocoder></Geocoder>
+      </div>
     </div>
 
     <div class = "time-overlay">

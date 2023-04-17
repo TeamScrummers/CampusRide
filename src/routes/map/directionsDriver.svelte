@@ -1,110 +1,31 @@
-<svelte:head>
-  <!-- Mapbox GL  -->
-  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" >
-  <script type="module" src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
-  <!-- Mapbox Directions -->
-  <script type="module" src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js"></script>
-  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.css" type="text/css">
-
-  <style>
-    html {
-      height: 100%;
-    }
-    body {
-      margin: 0;
-      padding: 0; 
-      height: 100%;
-    }
-    #map { 
-      position: absolute; 
-      top: 0; 
-      bottom: 0; 
-      width: 100%; 
-      margin-top: 0px;
-    }
-    .map-overlay {
-      position: absolute;
-      margin-top: 10px;
-      margin-left: 10px;
-      padding: 10px;
-      z-index: 1;
-      border: 2px solid;
-      color:#000000;
-      background-color: lightgray;
-      position: relative;
-      height: 100%;
-      width: fit-content;
-    }
-    .instructions {
-      position: absolute;
-      top: 0%;
-      left: 2%;
-      z-index: 1;
-      border: 2px solid;
-      background-color: white;
-      height:100%;
-      width:400px;
-      margin: 75px;
-      position: absolute;
-      font-family: sans-serif;
-          }
-  </style>
-</svelte:head>
-
 <script>
+  import { getContext } from 'svelte'
+  import { contextKey } from '$lib/components.js'
   import { onMount } from 'svelte';
   import { get } from 'svelte/store';
   import { destinationCoords, userCoords} from '../firebase/Store.js'
-  
-  // script loading 
-  function loadScript(url, callback) {
-        onMount(() => {
-        var head = document.head;
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = url;
+  // delete this later??
+  import { PUBLIC_MAPBOX_TOKEN } from '$env/static/public'
 
-        // Then bind the event to the callback function.
-        script.onreadystatechange = callback;
-        script.onload = callback;
+  const { getMap, getMapbox } = getContext(contextKey)
+  const map = getMap()
+  const mapbox = getMapbox()
 
-        // Fire the loading
-        head.appendChild(script);
-        })
-  }
+  // Start / End Points for Routing
+  // let start = [-96.3442924,30.5833155]
+  // let endCoord = [-96.469596,30.642855];
+  //let start = get(userCoords).split(',').map(Number);
+  //var end = get(destinationCoords).split(',').map(Number);
+  console.log("START:"+ start + " END:" + endCoord)
 
-  var geolocateCode = function() {
-    // Should hide api key w/ .env file for future
-    //mapboxgl.accessToken = process.env.PUBLIC_MAPBOX_TOKEN
-      mapboxgl.accessToken = '';
-      var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v12',
-        center: [-96.3344,30.6280 ], // cstat lat long
-        zoom: 11
-      });
-
-      // example call: https://api.mapbox.com/directions/v5/driving-traffic/{coordinates}
-
-      // Adds geolocation button top right of page
-      map.addControl(new mapboxgl.GeolocateControl({positionOptions: {enableHighAccuracy: true}, trackUserLocation: true, showUserHeading: true}))
-
-    // an arbitrary start will always be the same
-    // only the end or destination will change
-    let userString = get(userCoords).split(',')
-    var start = userString.map(Number);
-    //console.log(start)
-    //var start = [-96.3344,30.6280];
-    console.log("Starting COORDS: "+ start)
-    async function getRoute(end) {
-    // make a directions request using driving profile
-    // an arbitrary start will always be the same
-    // only the end or destination will change
+  async function getRoute(endCoord) {
     const query = await fetch(
-      `https://api.mapbox.com/directions/v5/mapbox/driving/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`,
+      `https://api.mapbox.com/directions/v5/mapbox/driving/${start[0]},${start[1]};${endCoord[0]},${endCoord[1]}?steps=true&geometries=geojson&access_token=${PUBLIC_MAPBOX_TOKEN}`,
       { method: 'GET' }
     );
+    
     const json = await query.json();
+    console.log("Query JSON:"+ json)
     const data = json.routes[0];
     const route = data.geometry.coordinates;
     const geojson = {
@@ -151,9 +72,9 @@
         `<h4><strong>Trip Distance: ${Math.floor(data.distance*0.000621371)} miles <br>
         Trip Duration: ${Math.floor(data.duration / 60)}
         min </strong></h4><ol>${tripInstructions}</ol>`;
-    }
+  }
 
-    map.on('load', () => {
+  //map.on('load', () => {
     // make an initial directions request that
     // starts and ends at the same location
     getRoute(start);
@@ -183,8 +104,6 @@
         'circle-color': '#3887be'
       }
     });
-    //var coords = [-96.469596,30.642855];
-    var coords = get(destinationCoords)
     const end = {
       type: 'FeatureCollection',
       features: [
@@ -193,7 +112,7 @@
           properties: {},
           geometry: {
             type: 'Point',
-            coordinates: coords
+            coordinates: endCoord
           }
         }
       ]
@@ -214,7 +133,7 @@
                 properties: {},
                 geometry: {
                   type: 'Point',
-                  coordinates: coords
+                  coordinates: endCoord
                 }
               }
             ]
@@ -226,28 +145,54 @@
         }
       });
       }
-      getRoute(coords);
-    });
-    
-    // document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
-
-    // var geolocate = new mapboxgl.GeolocateControl();
-
-    // geolocate.on('geolocate', function(e) {
-    //   var lon = e.coords.longitude;
-    //   var lat = e.coords.latitude
-    //   var position = [lon, lat];
-    //   console.log(position);
-    // });
-
-  }
-  // execute script load
-  loadScript("https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js", geolocateCode);
-
+      getRoute(endCoord);
+  //});
 </script>
 
 <body>
-  <!-- BUG: Far rightside of map isn't rendering correctly, div issues? -->
   <div id="instructions" class = map-overlay></div>
-  <div id="map"></div>
 </body>
+
+<style>
+    html {
+      height: 100%;
+    }
+    body {
+      margin: 0;
+      padding: 0; 
+      height: 100%;
+    }
+    #map { 
+      position: absolute; 
+      top: 0; 
+      bottom: 0; 
+      width: 100%; 
+      margin-top: 0px;
+    }
+    .map-overlay {
+      position: absolute;
+      margin-top: 10px;
+      margin-left: 10px;
+      padding: 10px;
+      z-index: 1;
+      border: 2px solid;
+      color:#000000;
+      background-color: lightgray;
+      position: relative;
+      height: 100%;
+      width: fit-content;
+    }
+    .instructions {
+      position: absolute;
+      top: 0%;
+      left: 2%;
+      z-index: 1;
+      border: 2px solid;
+      background-color: white;
+      height:100%;
+      width:400px;
+      margin: 75px;
+      position: absolute;
+      font-family: sans-serif;
+          }
+  </style>

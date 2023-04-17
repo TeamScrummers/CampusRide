@@ -21,6 +21,9 @@
 	"/driver": [
 		"src/routes/+layout.js"
 	],
+	"/earthquakes": [
+		"src/routes/+layout.js"
+	],
 	"/home": [
 		"src/routes/+layout.js"
 	],

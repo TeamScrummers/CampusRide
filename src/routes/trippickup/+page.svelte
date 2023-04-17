@@ -4,12 +4,20 @@
   import { storedID, storedLocation } from '../firebase/Store.js'
   import { destinationCoords, latestArrival, userCoords} from '../firebase/Store.js'
   import DirectionsDriver from '../map/directionsDriver.svelte';
+  import Directions from '../map/directions.svelte';
   var driverID = get(storedID)
   var driverLocation = get(storedLocation)
   
+  import Map from '../map/map.svelte';
+  import RouteMap from '../map/routeMap.svelte';
 </script>
 
-<DirectionsDriver></DirectionsDriver>
+
+// let start = [-96.3442924,30.5833155]
+// let endCoord = [-96.469596,30.642855];
+<RouteMap></RouteMap>
+<!-- <Map></Map> -->
+<!-- <DirectionsDriver></DirectionsDriver> -->
 
 <style>
 .map-overlay{
