@@ -205,3 +205,23 @@ export async function writeTripToDatabase(trip) {
     //console.log(`Trip with TripId ${tripId} has been written to the database`);
     return tripId;
 }
+
+/**
+ * Returns the user ID of the user associated with the given phone number.
+ * @param {string} phoneNumber - The phone number of the user to look up.
+ * @returns {Promise<string>} - A Promise that resolves to the user ID of the user with the given phone number.
+ */
+export async function findUserByPhone(phoneNumber) {
+  const usersRef = ref(db, 'users');
+  const snapshot = await get(child(usersRef));
+
+  if (snapshot.exists()) {
+    const users = Object.values(snapshot.val());
+    const user = users.find((user) => user.phone === phoneNumber);
+    if (user) {
+      return user;
+    }
+  }
+
+  throw new Error(`User with phone number ${phoneNumber} not found`);
+}
