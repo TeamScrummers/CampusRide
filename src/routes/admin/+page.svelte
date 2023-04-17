@@ -3,13 +3,11 @@
 
 <script>
     import { loop } from "svelte/internal";
-    import { loopThroughDatabase } from "../firebase/Database"
-    async function startListening(stuff){
-       console.log(stuff)
+    import { listenToANode } from "../firebase/Database"
+    function startListening(childSnapshot){
+       console.log(childSnapshot)
     }
-
-    var stuff
-    loopThroughDatabase("users/Xs2gMrAJtvTP8u1Ffvfv8nVyzAw1", startListening(stuff))
+    listenToANode('users/ $ {userId}', startListening)
 </script>
 
 <div>

@@ -108,3 +108,13 @@ const database = getDatabase(app)
         });
     };
 
+    /**
+     * @brief Loops through every entry in a Firebase path and performs an action on each entry.
+     * @param {path} path - Firebase path to be read
+     * @param  action - Action to be performed on each entry. The actionshould take a single argument, which is the child snapshot.
+    */
+    export function listenToANode(path, action){
+        onValue(ref(database, path), (snapshot) => {
+            action(snapshot.val())
+        });
+    };
