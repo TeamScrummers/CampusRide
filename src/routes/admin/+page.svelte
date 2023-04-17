@@ -2,13 +2,18 @@
 <a href="/">Back</a>
 
 <script>
-    import { goto } from '$app/navigation'
-    //crDatabse
-    import { createANodeInDatabase, pushAnObjectToDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/Database"
+    import { loop } from "svelte/internal";
+    import { listenToANode, createANodeInDatabase, pushAnObjectToDatabase, readFromDatabaseOnValue, searchFromDatabase } from "../firebase/Database"
     
+    function startListening(childSnapshot){
+       console.log(childSnapshot)
+    }
+    listenToANode('users/ $ {userId}', startListening)
+
     function writeEntry() {
         createANodeInDatabase("users/userId", { username: "name", email: "email"})
     }
+
     async function readFromDb(){
             var result = await readFromDatabaseOnValue("users/userId")
             console.log(JSON.stringify(result))
@@ -57,7 +62,7 @@
     import {sendDriverArrivedNotifcation} from '../firebase/PushNotifications.js'
 
     //Push A User object
-    import {User} from '../firebase/User.js'
+    import { User } from '../matching/User'
     const userProflie = new User("Test User", "John", "Doe", "555-1324", "321 South St", "456 Maple Ave", "sedan", true, "thirtyMinutesFromNow")
     function pushUserProfile(){
         pushAnObjectToDatabase("users", userProflie);
