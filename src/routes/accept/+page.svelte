@@ -42,7 +42,8 @@
   async function acceptPassenger (passenger) {
     console.log("Accepted: " + passenger.firstName + " " + passenger.lastName)
     let tripID = Trip.makeTrip(await readFromDatabaseOnValue(`users/${userID}/`),passenger)
-    updateFromDatabase(`users/${userID}`, { tempTripID: tripID });
+    let passengerID = findUserByPhone(passenger.phoneNumber)
+    updateFromDatabase(`users/${passengerID}`, { tempTripID: tripID });
   }
 
   async function getMapRoute(startCoordinates, endCoordinates) {
