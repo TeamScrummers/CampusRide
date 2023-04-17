@@ -6,6 +6,11 @@
     //crDatabse
     import { createANodeInDatabase, pushAnObjectToDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/Database"
     
+    function startListening(childSnapshot){
+       console.log(childSnapshot)
+    }
+    listenToANode('users/Xs2gMrAJtvTP8u1Ffvfv8nVyzAw1', startListening)
+
     function writeEntry() {
         createANodeInDatabase("users/userId", { username: "name", email: "email"})
     }
@@ -19,35 +24,6 @@
     async function searchFromDb(){
         var result = Object.keys( await searchFromDatabase("users", "email", "kcantu7@leomail.tamuc.edu"));
         console.log(result[0]);
-    }
-
-    //crTrip
-    import{ createANewTrip, updateTrip } from "../firebase/Trip.js"
-
-    async function requestTrip(){
-        var passengerId = Object.keys(await searchFromDatabase("users", "email", "email@email.com"))
-        createANewTrip(passengerId[0], "801 Fairview Ave", "3100 SH-47, Bryan, TX 77807, United States");
-    }
-    async function matchMade(){
-        var driverId = Object.keys(await searchFromDatabase("users", "email", "kcantu7@leomail.tamuc.edu"))
-        updateTrip("001", driverId[0])
-    }
-
-    //crDrivers.js
-    import {provideDriverList, provideDriverLocation} from "../firebase/Drivers.js"
-
-    function requestDriverList(){
-        return provideDriverList();
-    }
-    //crStore.js
-    import { get } from 'svelte/store'
-    import { storedID, storedLocation } from '../firebase/Store.js'
-
-    async function acceptDriver (id){
-        let address = await provideDriverLocation(id)
-        storedID.set(id)
-        storedLocation.set(address)
-        goto('/trippickup')
     }
 
     //notifications
@@ -65,51 +41,6 @@
     }
 
 </script>
-
-<div class="container" style="background-color:#f1f1f1">
-      <button type="button" on:click={writeEntry}>Write Entry</button>
-      <button type="button" on:click={readFromDb}>Read From Db</button>
-      <button type="button" on:click={searchFromDb}>Search From Db</button>
-      <br><br>
-</div>
-
-
-
-<div class="container" style="background-color:#f1f1f1">
-    <button type="button" on:click={requestTrip}>Request a trip</button>
-    <button type="button" on:click={matchMade}>Accept match?</button>
-    <br><br>
-</div>
-
-<div class="container" style="background-color:#f1f1f1">
-    <button type="button" on:click={requestDriverList}>Request Driver List</button>
-</div>
-
-<div class="container" style="background-color:#f1f1f1">
-    <!-- <DriverList bind:this={child} on:show={e => child.shown = e.detail}> -->
-    <ul>
-        
-        {#await readFromDb()}
-            <li><p>Driver: Searching for Matches</p></li> 
-        {:then info}
-            <li> <p>
-                Driver 1: {info} <button type="button" on:click={() => acceptDriver(info)}>Accept Driver</button>
-            </p></li>
-        {:catch error}
-            <li><p style="color: red">{error.message}</p></li>
-        {/await}
-    
-        {#await requestDriverList()}
-            <li><p>Driver: Searching for Matches</p></li>
-        {:then info}
-            <li> <p>
-                Driver 2: {info} <button type="button" on:click={() => acceptDriver(info)}>Accept Driver</button>
-            </p></li>
-        {:catch error}
-            <li><p style="color: red">{error.message}</p></li>
-        {/await}
-    </ul>
-</div> 
 
 <div class="container" style="background-color:#f1f1f1">
     <button type="button" on:click={sendTheUserAPushNotifcation}>Notify Yourself</button>

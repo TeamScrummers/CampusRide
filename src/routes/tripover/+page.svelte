@@ -7,35 +7,9 @@
   </div>
 </section>
 
-<script>
-  let isChecked = false;
-
-  function toggleSwitch() {
-    isChecked = !isChecked;
-  }
-</script>
-
-<div class="toggle">
-  <input
-    type="checkbox"
-    id="switch"
-    class="checkbox"
-    checked={isChecked}
-    on:change={toggleSwitch}
-  />
-  <label for="switch">
-    <p>OFF</p>
-    <p>ON</p>
-  </label>
-</div>
-
-
 <style>
   :global(#logo svg) {
     fill: white;
     height: 60px;
   }
-
-
 </style>
-
