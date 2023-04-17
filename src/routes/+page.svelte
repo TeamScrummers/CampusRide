@@ -17,7 +17,6 @@
 <section class="content">
   <div class="container">
     <h1>Default Testing Page</h1>
-    
     <a href="/login">Landing Page (Login) | </a>
     <a href="/home">Home Page | </a>
     <a href="/auth">User Auth Page | </a>
@@ -28,7 +27,8 @@
     <a href="/notifications">Notifications | </a>
     <a href="/matchmakingtest">MatchMakingTest | </a>
     <a href="/navbar">Navbar | </a>
-    <a href="/driveracceptingTest">Accepting Passengers Test| </a>
+    <a href="/accept2">DAPP | </a>
+    <a href="/accept2">DAPP2 | </a>
   </div>
 </section>
 

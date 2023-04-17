@@ -12,19 +12,16 @@
             <i class={clicked? 'fa fa-times' : 'fas fa-bars'} />
           </button>
         </div>
-        <!-- Below is the image & text code -->
         {#if data.logoLink}
-        <!-- <a class="logo-link-text" href={data.linkUrl}><img class='logo' src={data.logoSrc} alt={data.altText}/>{data.optionalLinkText? data.optionalLinkText : ''} </a> -->
-        <h3 style = "margin-top: 0px">CampusRide</h3>
+        <a class="logo-link-text" href={data.linkUrl}><img class='logo' src={data.logoSrc} alt={data.altText}/>{data.optionalLinkText? data.optionalLinkText : ''} </a>
         {:else}
-        <!-- <img class='logo'  src={data.logoSrc} alt={data.altText}/> -->
+        <img class='logo'  src={data.logoSrc} alt={data.altText}/>
         {/if}
-        
     </div>
     {#each data.links as link}
         {#if link.displayInNav}
         <div class={clicked? 'navbar-item-clicked' : 'navbar-item'}>
-            <a color: red class='link-text' href={link.url} on:click={resetClick}>{link.linkText}</a>
+            <a class='link-text' href={link.url} on:click={resetClick}>{link.linkText}</a>
         </div>
         {/if}
     {/each}
@@ -32,22 +29,16 @@
 </nav>
 
 
-<style> 
-    a {
-      color: rgb(255, 255, 255);
-    }
-    a:visited {
-      color: rgb(255, 255, 255);
-    }
+<style>   
     button{
-      background-color: rgb(1, 32, 99);
+      background-color: rgb(255, 255, 255,0);
     }
     .navbar {   
         position: fixed;
         top: 0;
         width: 100%;  
         height: 20%; 
-        background-color: rgb(1, 32, 99);
+        background-color: #000;   
         color: #FFF;   z-index: 999;  
         display: flex;   
         flex-direction: row;
@@ -59,7 +50,7 @@
         position: fixed;
         top: 0;
         width: 100%;  
-        background-color: rgb(0, 46, 145);   
+        background-color: #000;   
         color: #FFF;   z-index: 999;  
         display: flex;   
         flex-direction: row;

@@ -11,10 +11,7 @@ export class User {
     this.mode = mode;
   }
 
-  /**
-   * @brief Takes a user object and converts it to JSON
-   * @returns - A serialized JSON of the user object
-  */
+  // Create a User object to JSON data
   toJSON() {
     return {
       firstName: this.firstName,
@@ -31,20 +28,11 @@ export class User {
 
   /**
    * @brief Takes JSON and converts it to user.prototype object
-   * @param {object} data - A JSON with relevant data
+   * @param {object} data - A JSON with data
    * @returns - An object of User class
   */
-  static fromJSON(data) {
-    const user = new User(
-      data.firstName, 
-      data.lastName, 
-      data.phoneNumber, 
-      data.startLocation, 
-      data.endLocation, 
-      data.vehicleType, 
-      data.available, 
-      data.latestArrival ? new Date(data.latestArrival) : null, 
-      data.mode);
+  fromJSON(data) {
+    const user = new User(data.firstName, data.lastName, data.phoneNumber, data.startLocation, data.endLocation, data.vehicleType, data.available, data.latestArrival ? new Date(data.latestArrival) : null, data.mode);
     return user;
   }
 }
