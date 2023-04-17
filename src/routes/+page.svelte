@@ -26,7 +26,6 @@
     <a href="/tripover">Trip Over | </a>
     <a href="/notifications">Notifications | </a>
     <a href="/matchmakingtest">MatchMakingTest | </a>
-    <a href="/navbar">Navbar | </a>
     <a href="/accept2">DAPP | </a>
     <a href="/accept2">DAPP2 | </a>
   </div>
