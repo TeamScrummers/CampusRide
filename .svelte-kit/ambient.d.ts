@@ -26,9 +26,49 @@
  * ```
  */
 declare module '$env/static/private' {
+<<<<<<< HEAD
 	export const GJS_DEBUG_TOPICS: string;
 	export const LESSOPEN: string;
 	export const USER: string;
+=======
+	export const ALLUSERSPROFILE: string;
+	export const APPDATA: string;
+	export const ChocolateyInstall: string;
+	export const ChocolateyLastPathUpdate: string;
+	export const CHROME_CRASHPAD_PIPE_NAME: string;
+	export const COLOR: string;
+	export const COLORTERM: string;
+	export const CommonProgramFiles: string;
+	export const CommonProgramW6432: string;
+	export const COMPUTERNAME: string;
+	export const ComSpec: string;
+	export const DriverData: string;
+	export const EDITOR: string;
+	export const GIT_ASKPASS: string;
+	export const HOME: string;
+	export const HOMEDRIVE: string;
+	export const HOMEPATH: string;
+	export const INIT_CWD: string;
+	export const LANG: string;
+	export const LOCALAPPDATA: string;
+	export const LOGONSERVER: string;
+	export const NODE: string;
+	export const NODE_ENV: string;
+	export const NODE_EXE: string;
+	export const NPM_CLI_JS: string;
+	export const npm_command: string;
+	export const npm_config_cache: string;
+	export const npm_config_engine_strict: string;
+	export const npm_config_globalconfig: string;
+	export const npm_config_global_prefix: string;
+	export const npm_config_init_module: string;
+	export const npm_config_local_prefix: string;
+	export const npm_config_metrics_registry: string;
+	export const npm_config_node_gyp: string;
+	export const npm_config_noproxy: string;
+	export const npm_config_prefix: string;
+	export const npm_config_userconfig: string;
+>>>>>>> matchmaking
 	export const npm_config_user_agent: string;
 	export const GIO_MODULE_DIR: string;
 	export const XDG_SESSION_TYPE: string;
@@ -39,6 +79,7 @@ declare module '$env/static/private' {
 	export const HOME: string;
 	export const CHROME_DESKTOP: string;
 	export const TERM_PROGRAM_VERSION: string;
+<<<<<<< HEAD
 	export const DESKTOP_SESSION: string;
 	export const GTK_PATH: string;
 	export const npm_package_json: string;
@@ -46,6 +87,15 @@ declare module '$env/static/private' {
 	export const GIO_LAUNCHED_DESKTOP_FILE: string;
 	export const GNOME_SHELL_SESSION_MODE: string;
 	export const GTK_MODULES: string;
+=======
+	export const TMP: string;
+	export const USERDOMAIN: string;
+	export const USERDOMAIN_ROAMINGPROFILE: string;
+	export const USERNAME: string;
+	export const USERPROFILE: string;
+	export const VS160COMCOMNTOOLS: string;
+	export const VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
+>>>>>>> matchmaking
 	export const VSCODE_GIT_ASKPASS_MAIN: string;
 	export const VSCODE_GIT_ASKPASS_NODE: string;
 	export const MANAGERPID: string;
@@ -148,9 +198,49 @@ declare module '$env/static/public' {
  */
 declare module '$env/dynamic/private' {
 	export const env: {
+<<<<<<< HEAD
 		GJS_DEBUG_TOPICS: string;
 		LESSOPEN: string;
 		USER: string;
+=======
+		ALLUSERSPROFILE: string;
+		APPDATA: string;
+		ChocolateyInstall: string;
+		ChocolateyLastPathUpdate: string;
+		CHROME_CRASHPAD_PIPE_NAME: string;
+		COLOR: string;
+		COLORTERM: string;
+		CommonProgramFiles: string;
+		CommonProgramW6432: string;
+		COMPUTERNAME: string;
+		ComSpec: string;
+		DriverData: string;
+		EDITOR: string;
+		GIT_ASKPASS: string;
+		HOME: string;
+		HOMEDRIVE: string;
+		HOMEPATH: string;
+		INIT_CWD: string;
+		LANG: string;
+		LOCALAPPDATA: string;
+		LOGONSERVER: string;
+		NODE: string;
+		NODE_ENV: string;
+		NODE_EXE: string;
+		NPM_CLI_JS: string;
+		npm_command: string;
+		npm_config_cache: string;
+		npm_config_engine_strict: string;
+		npm_config_globalconfig: string;
+		npm_config_global_prefix: string;
+		npm_config_init_module: string;
+		npm_config_local_prefix: string;
+		npm_config_metrics_registry: string;
+		npm_config_node_gyp: string;
+		npm_config_noproxy: string;
+		npm_config_prefix: string;
+		npm_config_userconfig: string;
+>>>>>>> matchmaking
 		npm_config_user_agent: string;
 		GIO_MODULE_DIR: string;
 		XDG_SESSION_TYPE: string;
@@ -161,6 +251,7 @@ declare module '$env/dynamic/private' {
 		HOME: string;
 		CHROME_DESKTOP: string;
 		TERM_PROGRAM_VERSION: string;
+<<<<<<< HEAD
 		DESKTOP_SESSION: string;
 		GTK_PATH: string;
 		npm_package_json: string;
@@ -168,6 +259,15 @@ declare module '$env/dynamic/private' {
 		GIO_LAUNCHED_DESKTOP_FILE: string;
 		GNOME_SHELL_SESSION_MODE: string;
 		GTK_MODULES: string;
+=======
+		TMP: string;
+		USERDOMAIN: string;
+		USERDOMAIN_ROAMINGPROFILE: string;
+		USERNAME: string;
+		USERPROFILE: string;
+		VS160COMCOMNTOOLS: string;
+		VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
+>>>>>>> matchmaking
 		VSCODE_GIT_ASKPASS_MAIN: string;
 		VSCODE_GIT_ASKPASS_NODE: string;
 		MANAGERPID: string;

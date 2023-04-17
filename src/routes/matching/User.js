@@ -31,7 +31,7 @@ export class User {
    * @param {object} data - A JSON with data
    * @returns - An object of User class
   */
-  fromJSON(data) {
+  static fromJSON(data) {
     const user = new User(data.firstName, data.lastName, data.phoneNumber, data.startLocation, data.endLocation, data.vehicleType, data.available, data.latestArrival ? new Date(data.latestArrival) : null, data.mode);
     return user;
   }
