@@ -42,6 +42,9 @@
 	"/profile": [
 		"src/routes/+layout.js"
 	],
+	"/settings": [
+		"src/routes/+layout.js"
+	],
 	"/tripenroute": [
 		"src/routes/+layout.js"
 	],
