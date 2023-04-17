@@ -59,7 +59,9 @@
     <div class="location-overlay">
       <h4 style="color:#000000;text-align:center;font-weight: bold">Passenger Mode</h4>
       <h4 style="color:#000000;text-align:center">Where are you going?</h4>
-      <Geocoder></Geocoder>
+      <div style="display: flex; justify-content: center; align-items: center;">
+        <Geocoder></Geocoder>
+      </div>
     </div>
 
     <div class = "time-overlay">
@@ -80,19 +82,6 @@
 </section>
 
 <style>
-  /* .map-overlay{
-    color:#000000;
-    text-align:center;
-    background-color: lightgray;
-    position: relative;
-    margin-top: 10px;
-    margin-left: 10px;
-    padding: 10px;
-    height: auto;
-    width: fit-content;
-    z-index: 1;
-    } */
-
   .location-overlay{
     position: relative;
   }

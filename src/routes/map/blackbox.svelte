@@ -3,12 +3,9 @@
   import { contextKey } from '$lib/components.js'
 
   const { getMap, getMapbox } = getContext(contextKey)
-  let map, mapbox
+  const map = getMap()
+  const mapbox = getMapbox()
 
-  map = getMap()
-  mapbox = getMapbox()
-  // Add a new source from our GeoJSON data and set the
-  // 'cluster' option to true. GL-JS will add the point_count property to your source data.
   const blackLayer = {
     id: 'black-layer',
     type: 'background',
