@@ -2,18 +2,16 @@
 <a href="/">Back</a>
 
 <script>
-    import { dbObject } from "../firebase/Database"
-    let stuff = dbObject.getListener()
-    if(typeof stuff !== "undefined"){
-        console.log(stuff)
+    import { loop } from "svelte/internal";
+    import { loopThroughDatabase } from "../firebase/Database"
+    async function startListening(stuff){
+       console.log(stuff)
     }
-    
-    function logListener(){
-        stuff = dbObject.getListener()
-    }
+
+    var stuff
+    loopThroughDatabase("users/Xs2gMrAJtvTP8u1Ffvfv8nVyzAw1", startListening(stuff))
 </script>
 
 <div>
-    <button on:click={logListener}>Click pls</button>
-    {JSON.stringify(stuff)}
+    <button on:click={startListening}>Start startListening</button>
 </div>

@@ -3,36 +3,7 @@ import { getDatabase, ref, onValue, set, get, child, update,
     orderByChild,equalTo, query, limitToFirst, push} from "firebase/database";
 
 const database = getDatabase(app)
-function initialListener(){
-    return new Promise(resolve => {
-        onValue(ref(database, "users/Xs2gMrAJtvTP8u1Ffvfv8nVyzAw1"), (snapshot) => {
-            resolve(snapshot.val())
-        })
-    })
-}
 
-
-class Database{
-    constructor(){
-        var listener
-    }
-
-    async startListener(){
-        this.listener = await initialListener()
-    }
-
-    setListener(val){
-        this.listener = val
-    }
-
-    getListener(){
-        if(typeof this.listener !== "undefined"){
-            return this.listener
-        }
-        else{
-            setTimeout(this.getListener, 250)
-        }
-    }
 
     /**
      * @brief Module that OVERWRITES data into the Realtime database
@@ -48,7 +19,7 @@ class Database{
      * @param data The list of key:value pairs to be stored. For javascript
      * it should be in the format: { key1:value1, key2:value2,...}
      */
-    createANodeInDatabase(path, data){
+    export function createANodeInDatabase(path, data){
         set(ref(database, path), data);
         console.log("The provided data has been written to the database.");
     }
@@ -74,7 +45,7 @@ class Database{
      * @returns A promise for an entry in the database. Therefore it should 
      * be paired with the await keyword in an async
      */
-    searchFromDatabase(table, key, value){
+    export function searchFromDatabase(table, key, value){
         const selectQ = query(ref(database, table), orderByChild(key), equalTo(value));
         return new Promise(resolve => {
             onValue(selectQ, (snapshot) => {
@@ -88,7 +59,7 @@ class Database{
      * @param {path} path - Firebase path to be read
      * @returns - Promise at path location
     */
-    readFromDatabaseOnValue(path){
+    export function readFromDatabaseOnValue(path){
         return new Promise(resolve => {
             onValue(ref(database, path), (snapshot) => {
                 resolve(snapshot.val());
@@ -101,7 +72,7 @@ class Database{
      * @param {path} path - Firebase path to be updated
      * @param {object} data - Data to be written?
     */
-    updateFromDatabase(path, data){
+    export function updateFromDatabase(path, data){
         update(ref(database, path), data)
     }
 
@@ -110,7 +81,7 @@ class Database{
      * @param {path} path - Firebase path to be pushed to
      * @param {object} object - Object to be pushed
     */
-    pushAnObjectToDatabase(path, object){
+    export function pushAnObjectToDatabase(path, object){
         push(ref(database, path), object)
     }
 
@@ -119,7 +90,7 @@ class Database{
      * @param {path} path - Firebase path to be updated
      * @param {string} field - Field to be deleted
     */
-    deleteDataFromDatabase(path, field) {
+    export function deleteDataFromDatabase(path, field) {
         console.log("Deleting...")
         update(ref(database, path), { [field]: null });
     }
@@ -129,17 +100,11 @@ class Database{
      * @param {path} path - Firebase path to be read
      * @param  action - Action to be performed on each entry. The actionshould take a single argument, which is the child snapshot.
     */
-    loopThroughDatabase(path, action){
+    export function loopThroughDatabase(path, action){
         onValue(ref(database, path), (snapshot) => {
             snapshot.forEach((childSnapshot) => {
                 action(childSnapshot);
             });
         });
     };
-}
-
-
-
-export var dbObject = new Database
-
 
