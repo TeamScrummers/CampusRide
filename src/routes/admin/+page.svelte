@@ -2,13 +2,14 @@
 <a href="/">Back</a>
 
 <script>
-    import { goto } from '$app/navigation'
-    //crDatabse
-    import { createANodeInDatabase, pushAnObjectToDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/Database"
+    import { loop } from "svelte/internal";
+    import { listenToANode } from "../firebase/Database"
     
-    function writeEntry() {
-        createANodeInDatabase("users/userId", { username: "name", email: "email"})
+    function startListening(childSnapshot){
+       console.log(childSnapshot)
     }
+    listenToANode('users/ $ {userId}', startListening)
+
     async function readFromDb(){
             var result = await readFromDatabaseOnValue("users/userId")
             console.log(JSON.stringify(result))
