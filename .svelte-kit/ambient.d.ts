@@ -51,6 +51,10 @@ declare module '$env/static/private' {
 	export const LOCALAPPDATA: string;
 	export const LOGONSERVER: string;
 	export const MIC_LD_LIBRARY_PATH: string;
+	export const LANG: string;
+	export const LOCALAPPDATA: string;
+	export const LOCAL_GIT_DIRECTORY: string;
+	export const LOGONSERVER: string;
 	export const NODE: string;
 	export const NODE_ENV: string;
 	export const NODE_EXE: string;
@@ -106,6 +110,7 @@ declare module '$env/static/private' {
 	export const USERPROFILE: string;
 	export const VBOX_HWVIRTEX_IGNORE_SVM_IN_USE: string;
 	export const VBOX_MSI_INSTALL_PATH: string;
+	export const VS160COMCOMNTOOLS: string;
 	export const VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
 	export const VSCODE_GIT_ASKPASS_MAIN: string;
 	export const VSCODE_GIT_ASKPASS_NODE: string;
@@ -125,6 +130,7 @@ declare module '$env/static/private' {
  */
 declare module '$env/static/public' {
 	export const PUBLIC_MAPBOX_TOKEN: string;
+	export const PUBLIC_STRIPE_KEY: string;
 }
 
 /**
@@ -166,6 +172,10 @@ declare module '$env/dynamic/private' {
 		LOCALAPPDATA: string;
 		LOGONSERVER: string;
 		MIC_LD_LIBRARY_PATH: string;
+		LANG: string;
+		LOCALAPPDATA: string;
+		LOCAL_GIT_DIRECTORY: string;
+		LOGONSERVER: string;
 		NODE: string;
 		NODE_ENV: string;
 		NODE_EXE: string;
@@ -221,6 +231,7 @@ declare module '$env/dynamic/private' {
 		USERPROFILE: string;
 		VBOX_HWVIRTEX_IGNORE_SVM_IN_USE: string;
 		VBOX_MSI_INSTALL_PATH: string;
+		VS160COMCOMNTOOLS: string;
 		VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
 		VSCODE_GIT_ASKPASS_MAIN: string;
 		VSCODE_GIT_ASKPASS_NODE: string;
@@ -245,6 +256,7 @@ declare module '$env/dynamic/private' {
 declare module '$env/dynamic/public' {
 	export const env: {
 		PUBLIC_MAPBOX_TOKEN: string;
+		PUBLIC_STRIPE_KEY: string;
 		[key: `PUBLIC_${string}`]: string | undefined;
 	}
 }
