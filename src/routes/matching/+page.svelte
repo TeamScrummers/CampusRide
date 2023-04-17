@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation'
 	import Map from '../map/map.svelte';
 	import { User } from './User.js';
+	import { Trip } from "./Trip";
 	import { get } from "svelte/store";
     import { appMode } from "../firebase/Store";
 	
@@ -14,7 +15,7 @@
 
 <section>
 	<div class = "map-overlay">
-		{#if true}
+		{#if Trip}
 		<h1>Your ride has been matched!</h1>
 		<ul>
 			<li>App Mode: {get(appMode)}</li>
