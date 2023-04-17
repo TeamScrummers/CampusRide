@@ -18,7 +18,9 @@ export const nodes = [
 	() => import('./nodes/14'),
 	() => import('./nodes/15'),
 	() => import('./nodes/16'),
-	() => import('./nodes/17')
+	() => import('./nodes/17'),
+	() => import('./nodes/18'),
+	() => import('./nodes/19')
 ];
 
 export const server_loads = [];
@@ -37,9 +39,11 @@ export const dictionary = {
 		"/matchmakingtest": [12],
 		"/notifications": [13],
 		"/passenger": [14],
-		"/tripenroute": [15],
-		"/tripover": [16],
-		"/trippickup": [17]
+		"/profile": [15],
+		"/settings": [16],
+		"/tripenroute": [17],
+		"/tripover": [18],
+		"/trippickup": [19]
 	};
 
 export const hooks = {

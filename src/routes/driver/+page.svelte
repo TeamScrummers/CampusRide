@@ -56,7 +56,7 @@
   <div class = "map-overlay">
     <div class="location-overlay">
       <h4 style="color:#000000;text-align:center;font-weight: bold">Driver Mode</h4>
-      <h4 style="color:#000000;text-align:center">Where are you going too ?</h4>
+      <h4 style="color:#000000;text-align:center">Where are you going?</h4>
       <Geocoder></Geocoder>
     </div>
 
