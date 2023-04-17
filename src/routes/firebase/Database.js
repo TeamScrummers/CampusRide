@@ -219,8 +219,7 @@ export async function writeTripToDatabase(trip) {
         onValue(ref(database, path), (snapshot) => {
             action(snapshot.val())
         });
-    });
-};
+    };
 
 /**
  * @brief Loops through every entry in a Firebase path once and performs an action on each entry.
