@@ -3,12 +3,16 @@
 
 <script>
     import { loop } from "svelte/internal";
-    import { listenToANode } from "../firebase/Database"
+    import { listenToANode, createANodeInDatabase, pushAnObjectToDatabase, readFromDatabaseOnValue, searchFromDatabase } from "../firebase/Database"
     
     function startListening(childSnapshot){
        console.log(childSnapshot)
     }
     listenToANode('users/ $ {userId}', startListening)
+
+    function writeEntry() {
+        createANodeInDatabase("users/userId", { username: "name", email: "email"})
+    }
 
     async function readFromDb(){
             var result = await readFromDatabaseOnValue("users/userId")
