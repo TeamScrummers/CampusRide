@@ -19,8 +19,7 @@ export const nodes = [
 	() => import('./nodes/15'),
 	() => import('./nodes/16'),
 	() => import('./nodes/17'),
-	() => import('./nodes/18'),
-	() => import('./nodes/19')
+	() => import('./nodes/18')
 ];
 
 export const server_loads = [];
@@ -40,10 +39,9 @@ export const dictionary = {
 		"/notifications": [13],
 		"/passenger": [14],
 		"/profile": [15],
-		"/settings": [16],
-		"/tripenroute": [17],
-		"/tripover": [18],
-		"/trippickup": [19]
+		"/tripenroute": [16],
+		"/tripover": [17],
+		"/trippickup": [18]
 	};
 
 export const hooks = {
