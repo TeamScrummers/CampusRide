@@ -1,3 +1,10 @@
+<!-- Preloading Mapbox Scripts -->
+<svelte:head>
+  <script type="module" src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+  <script type="module" src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js"></script>
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+</svelte:head>
+
 <script>
   import Map from '../map/map.svelte';
   import { locateUser } from '../map/locateuser';
@@ -45,11 +52,12 @@
     var localUser = new User()
     localUser = localUser.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
 
+    // Writes user to matchmaking pool
+    //updateMatchMaking(localUser)
 
-    goto('/trippickup')
+
+    listenToANode(`users/${userID}`, listenForMatch)
   }
-
-  //locateUser()
 </script>
 
 <section>
@@ -57,26 +65,40 @@
     <div class="location-overlay">
       <h4 style="color:#000000;text-align:center;font-weight: bold">Passenger Mode</h4>
       <h4 style="color:#000000;text-align:center">Where are you going?</h4>
-      <div style="display: flex; justify-content: center; align-items: center;">
-        <Geocoder></Geocoder>
-      </div>
+      <Geocoder></Geocoder>
     </div>
 
     <div class = "time-overlay">
       
 
-      <h4 style="color:#000000;text-align:center">When do you need to be there?</h4>
+      <h4>When do you need to be there?</h4>
       <form style="text-align:center; padding:10px">
         <input type="time" bind:value={timeInput} on:input={handleTimeInput} />
       </form>
     </div>
     <div class = "button-container">
       <button type="button" class="mode-button" on:click={() => submitPassenger() }>Submit</button>
+      <!-- <button type="button" class="mode-button" on:click={() => goto('/trippickup')}>
+        Go to trip pickup
+    </button> -->
     </div>
   </div>
 </section>
 
 <style>
+  /* .map-overlay{
+    color:#000000;
+    text-align:center;
+    background-color: lightgray;
+    position: relative;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 10px;
+    height: auto;
+    width: fit-content;
+    z-index: 1;
+    } */
+
   .location-overlay{
     position: relative;
   }

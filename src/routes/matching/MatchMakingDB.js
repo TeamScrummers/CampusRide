@@ -9,10 +9,10 @@ const thirtyMinutesFromNow = new Date(Date.now() + 30 * 60000);
  * @param {object} newObject - The object to added to matchMakingPool[].
 */
 function addMatchMakingObject(newObject) {
-  // let tempDate = newObject.latestArrival
-  // newObject.latestArrival = dateToISO(newObject.latestArrival)
-  // pushAnObjectToDatabase(`matchMakingPool/`, newObject)
-  // newObject.latestArrival = tempDate
+  let tempDate = newObject.latestArrival
+  newObject.latestArrival = dateToISO(newObject.latestArrival)
+  pushAnObjectToDatabase(`matchMakingPool/`, newObject)
+  newObject.latestArrival = tempDate
   matchMakingPool.update(arr => [...arr, newObject]);
 }
 
@@ -21,10 +21,10 @@ function addMatchMakingObject(newObject) {
  * @param {object} newObject - The object to added to waitingPool[].
 */
 function addWaitingObject(newObject) {
-  // let tempDate = newObject.latestArrival
-  // newObject.latestArrival = dateToISO(newObject.latestArrival)
-  // pushAnObjectToDatabase(`waitingPool/`, newObject)
-  // newObject.latestArrival = tempDate
+  let tempDate = newObject.latestArrival
+  newObject.latestArrival = dateToISO(newObject.latestArrival)
+  pushAnObjectToDatabase(`waitingPool/`, newObject)
+  newObject.latestArrival = tempDate
   waitingPool.update(arr => [...arr, newObject]);
 }
 
@@ -53,17 +53,18 @@ export function dateToISO(date) {
 */
 export function removeFromMatchMaking(user) {
 
-  // function deleteMatchedObject(childSnapshot) {
-  //   console.log('Comparing:', childSnapshot.val().phoneNumber, user.phoneNumber);
-  //   if (childSnapshot.val().phoneNumber == user.phoneNumber) {
-  //     console.log('Deleting:', childSnapshot.val());
-  //     deleteDataFromDatabase(`matchMakingPool/`, childSnapshot.key);
-  //   }
-  //   else {
-  //     console.log("deleteMatchedObject Else Trigger");
-  //   }
-  // }
-  // loopThroughDatabase(`matchMakingPool/`, deleteMatchedObject);
+  function deleteMatchedObject(childSnapshot) {
+    console.log('Comparing:', childSnapshot.val().phoneNumber, user.phoneNumber);
+    if (childSnapshot.val().phoneNumber == user.phoneNumber) {
+      console.log('Deleting:', childSnapshot.val());
+      deleteDataFromDatabase(`matchMakingPool/`, childSnapshot.key);
+    }
+    else {
+      console.log("deleteMatchedObject Else Trigger");
+    }
+  }
+
+  loopThroughDatabase(`matchMakingPool/`, deleteMatchedObject);
 
   const index = get(matchMakingPool).findIndex((obj) => obj === user);
   if (index !== -1) {
@@ -112,11 +113,15 @@ export function updateMatchMaking(user) {
  * @param {Array<object>} userPool - An array of user objects to search through for the best match.
  * @returns {Array<object>} - An array with the matched driver and passenger objects.
 */
-export function matchMake(userPool) {
+export async function matchMake(userPool) {
   // Filter users to only include drivers and passengers
-  const drivers = get(userPool).filter(user => user.mode === 'driver');
-  const passengers = get(userPool).filter(user => user.mode === 'passenger');
-
+   const drivers = get(userPool).filter(user => user.mode === 'driver');
+   const passengers = get(userPool).filter(user => user.mode === 'passenger');
+  // Db code
+  //let drivers = []
+  //let passengers = []
+  //drivers.push(await searchFromDatabase("users", "mode", "driver"))
+  //passengers.push(await searchFromDatabase("users", "mode", "passenger"))
   // Find smallest difference in latestArrivals
   let smallestDifference = Infinity; // upper limit for time difference
   let bestMatch = null;

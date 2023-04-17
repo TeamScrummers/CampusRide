@@ -5,75 +5,63 @@
   <!-- Mapbox Directions -->
   <script type="module" src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js"></script>
   <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.css" type="text/css">
+  <!-- Mapbox Geocoder -->
+  <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'></script>
+  <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css' type='text/css' />
 
   <style>
-    html {
-      height: 100%;
-    }
-    body {
-      margin: 0;
-      padding: 0; 
-      height: 100%;
-    }
+    body { margin: 0; padding: 0; }
     #map { 
       position: absolute; 
       top: 0; 
       bottom: 0; 
       width: 100%; 
-      margin-top: 0px;
+      margin-top: 75px;
     }
     .map-overlay {
       position: absolute;
-      margin-top: 10px;
-      margin-left: 10px;
-      padding: 10px;
+      top: 140px;
+      left: 10px;
       z-index: 1;
-      border: 2px solid;
-      color:#000000;
-      background-color: lightgray;
-      position: relative;
-      height: 100%;
-      width: fit-content;
     }
-    .instructions {
+    #instructions {
       position: absolute;
-      top: 0%;
-      left: 2%;
-      z-index: 1;
-      border: 2px solid;
-      background-color: white;
-      height:100%;
-      width:400px;
-      margin: 75px;
-      position: absolute;
+      margin: 20px;
+      width: 25%;
+      top: 0;
+      bottom: 20%;
+      padding: 20px;
+      background-color: #fff;
+      overflow-y: scroll;
       font-family: sans-serif;
-          }
+      margin-top: 80px;
+    }
+    .geocoder {
+      position: absolute;
+      z-index: 1;
+      width: 50%;
+      left: 50%;
+      margin-left: -25%;
+      top: 10px;
+    }
+    .mapboxgl-ctrl-geocoder {
+      min-width: 100%;
+    }
   </style>
 </svelte:head>
 
-<script>
-  import { onMount } from 'svelte';
-  import { get } from 'svelte/store';
-  import { destinationCoords, userCoords} from '../firebase/Store.js'
+<body>
+  <div id="geocoder" class="geocoder"></div>
+
+  <div class = "map-overlay" style="border: 2px solid; background-color: white;">  
+    <a href="/">Back</a>
+  </div>
   
-  // script loading 
-  function loadScript(url, callback) {
-        onMount(() => {
-        var head = document.head;
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = url;
-
-        // Then bind the event to the callback function.
-        script.onreadystatechange = callback;
-        script.onload = callback;
-
-        // Fire the loading
-        head.appendChild(script);
-        })
-  }
-
-  var geolocateCode = function() {
+  <!-- BUG: Far rightside of map isn't rendering correctly, div issues? -->
+  <div id="map"></div>
+  <div id="instructions"></div>
+  
+  <script>
     // Should hide api key w/ .env file for future
     //mapboxgl.accessToken = process.env.PUBLIC_MAPBOX_TOKEN
       mapboxgl.accessToken = '';
@@ -91,13 +79,10 @@
 
     // an arbitrary start will always be the same
     // only the end or destination will change
-    let userString = get(userCoords).split(',')
-    var start = userString.map(Number);
-    //console.log(start)
-    //var start = [-96.3344,30.6280];
-    console.log(start)
+    var start = [-96.3344,30.6280];
+
     async function getRoute(end) {
-    // make a directions request using driving profile
+    // make a directions request using cycling profile
     // an arbitrary start will always be the same
     // only the end or destination will change
     const query = await fetch(
@@ -147,10 +132,9 @@
       for (const step of steps) {
       tripInstructions += `<li>${step.maneuver.instruction}</li>`;
       }
-      instructions.innerHTML = 
-        `<h4><strong>Trip Distance: ${Math.floor(data.distance*0.000621371)} miles <br>
-        Trip Duration: ${Math.floor(data.duration / 60)}
-        min </strong></h4><ol>${tripInstructions}</ol>`;
+      instructions.innerHTML = `<p><strong>Trip duration: ${Math.floor(
+      data.duration / 60
+      )} min </strong></p><ol>${tripInstructions}</ol>`;
     }
 
     map.on('load', () => {
@@ -183,8 +167,7 @@
         'circle-color': '#3887be'
       }
     });
-    //var coords = [-96.469596,30.642855];
-    var coords = get(destinationCoords)
+    var coords = [-96.469596,30.642855];
     const end = {
       type: 'FeatureCollection',
       features: [
@@ -228,26 +211,22 @@
       }
       getRoute(coords);
     });
+
+    var geocoder = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl
+    });
     
-    // document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+    document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
 
-    // var geolocate = new mapboxgl.GeolocateControl();
+    var geolocate = new mapboxgl.GeolocateControl();
 
-    // geolocate.on('geolocate', function(e) {
-    //   var lon = e.coords.longitude;
-    //   var lat = e.coords.latitude
-    //   var position = [lon, lat];
-    //   console.log(position);
-    // });
-
-  }
-  // execute script load
-  loadScript("https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js", geolocateCode);
-
-</script>
-
-<body>
-  <!-- BUG: Far rightside of map isn't rendering correctly, div issues? -->
-  <div id="instructions" class = map-overlay></div>
-  <div id="map"></div>
+    geolocate.on('geolocate', function(e) {
+      var lon = e.coords.longitude;
+      var lat = e.coords.latitude
+      var position = [lon, lat];
+      console.log(position);
+    });
+  </script>
+  
 </body>

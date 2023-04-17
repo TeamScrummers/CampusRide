@@ -16,7 +16,7 @@ export function handleOnRegister(email, password){
                 password: password
             })
                 .then(() => {
-                    alert('User created successfully');
+                    alert('user created successfully');
                 })
                 .catch((error) => {
                     alert(error);
@@ -43,7 +43,7 @@ export function handleOnLogin(email, password){
                 last_login: lgDate,
             })
                 .then(() => {
-                    //alert('User logged in successfully')
+                    alert('user logged in successfully')
                     console.log(getUserID())
                     goto('/home')
                 })
@@ -59,10 +59,6 @@ export function handleOnLogin(email, password){
         });
 }
 
-/**
- * Gets the currently authenicated user's ID. 
- * @returns {string|null} - Returns the user's unique ID as a string or null if no user is logged in.
- */
 export function getUserID() {
     const user = auth.currentUser;
     if (user) {
