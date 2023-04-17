@@ -15,7 +15,7 @@
 
 <section>
 	<div class = "map-overlay">
-		{#if true}
+		{#if Trip}
 		<h1>Your ride has been matched!</h1>
 		<ul>
 			<li>App Mode: {get(appMode)}</li>
