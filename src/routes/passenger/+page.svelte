@@ -11,7 +11,7 @@
   import { goto } from '$app/navigation'
   import { latestArrival } from '../firebase/Store.js';
   import Geocoder from '../map/geocoder.svelte';
-  import { readFromDatabaseOnValue, updateFromDatabase } from '../firebase/Database';
+  import { listenToANode, readFromDatabaseOnValue, updateFromDatabase } from '../firebase/Database';
   import { getUserID } from '../firebase/Auth.js';
   import { timeStringToDate } from './timeStringToDate';
   import { updateMatchMaking } from '../matching/MatchMaking';
@@ -23,6 +23,15 @@
   function handleTimeInput(event) {
     timeInput = event.target.value;
   }
+
+  function listenForMatch(snapshot){
+    if (true){
+      console.log(snapshot)
+      sendTheUserAPushNotifcation("Driver accepted", "A driver has accepted your request!")
+      goto('/trippickup')
+    }
+  }
+
 
   async function submitPassenger() {
     // hh:mm to date obj
@@ -46,9 +55,9 @@
     // Writes user to matchmaking pool
     //updateMatchMaking(localUser)
 
-    goto('/trippickup')
-  }
 
+    listenToANode(`users/${userID}`, listenForMatch)
+  }
 </script>
 
 <section>
@@ -68,7 +77,7 @@
       </form>
     </div>
     <div class = "button-container">
-      <button type="button" class="mode-button" on:click={sendDriverAcceptedNotifcation} on:click={() => submitPassenger() }>Submit</button>
+      <button type="button" class="mode-button" on:click={() => submitPassenger() }>Submit</button>
       <!-- <button type="button" class="mode-button" on:click={() => goto('/trippickup')}>
         Go to trip pickup
     </button> -->

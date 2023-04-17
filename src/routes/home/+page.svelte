@@ -278,4 +278,3 @@ input[type="checkbox"]:checked + .mode-slider:before {
   left: 0;
 }
 </style>
-1
