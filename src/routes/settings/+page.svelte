@@ -55,8 +55,6 @@
     </form>
     <button on:click={handleBack}>Back</button>
 </div>
-
-
 <style>
     .container {
         max-width: 600px;
@@ -107,7 +105,7 @@
     button[type="submit"]:hover {
         background-color: #34495e;
     }
-    
+
     button {
       margin-top: 20px;
       padding: 10px 20px;
@@ -118,7 +116,7 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
       cursor: pointer;
     }
-  
+
     button:hover {
       background-color: #2c3e50;
       color: #fff;

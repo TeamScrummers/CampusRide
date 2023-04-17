@@ -24,7 +24,7 @@ async function geolocateSuccess(position) {
   updateFromDatabase(`users/${userID}`, {startLocation: coords});
 
   // Debug
-  //console.log(userID + ' ' + coords)
+  //console.log("UID: " + userID + ' Starting Coords: ' + coords)
 }
 
 function geolocateError() {
