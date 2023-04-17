@@ -2,9 +2,9 @@
 <!-- Preloading Mapbox Scripts -->
 <script>
   import { goto } from "$app/navigation";
-  //if (!import.meta.env.SSR) {
-  //  goto('/login')
-  //}
+  if (!import.meta.env.SSR) {
+    goto('/login')
+  }
 </script>
 
 <svelte:head>
@@ -21,6 +21,7 @@ crossorigin="anonymous" referrerpolicy="no-referrer"/>
 <section class="content">
   <div class="container">
     <h1>Default Testing Page</h1>
+    
     <a href="/login">Landing Page (Login) | </a>
     <a href="/home">Home Page | </a>
     <a href="/auth">User Auth Page | </a>
@@ -32,6 +33,7 @@ crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <a href="/matchmakingtest">MatchMakingTest | </a>
     <a href="/navbar">Navbar | </a>
     <a href="/accept2">DAPP | </a>
+    <a href="/driveracceptingTest">Accepting Passengers Test| </a>
   </div>
 </section>
 
