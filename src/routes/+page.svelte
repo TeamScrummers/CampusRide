@@ -2,9 +2,9 @@
 <!-- Preloading Mapbox Scripts -->
 <script>
   import { goto } from "$app/navigation";
-  //if (!import.meta.env.SSR) {
-  //  goto('/login')
-  //}
+  if (!import.meta.env.SSR) {
+    goto('/login')
+  }
 </script>
 
 <svelte:head>

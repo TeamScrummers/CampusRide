@@ -1,13 +1,14 @@
 import { app } from "./initialFirebase"
-import { getDatabase, ref, onValue, set, get, child, update, 
-    orderByChild,equalTo, query, limitToFirst, push} from "firebase/database";
+import {  getDatabase, ref, onValue, set, get, child, update } from "firebase/database";
+import {  orderByChild, equalTo, query, limitToFirst, push } from "firebase/database";
+import { User } from "../matching/User";
 
 const database = getDatabase(app);
 
 /**
  * @brief Module that OVERWRITES data into the Realtime database
  *
- * Localthat writes data into the firebase, JSON tree 
+ * Local function that writes data into the firebase, JSON tree 
  * realtime database. Must be provided with a path to the database and 
  * a key:value pair list. Data WILL BE OVERWRITTEN if the path given 
  * already exists.
@@ -19,18 +20,18 @@ const database = getDatabase(app);
  * it should be in the format: { key1:value1, key2:value2,...}
  */
 export function createANodeInDatabase(path, data){
-        set(ref(database, path), data);
-        console.log("The provided data has been written to the database.");
+  set(ref(database, path), data);
+  console.log("The provided data has been written to the database.");
 }
 
 
 /**
- * @brief An asyncfor searching the Firebase realtime database
+ * @brief An async function for searching the Firebase realtime database
  * 
- * Localthat searches the database and returns a single entry.
+ * Local function that searches the database and returns a single entry.
  * The return is a promise, since getting data from Firebase is
  * considered slow. To ensure that there are no issues with undefined
- * data, thisMUST be called by an async-await
+ * data, this MUST be called by an async-await
  * 
  * @param table The first node of the JSON list. To match with
  * entity-relationship, this would be the table name, the FROM
@@ -42,7 +43,7 @@ export function createANodeInDatabase(path, data){
  * entity-relationship, this would be the value stored, the right
  * compare of the WHERE clause.
  * @returns A promise for an entry in the database. Therefore it should 
- * be paired with the await keyword in an async
+ * be paired with the await keyword in an async function
  */
 export function searchFromDatabase(table, key, value){
     const selectQ = query(ref(database, table), orderByChild(key), equalTo(value));
@@ -77,11 +78,15 @@ export function updateFromDatabase(path, data){
 
 /**
  * @brief Pushes an object to the database
- * @param {path} path - Firebase path to be pushed to
+ * @param {string} path - Firebase path to be pushed to
  * @param {object} object - Object to be pushed
-*/
+ * @returns {Promise<string>} Promise that resolves to the generated key
+ */
 export function pushAnObjectToDatabase(path, object){
-    push(ref(database, path), object)
+  const newObjectRef = push(ref(database, path), object);
+  return get(newObjectRef).then((snapshot) => {
+    return snapshot.key;
+  });
 }
 
 /**
@@ -97,7 +102,7 @@ export function deleteDataFromDatabase(path, field) {
 /**
  * @brief Loops through every entry in a Firebase path and performs an action on each entry.
  * @param {path} path - Firebase path to be read
- * @param  action - Action to be performed on each entry. The actionshould take a single argument, which is the child snapshot.
+ * @param {function} action - Action to be performed on each entry. The action function should take a single argument, which is the child snapshot.
 */
 export function loopThroughDatabase(path, action){
     onValue(ref(database, path), (snapshot) => {
@@ -106,7 +111,6 @@ export function loopThroughDatabase(path, action){
         });
     });
 };
-
 
 /**
  * @brief Loops through every entry in a Firebase path once and performs an action on each entry.
@@ -126,7 +130,7 @@ export async function loopThroughDatabaseOnce(path, action) {
  * @param {path} path - Firebase path to be read
  * @param  action - Action to be performed on each entry. The actionshould take a single argument, which is the child snapshot.
 */
-export function listenToANode(path, action){
+export async function listenToANode(path, action){
   onValue(ref(database, path), (snapshot) => {
       action(snapshot.val())
   });
