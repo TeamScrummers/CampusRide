@@ -1,7 +1,7 @@
 import { app } from "./initialFirebase"
 import { getDatabase, ref, onValue, set, get, child, update, 
-    orderByChild,equalTo, query, limitToFirst, push, } from "firebase/database";
-import { User } from "../matching/User";
+    orderByChild,equalTo, query, limitToFirst, push} from "firebase/database";
+
 const database = getDatabase(app);
 
 /**
@@ -77,16 +77,12 @@ export function updateFromDatabase(path, data){
 
 /**
  * @brief Pushes an object to the database
- * @param {string} path - Firebase path to be pushed to
+ * @param {path} path - Firebase path to be pushed to
  * @param {object} object - Object to be pushed
- * @returns {Promise<string>} Promise that resolves to the generated key
- */
+*/
 export function pushAnObjectToDatabase(path, object){
-    const newObjectRef = push(ref(database, path), object);
-    return get(newObjectRef).then((snapshot) => {
-      return snapshot.key;
-    });
-  }
+    push(ref(database, path), object)
+}
 
 /**
  * @brief Deletes data from real time database

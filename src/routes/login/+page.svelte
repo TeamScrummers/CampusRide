@@ -67,6 +67,7 @@
         margin-bottom: 25px;
     }
 
+
     .registerbtn {
         background-color: #04AA6D;
         color: white;
