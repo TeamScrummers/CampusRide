@@ -28,6 +28,7 @@
     <a href="/matchmakingtest">MatchMakingTest | </a>
     <a href="/navbar">Navbar | </a>
     <a href="/accept2">DAPP | </a>
+    <a href="/accept2">DAPP2 | </a>
   </div>
 </section>
 
