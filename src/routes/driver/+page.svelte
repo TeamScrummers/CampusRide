@@ -1,10 +1,3 @@
-<!-- Preloading Mapbox Scripts -->
-<svelte:head>
-  <script type="module" src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
-  <script type="module" src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js"></script>
-  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
-</svelte:head>
-
 <script>
   import Map from '../map/map.svelte';
   import { locateUser } from '../map/locateuser';
@@ -34,22 +27,16 @@
 
     // Updating DB
     const userID = getUserID()
-    // locateUser() updates startLocation
     locateUser()
     updateFromDatabase(`users/${userID}`, {available: true})
-    // <Geocoder></Geocoder> updates endLocation
     updateFromDatabase(`users/${userID}`, {latestArrival: timeOutput.toISOString()})
     updateFromDatabase(`users/${userID}`, {mode: "driver"})
-    // Write endLocation
-    var localUser = new User()
-    localUser = localUser.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
 
-    // Writes user to matchmaking pool
-    //updateMatchMaking(localUser)
-
+    // var localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
     goto('/accept')
   }
-
+  
+  //locateUser()
 </script>
 
 <section>
@@ -63,24 +50,19 @@
     </div>
 
     <div class = "time-overlay">
-      
-
-      <h4>When do you need to be there?</h4>
+      <h4 style="color:#000000;text-align:center">When do you need to be there?</h4>
       <form style="center; padding:10px">
         <input type="time" bind:value={timeInput} on:input={handleTimeInput} />
       </form>
     </div>
     <div class="vehicle-type-overlay">
-        <h4>What type of vehicle do you have?</h4>
+        <h4 style="color:#000000;text-align:center">What type of vehicle do you have?</h4>
         <form style="text-align:center; padding:10px">
           <input type="text" bind:value={vehicleType} />
         </form>
     </div>
     <div class = "button-container">
-      <button type="button" class="mode-button" on:click={sendPassengerAvailableNotifcation} on:click={() => submitDriver() }>Submit</button>
-      <!-- <button type="button" class="mode-button" on:click={() => goto('/trippickup')}>
-        Go to trip pickup
-    </button> -->
+      <button type="button" class="mode-button" on:click={() => submitDriver() }>Submit</button>
     </div>
 
       
@@ -88,19 +70,6 @@
 </section>
 
 <style>
-  /* .map-overlay{
-    color:#000000;
-    text-align:center;
-    background-color: lightgray;
-    position: relative;
-    margin-top: 10px;
-    margin-left: 10px;
-    padding: 10px;
-    height: auto;
-    width: fit-content;
-    z-index: 1;
-    } */
-
   .location-overlay{
     position: relative;
   }

@@ -6,6 +6,7 @@
   import { destinationCoords, userCoords} from '../firebase/Store.js'
   // delete this later??
   import { PUBLIC_MAPBOX_TOKEN } from '$env/static/public'
+  import { parseCoordinate } from './routeCalculation.js';
 
   const { getMap, getMapbox } = getContext(contextKey)
   const map = getMap()
@@ -16,8 +17,14 @@
   // let endCoord = [-96.469596,30.642855];
   //let start = get(userCoords).split(',').map(Number);
   //var end = get(destinationCoords).split(',').map(Number);
-  console.log("START:"+ start + " END:" + endCoord)
-
+  export let start = [-96.3442924,30.5833155]
+  export let endCoord = [-96.469596,30.642855]
+  console.log("directionsDriver: START:"+ start + " END:" + endCoord)
+  start = parseCoordinate(start)
+  endCoord = parseCoordinate(endCoord)
+  console.log("Parsed:")
+  console.log(start)
+  console.log(endCoord)
   async function getRoute(endCoord) {
     const query = await fetch(
       `https://api.mapbox.com/directions/v5/mapbox/driving/${start[0]},${start[1]};${endCoord[0]},${endCoord[1]}?steps=true&geometries=geojson&access_token=${PUBLIC_MAPBOX_TOKEN}`,
@@ -61,6 +68,7 @@
       });
     }
     // add turn instructions here at the end
+    /*
       const instructions = document.getElementById('instructions');
       const steps = data.legs[0].steps;
 
@@ -72,6 +80,7 @@
         `<h4><strong>Trip Distance: ${Math.floor(data.distance*0.000621371)} miles <br>
         Trip Duration: ${Math.floor(data.duration / 60)}
         min </strong></h4><ol>${tripInstructions}</ol>`;
+        */
   }
 
   //map.on('load', () => {
@@ -149,9 +158,9 @@
   //});
 </script>
 
-<body>
+<!-- <body>
   <div id="instructions" class = map-overlay></div>
-</body>
+</body> -->
 
 <style>
     html {
