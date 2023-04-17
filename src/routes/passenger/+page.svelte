@@ -16,6 +16,8 @@
   import { timeStringToDate } from './timeStringToDate';
   import { updateMatchMaking } from '../matching/MatchMaking';
   import { User } from '../matching/User';
+  import {sendTheUserAPushNotifcation, sendDriverArrivedNotifcation, sendPassengerAvailableNotifcation, sendDriverAcceptedNotifcation} from "../firebase/PushNotifications"
+
 
   let timeInput = '';
   function handleTimeInput(event) {
@@ -32,20 +34,23 @@
     // Updating DB
     const userID = getUserID()
     // locateUser() updates startLocation
-    locateUser()
+
     updateFromDatabase(`users/${userID}`, {available: true})
     // <Geocoder></Geocoder> updates endLocation
     updateFromDatabase(`users/${userID}`, {latestArrival: timeOutput.toISOString()})
     updateFromDatabase(`users/${userID}`, {mode: "passenger"})
     // Write endLocation
     var localUser = new User()
-    localUser = localUser.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
-
+    localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
     // Writes user to matchmaking pool
     //updateMatchMaking(localUser)
+    locateUser()
 
     goto('/trippickup')
   }
+
+  // Get user's location when they load the page
+  locateUser()
 
 </script>
 
@@ -66,7 +71,7 @@
       </form>
     </div>
     <div class = "button-container">
-      <button type="button" class="mode-button" on:click={() => submitPassenger() }>Submit</button>
+      <button type="button" class="mode-button" on:click={sendDriverAcceptedNotifcation} on:click={() => submitPassenger() }>Submit</button>
       <!-- <button type="button" class="mode-button" on:click={() => goto('/trippickup')}>
         Go to trip pickup
     </button> -->
@@ -74,10 +79,8 @@
   </div>
 </section>
 
-<Map></Map>
-
 <style>
-  .map-overlay{
+  /* .map-overlay{
     color:#000000;
     text-align:center;
     background-color: lightgray;
@@ -88,7 +91,7 @@
     height: auto;
     width: fit-content;
     z-index: 1;
-    }
+    } */
 
   .location-overlay{
     position: relative;
@@ -96,6 +99,7 @@
 
   .time-overlay{
     position: relative;
+    text-align: center;
   }
     
   .mode-button {
@@ -115,9 +119,11 @@
 
   .button-container {
     text-align: center;
+    text-align: center;
   }
 
   .mode-button:hover {
     opacity: 1;
+    text-align: center;
   }
 </style>
