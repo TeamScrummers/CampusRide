@@ -1,10 +1,10 @@
 import {LocalNotifications} from "@capacitor/local-notifications"
 
-export async function sendTheUserAPushNotifcation(){
+export async function sendTheUserAPushNotifcation(notifTitle, notifBody){
   LocalNotifications.schedule({
     notifications: [{
-        title: 'Friendly Reminder',
-        body: 'Join Team Scrummers :D',
+        title: notifTitle,
+        body: notifBody,
         id: 1
       }
     ]
