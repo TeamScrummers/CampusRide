@@ -2,9 +2,9 @@
 <!-- Preloading Mapbox Scripts -->
 <script>
   import { goto } from "$app/navigation";
-  //if (!import.meta.env.SSR) {
-  //  goto('/login')
-  //}
+  if (!import.meta.env.SSR) {
+    goto('/login')
+  }
 </script>
 
 <svelte:head>
@@ -26,9 +26,9 @@
     <a href="/tripover">Trip Over | </a>
     <a href="/notifications">Notifications | </a>
     <a href="/matchmakingtest">MatchMakingTest | </a>
+    <a href="/navbar">Navbar | </a>
     <a href="/accept2">DAPP | </a>
     <a href="/accept2">DAPP2 | </a>
-    <a href="/tripComplete">tripComplete | </a>
   </div>
 </section>
 
