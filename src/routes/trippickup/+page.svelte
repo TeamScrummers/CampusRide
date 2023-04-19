@@ -29,7 +29,7 @@
   }
 
   async function tempTripIDListener(childSnapshot){
-    tripID = childSnapshot
+    let tripID = childSnapshot
     // rip trip data
     readFromDatabaseOnValue(`trip/${tripID}`)
     console.log("TRIPID LISTENED: " + childSnapshot)
