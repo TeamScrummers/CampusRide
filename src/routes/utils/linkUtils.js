@@ -5,8 +5,7 @@ export const linkUtil = {
     logoSrc:svelteLogo,
     logoLink:true,
     linkUrl: '#/',
-    optionalLinkText: 'velte',
-    copyrightNotice: `ConsultingNinja  © 2022`,
+    optionalLinkText: 'CampusRide',
     altText: 'Logo',
     links:[
         {url:'/driver',

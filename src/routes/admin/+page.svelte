@@ -4,7 +4,7 @@
 <script>
     import { goto } from '$app/navigation'
     //crDatabse
-    import { listenToANode, createANodeInDatabase, pushAnObjectToDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/Database"
+    import { createANodeInDatabase, pushAnObjectToDatabase, readFromDatabaseOnValue, searchFromDatabase} from "../firebase/Database"
     
     function startListening(childSnapshot){
        console.log(childSnapshot)
