@@ -376,4 +376,3 @@ input[type="checkbox"]:checked + .mode-slider:before {
   font-size: 20px;
 }
 </style>
-1
