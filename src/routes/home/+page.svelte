@@ -74,7 +74,7 @@
       <iframe id="iframe1" src="./passenger"></iframe>
     </div>
   {:else}
-    <label class="mode-label" for="mode-switch-container" style="opacity: 0">Passenger</label>
+    <label class="mode-label" for="mode-switch-container" style="opacity: .3">Passenger</label>
   {/if}
   
   <label class="mode-switch">
@@ -88,7 +88,7 @@
       <iframe id="iframe1" src="./driver"></iframe>
     </div>
   {:else}
-    <label class="mode-label" for="mode-switch-container" style="opacity: 0">Driver</label>
+    <label class="mode-label" for="mode-switch-container" style="opacity: .3">Driver</label>
   {/if}
 </div>
 

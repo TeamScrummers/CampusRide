@@ -12,6 +12,9 @@
 	"/admin": [
 		"src/routes/+layout.js"
 	],
+	"/api/stripeCheckout": [
+		"src/routes/api/stripeCheckout/+server.ts"
+	],
 	"/auth": [
 		"src/routes/+layout.js"
 	],
@@ -39,10 +42,22 @@
 	"/passenger": [
 		"src/routes/+layout.js"
 	],
+	"/payment": [
+		"src/routes/+layout.js"
+	],
+	"/payment/cancel": [
+		"src/routes/+layout.js"
+	],
+	"/payment/success": [
+		"src/routes/+layout.js"
+	],
 	"/profile": [
 		"src/routes/+layout.js"
 	],
 	"/settings": [
+		"src/routes/+layout.js"
+	],
+	"/tripComplete": [
 		"src/routes/+layout.js"
 	],
 	"/tripenroute": [
