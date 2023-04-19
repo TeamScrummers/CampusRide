@@ -13,10 +13,6 @@
   <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'></script>
 </svelte:head>
 
-<!--Import for settings cog icon-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" 
-integrity="sha512-0PlGcQ46tJzjfIkOQf7oXXHAKj3k7V0BlJGZRU7VDC1HsMx7sRJ0oJ4XOK+yUsSYDrIaAAm61kGdLPK1ZtMnZQ=="
-crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
 <section class="content">
   <div class="container">

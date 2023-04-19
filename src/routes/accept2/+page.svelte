@@ -10,7 +10,6 @@
   
   <script>
     import Map from '../map/map.svelte';
-
     let isDrawerOpen = false;
   
     function toggleDrawer() {
@@ -77,7 +76,6 @@
       justify-content: space-between;
     margin-top: 16px;
     }
-
 .accept-button, .deny-button {
   padding: 8px 16px;
   border: none;
@@ -86,29 +84,23 @@
   font-weight: bold;
   cursor: pointer;
 }
-
 .accept-button {
   background-color: #00c853;
   color: white;
 }
-
 .deny-button {
   background-color: #f44336;
   color: white;
 }
-
   /* content box style layout */
   .content-box {
     padding: 16px;
     height: 100%;
     overflow-y: scroll;
   }
-
   .content-box h2 {
     margin-top: 0;
   }
-
-
   </style>
   
   <div class={`drawer ${isDrawerOpen ? "open" : ""}`}>
@@ -181,4 +173,3 @@
       <path d="M7,12L12,7L17,12H7Z" />
     </svg>
   </div>
-  
