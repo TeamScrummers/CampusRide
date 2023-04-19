@@ -53,8 +53,8 @@
     endCoord = endCoordinates;
     console.log("getMapRoute Start:"+ start + " End:" + endCoord);
     // Update RouteMap with new coordinates
-    $: start = startCoordinates
-    $: endCoord = endCoordinates
+    start = startCoordinates
+    endCoord = endCoordinates
     mapFlag = false
     setTimeout(() => {
       mapFlag = true
