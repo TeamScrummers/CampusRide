@@ -15,7 +15,12 @@
   import Geocoder from '../map/geocoder.svelte';
   import Navbar from "../navbar/navbar.svelte"
   import { linkUtil } from "../utils/linkUtils"
+  import Profile from '../profile/profile.svelte';
+  import Settings from '../settings/settings.svelte'
+
   let isDriverMode = false;
+  let settingsMode = false;
+
 	function driverMode() {
 		appMode.set("Driver")
     // add user to matchmaking pool (call the function)
@@ -38,6 +43,10 @@
   
   function toggleDrawer() {
     isDrawerOpen = !isDrawerOpen;
+  }
+
+  function changeSettingsMode() {
+    settingsMode = !settingsMode;
   }
 </script>
 
@@ -89,11 +98,60 @@
       <path d="M7,12L12,7L17,12H7Z" />
     </svg>
   </div>
-  <iframe id="iframe2" src="./profile"></iframe>
+
+  {#if (settingsMode === false)}
+  <div class="profilePage">
+    <Profile></Profile>
+  </div>  
+  <div class="alignButtons">
+    <button class="settings-button" on:click={changeSettingsMode}>
+      <i class="fa fa-cog"></i>
+    </button>
+    <button class="backButton" on:click={null}>Sign Out</button>
+  </div>
+  {/if}
+  {#if (settingsMode === true)}
+  <div class="settingsPage">
+    <Settings></Settings>
+  </div>
+    <div class="alignButtons">
+      <button class="backButton" on:click={changeSettingsMode}>Back</button>
+    </div>
+  {/if}
 </div>
 
-
 <style>
+
+  .alignButtons{
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;    
+  }
+
+  .profilePage{
+    padding-top: 25%;
+    display: flex;
+    height: 90%;
+    overflow: scroll;
+    align-items: center;
+  }
+
+  .settingsPage{
+    padding-top: 185%;
+    display: flex;
+    height: 90%;
+    overflow: scroll;
+    align-items: center;
+  }
+
+  .profilePage::-webkit-scrollbar {
+        width: 0px; /* hide the default scrollbar */
+    }
+
+  .settingsPage::-webkit-scrollbar {
+      width: 0px; /* hide the default scrollbar */
+  }
+
   .map-overlay{
     color:#000000;
     text-align:center;
@@ -276,5 +334,45 @@ input[type="checkbox"]:checked + .mode-slider:before {
   right: 0;
   bottom: 0;
   left: 0;
+}
+
+.backButton {
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #fff;
+  color: #2c3e50;
+  border: 2px solid #2c3e50;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  height: fit-content;
+  width: fit-content;
+}
+
+.backButton:hover {
+  background-color: #2c3e50;
+  color: #fff;
+}
+
+.settings-button {
+  margin: 10px;
+  background-color: white;
+  color: #2c3e50;
+  border-radius: 5px;
+  border: 2px solid #2c3e50;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  height: fit-content;
+  width: fit-content;
+}
+
+.settings-button:hover {
+  background-color: #34495e;
+}
+
+/* Style the icon */
+.settings-button i {
+  font-size: 20px;
 }
 </style>
