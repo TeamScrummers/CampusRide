@@ -1,5 +1,11 @@
 <script>
     import { goto } from '$app/navigation'
+    import { getUserID } from '../firebase/Auth';
+    import { readFromDatabaseOnValue, updateFromDatabase } from '../firebase/Database';
+
+    const userID = getUserID()
+    let localUser
+    
 
     let fullName = 'John Doe';
     let email = 'johndoe@example.com';
@@ -21,48 +27,87 @@
     function handleSettings() {
       goto('./settings');
     }
+
+    function getFirstAndLastName(fullName) {
+      const names = fullName.split(' ');
+      const firstName = names[0];
+      const lastName = names[names.length - 1];
+      return { firstName, lastName };
+    }
+
+    
+    async function dataSubmit() {
+      let nameOBJ = getFirstAndLastName(fullName)
+      localUser.firstName = nameOBJ.firstName
+      localUser.lastName = nameOBJ.lastName
+      localUser.email = email
+      localUser.vehicleMake = vehicleMake
+      localUser.vehicleModel = vehicleModel
+      localUser.vehicleYear = vehicleYear
+      localUser.licensePlate = licensePlate
+      localUser.vehicleColor = vehicleColor
+
+      updateFromDatabase(`users/${userID}`,localUser)
+    }
+
+    async function fetchData() {
+      // Not a user object.
+      localUser = await readFromDatabaseOnValue(`users/${userID}`)
+      fullName = localUser.firstName + " " + localUser.lastName
+      email = localUser.email
+      // Need these registered to each user.
+      vehicleMake = localUser.vehicleMake
+      vehicleModel = localUser.vehicleModel
+      vehicleYear = localUser.vehicleYear
+      licensePlate = localUser.licensePlate
+      vehicleColor = localUser.vehicleColor
+
+    }
+
+    fetchData()
 </script>
-    <div class="container">
-      <h1>{fullName || 'Your Information'}</h1>
-      <form on:submit={handleSubmit}>
-        <div style="display:flex; flex-direction:column">
-          <label>
-            Full Name:
-            <input type="text" bind:value={fullName} />
-          </label>
-          <label>
-            Email:
-            <input type="email" bind:value={email} />
-          </label>
-          <h2>Vehicle Information</h2>
-          <label>
-            Make:
-            <input type="text" bind:value={vehicleMake} />
-          </label>
-          <label>
-            Model:
-            <input type="text" bind:value={vehicleModel} />
-          </label>
-          <label>
-              Year:
-              <input type="text" bind:value={vehicleYear} />
-            </label>
-          <label>
-            License Plate:
-            <input type="text" bind:value={licensePlate} />
-          </label>
-          <label>
-            Color:
-            <input type="text" bind:value={vehicleColor} />
-          </label>
-          <button type="submit">Save</button>
-        </div>
-        </form>
-      <!-- <button on:click={handleSignOut}>Sign Out</button>
-      <button class="settings-button" on:click={handleSettings}>
-        <i class="fa fa-cog"></i>
-      </button> -->
+
+<div class="container">
+  <h1>{fullName || 'Your Information'}</h1>
+  <form on:submit={handleSubmit}>
+    <div style="display:flex; flex-direction:column">
+      <label>
+        Full Name:
+        <input type="text" bind:value={fullName} />
+      </label>
+      <label>
+        Email:
+        <input type="email" bind:value={email} />
+      </label>
+      <h2>Vehicle Information</h2>
+      <label>
+        Make:
+        <input type="text" bind:value={vehicleMake} />
+      </label>
+      <label>
+        Model:
+        <input type="text" bind:value={vehicleModel} />
+      </label>
+      <label>
+          Year:
+          <input type="text" bind:value={vehicleYear} />
+        </label>
+      <label>
+        License Plate:
+        <input type="text" bind:value={licensePlate} />
+      </label>
+      <label>
+        Color:
+        <input type="text" bind:value={vehicleColor} />
+      </label>
+      <button on:click={dataSubmit}>Save</button>
     </div>
+    </form>
+  <!-- <button on:click={handleSignOut}>Sign Out</button>
+  <button class="settings-button" on:click={handleSettings}>
+    <i class="fa fa-cog"></i>
+  </button> -->
+</div>
 
 
 <style>

@@ -1,6 +1,6 @@
 <script>
   import { getUserID } from "../firebase/Auth";
-  import { searchFromDatabase, readFromDatabaseOnValue, writeTripToDatabase } from "../firebase/Database";
+  import { searchFromDatabase, readFromDatabaseOnValue, writeTripToDatabase, findUserByPhone, updateFromDatabase} from "../firebase/Database";
   import { User } from "../matching/User";
   import Map from '../map/map.svelte';
   import RouteMap from "../map/routeMap.svelte";
@@ -41,25 +41,24 @@
   
   async function acceptPassenger (passenger) {
     console.log("Accepted: " + passenger.firstName + " " + passenger.lastName)
-    let tripID = Trip.makeTrip(await readFromDatabaseOnValue(`users/${userID}/`),passenger)
-    let passengerID = findUserByPhone(passenger.phoneNumber)
+    let tripID = Trip.makeTrip(User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`)),User.fromJSON(passenger))
+    let passengerID = await findUserByPhone(passenger.phoneNumber)
+    console.log("post find")
     updateFromDatabase(`users/${passengerID}`, { tempTripID: tripID });
+    console.log("post update")
   }
 
   async function getMapRoute(startCoordinates, endCoordinates) {
-  start = startCoordinates;
-  endCoord = endCoordinates;
-  console.log("getMapRoute Start:"+ start + " End:" + endCoord);
-
-  // Update RouteMap with new coordinates
-  $: start = startCoordinates
-  $: endCoord = endCoordinates
-  mapFlag = false
-  setTimeout(() => {
-    mapFlag = true
-  }, 10) // adjust timeout if map does not refresh
-  
-
+    start = startCoordinates;
+    endCoord = endCoordinates;
+    console.log("getMapRoute Start:"+ start + " End:" + endCoord);
+    // Update RouteMap with new coordinates
+    $: start = startCoordinates
+    $: endCoord = endCoordinates
+    mapFlag = false
+    setTimeout(() => {
+      mapFlag = true
+    }, 10) // adjust timeout if map does not refresh
   }
 
 
@@ -72,9 +71,8 @@
 </script>
 
 {#if mapFlag === true}
-<RouteMap {start} {endCoord} key={new Date().getTime()}></RouteMap>
+  <RouteMap {start} {endCoord} key={new Date().getTime()}></RouteMap>
 {/if}
-
 
 <div class={`drawer ${isDrawerOpen ? "open" : ""}`}>
   <!-- Drawer content goes here -->
@@ -100,7 +98,7 @@
               <p><strong>Pickup Location:</strong> {address}</p>
               <p><strong>Estimated Trip Time:</strong> {(time1 + time2).toFixed(1)} minutes</p>
               <p><strong>Total Trip Distance:</strong> {(distance1 + distance2).toFixed(1)} miles</p>
-              <p><strong>Trip Fare:</strong> 6 Dollars</p>
+              <p><strong>Trip Fare:</strong> 6 Dollars</p> 
               <p><button class="accept-button" on:click|stopPropagation={() => acceptPassenger(passenger)}>Accept</button>
             </button>
           </div>
