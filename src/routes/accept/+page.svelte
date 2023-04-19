@@ -45,6 +45,7 @@
     let passengerID = await findUserByPhone(passenger.phoneNumber)
     console.log("post find")
     updateFromDatabase(`users/${passengerID}`, { tempTripID: tripID });
+    updateFromDatabase(`users/${passengerID}`, { available: false });
     console.log("post update")
   }
 
