@@ -1,26 +1,25 @@
 <script>
-    import { goto } from '$app/navigation'
-    let fullName = 'John Doe';
-    let email = 'johndoe@example.com';
-    let vehicleMake = 'Toyota';
-    let vehicleModel = 'Camry';
-    let vehicleYear = '2020';
-    let licensePlate = 'ABC123';
-    let vehicleColor = 'Blue';
+  import { goto } from '$app/navigation'
+  let fullName = 'John Doe';
+  let email = 'johndoe@example.com';
+  let vehicleMake = 'Toyota';
+  let vehicleModel = 'Camry';
+  let vehicleYear = '2020';
+  let licensePlate = 'ABC123';
+  let vehicleColor = 'Blue';
   
-    function handleSubmit(event) {
-      event.preventDefault();
-      // code to submit the form data
-    }
-  
-    function handleSignOut() {
-      // code to sign out the user
-    }
+  function handleSubmit(event) {
+    event.preventDefault();
+    // code to submit the form data
+  }
 
-    function handleSettings() {
-      goto('./settings');
-    }
-    
+  function handleSignOut() {
+    // code to sign out the user
+  }
+
+  function handleSettings() {
+    goto('./settings');
+  }
 </script>
   
 <main>
