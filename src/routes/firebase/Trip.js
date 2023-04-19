@@ -1,5 +1,5 @@
 import { User } from "../matching/User";
-import { writeTripToDatabase } from "./Database";
+import { writeTripToDatabase, updateFromDatabase} from "./Database";
 
 export class Trip {
     constructor(tripId, driver, passenger, startLocation, endLocation, fare, date) {
@@ -18,10 +18,12 @@ export class Trip {
      * @param {object} passenger - User object that represents the passenger
      * @returns - New Trip Obj based off of user pair & db data
     */
-    static makeTrip(driver, passenger) {
+    static async makeTrip(driver, passenger) {
         //console.log(driver)
-        const tripObj = new Trip(null, driver, passenger, passenger.startLocation, driver.endLocation, 10, driver.latestArrival)
-        tripObj.tripId = writeTripToDatabase(tripObj)
+        const tripObj = new Trip('', driver, passenger, passenger.startLocation, driver.endLocation, 6, driver.latestArrival)
+        console.log(tripObj)
+        tripObj.tripId = await writeTripToDatabase(tripObj)
+        updateFromDatabase(`trips/${tripObj.tripId}`, { tripId: tripObj.tripId });
         return tripObj
     }
 

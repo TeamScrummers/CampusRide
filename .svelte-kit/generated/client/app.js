@@ -21,37 +21,31 @@ export const nodes = [
 	() => import('./nodes/17'),
 	() => import('./nodes/18'),
 	() => import('./nodes/19'),
-	() => import('./nodes/20'),
-	() => import('./nodes/21'),
-	() => import('./nodes/22'),
-	() => import('./nodes/23')
+	() => import('./nodes/20')
 ];
 
 export const server_loads = [];
 
 export const dictionary = {
 		"/": [2],
-		"/accept2": [4],
 		"/accept": [3],
-		"/admin": [5],
-		"/auth": [6],
-		"/driver": [7],
-		"/home": [8],
-		"/login": [9],
-		"/map": [10],
-		"/matching": [11],
-		"/matchmakingtest": [12],
-		"/notifications": [13],
-		"/passenger": [14],
-		"/payment": [15],
-		"/payment/cancel": [16],
-		"/payment/success": [17],
-		"/profile": [18],
-		"/settings": [19],
-		"/tripComplete": [20],
-		"/tripenroute": [21],
-		"/tripover": [22],
-		"/trippickup": [23]
+		"/admin": [4],
+		"/auth": [5],
+		"/driver": [6],
+		"/home": [7],
+		"/login": [8],
+		"/map": [9],
+		"/matching": [10],
+		"/matchmakingtest": [11],
+		"/notifications": [12],
+		"/passenger": [13],
+		"/payment": [14],
+		"/payment/cancel": [15],
+		"/payment/success": [16],
+		"/tripComplete": [17],
+		"/tripenroute": [18],
+		"/tripover": [19],
+		"/trippickup": [20]
 	};
 
 export const hooks = {

@@ -3,9 +3,6 @@
 		"src/routes/+layout.js",
 		"src/routes/+layout.js"
 	],
-	"/accept2": [
-		"src/routes/+layout.js"
-	],
 	"/accept": [
 		"src/routes/+layout.js"
 	],
@@ -49,12 +46,6 @@
 		"src/routes/+layout.js"
 	],
 	"/payment/success": [
-		"src/routes/+layout.js"
-	],
-	"/profile": [
-		"src/routes/+layout.js"
-	],
-	"/settings": [
 		"src/routes/+layout.js"
 	],
 	"/tripComplete": [

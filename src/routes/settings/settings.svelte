@@ -25,7 +25,7 @@
     <button type="submit">Save Changes</button>
     </form>
 
-    <form>
+    <!-- <form>
     <h2>Change Name</h2>
     <div class="form-group">
         <label for="first-name">First Name</label>
@@ -36,7 +36,7 @@
         <input type="text" id="last-name">
     </div>
     <button type="submit">Save Changes</button>
-    </form>
+    </form> -->
 
     <form>
     <h2>Update Payment Info</h2>

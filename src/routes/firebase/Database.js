@@ -207,21 +207,17 @@ export async function writeTripToDatabase(trip) {
 }
 
 /**
- * Returns the user ID of the user associated with the given phone number.
- * @param {string} phoneNumber - The phone number of the user to look up.
- * @returns {Promise<string>} - A Promise that resolves to the user ID of the user with the given phone number.
+ * @function findUserByPhone
+ * @param {string} phoneNumber - The phone number of the user to search for.
+ * @returns {Promise<string|null>} A promise that resolves to the user ID with the given phone number, or null if none are found.
  */
+
 export async function findUserByPhone(phoneNumber) {
-  const usersRef = ref(db, 'users');
-  const snapshot = await get(child(usersRef));
-
-  if (snapshot.exists()) {
-    const users = Object.values(snapshot.val());
-    const user = users.find((user) => user.phone === phoneNumber);
-    if (user) {
-      return user;
-    }
-  }
-
-  throw new Error(`User with phone number ${phoneNumber} not found`);
+  const table = "users";
+  const key = "phoneNumber";
+  const value = phoneNumber;
+  const result = await searchFromDatabase(table, key, value);
+  //console.log(Object.keys(result)[0])
+  return Object.keys(result)[0];
 }
+
