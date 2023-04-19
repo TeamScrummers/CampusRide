@@ -15,23 +15,18 @@
   import Geocoder from '../map/geocoder.svelte';
   import Navbar from "../navbar/navbar.svelte"
   import { linkUtil } from "../utils/linkUtils"
-
   let isDriverMode = false;
-
 	function driverMode() {
 		appMode.set("Driver")
     // add user to matchmaking pool (call the function)
 		goto('/driver')
 	}
-
 	function passengerMode() {
 		appMode.set("Passenger")
     // add user to matchmaking pool (call the function)
 		goto('/passenger')
 	}
-
   let mode = 'passenger';
-
   function toggleMode() {
     if (mode === 'passenger') {
       mode = 'driver';
@@ -39,7 +34,6 @@
       mode = 'passenger';
     }
   }
-
   let isDrawerOpen = false;
   
   function toggleDrawer() {
@@ -112,11 +106,9 @@
     width: fit-content;
     z-index: 1;
     }
-
   .location-overlay{
     position: relative;
   }
-
   .time-overlay{
     position: relative;
   }
@@ -135,15 +127,12 @@
     display: inline-block;
     font-size: 25px;
   }
-
   .button-container {
     text-align: center;
   }
-
   .mode-button:hover {
     opacity: 1;
   }
-
   .mode-switch-container {
   display: flex;
   justify-content: space-between;
@@ -157,23 +146,19 @@
   top: 10px;
   right: 10px;
 }
-
 .mode-label {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-
 .mode-switch {
   position: relative;
   display: inline-block;
   width: 60px;
   height: 34px;
 }
-
 .mode-switch input[type="checkbox"] {
   display: none;
 }
-
 .mode-slider {
   position: absolute;
   cursor: pointer;
@@ -186,7 +171,6 @@
   transition: .4s;
   border-radius: 34px;
 }
-
 .mode-slider:before {
   position: absolute;
   content: "";
@@ -200,27 +184,22 @@
   border-radius: 50%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
-
 input[type="checkbox"]:checked + .mode-slider {
   background-color: #2196F3;
 }
-
 input[type="checkbox"]:checked + .mode-slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
-
 .round {
   border-radius: 34px;
 }
-
 .iframe-container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
 #iframe1 {
   height: 70%;
   width: 70%;
@@ -230,7 +209,6 @@ input[type="checkbox"]:checked + .mode-slider:before {
   transform: translate(-50%, -50%);
   border: transparent;
 }
-
 .drawer {
   position: fixed;
   top: 0;
@@ -244,11 +222,9 @@ input[type="checkbox"]:checked + .mode-slider:before {
   overflow: hidden;
   transition: transform 0.3s ease-out; /* Use transform instead of height */
 }
-
   .drawer.open {
     transform: translateX(30vh); /* Move the drawer back onto the screen */
   }
-
   .handle {
     display: flex;
     justify-content: center;
@@ -266,17 +242,13 @@ input[type="checkbox"]:checked + .mode-slider:before {
     transition: transform 0.3s ease-out, right 0.3s ease-out;
     z-index: 100;
 }
-
 .drawer.open .handle {
   right: 200px;
   transform: translate(-50%, -50%) rotate(0deg); /* adjust the transform property for open state */
 }
-
-
 .handle:hover {
   transform: translateX(10px) translateY(-50%);
 }
-
 .icon {
   width: 30px;
   height: 30px;
@@ -285,12 +257,9 @@ input[type="checkbox"]:checked + .mode-slider:before {
   z-index: 100;
   transform: rotate(90deg);
 }
-
 .handle:hover .icon {
   fill: black;
 }
-
-
 .iframe2 {
   position: fixed;
   top: 0;
@@ -299,7 +268,6 @@ input[type="checkbox"]:checked + .mode-slider:before {
   height: 100%;
   border: none;
 }
-
 .drawer iframe {
   width: 100%;
   height: 100%;
@@ -309,5 +277,5 @@ input[type="checkbox"]:checked + .mode-slider:before {
   bottom: 0;
   left: 0;
 }
-
 </style>
+1

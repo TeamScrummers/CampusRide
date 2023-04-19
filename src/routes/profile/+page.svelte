@@ -16,7 +16,6 @@
     function handleSignOut() {
       // code to sign out the user
     }
-
     function handleSettings() {
       goto('./settings');
     }
@@ -155,14 +154,11 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         cursor: pointer;
     }
-
     .settings-button:hover {
         background-color: #34495e;
     }
-
     /* Style the icon */
     .settings-button i {
         font-size: 20px;
     }
-
 </style>
