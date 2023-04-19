@@ -2,8 +2,8 @@ import { User } from "../matching/User";
 import { writeTripToDatabase, updateFromDatabase} from "./Database";
 
 export class Trip {
-    constructor(tripId, driver, passenger, startLocation, endLocation, fare, date) {
-      this.tripId = tripId;
+    constructor(tripID, driver, passenger, startLocation, endLocation, fare, date) {
+      this.tripID = tripID;
       this.driver = driver;
       this.passenger = passenger;
       this.startLocation = startLocation;
@@ -22,9 +22,9 @@ export class Trip {
         //console.log(driver)
         const tripObj = new Trip('', driver, passenger, passenger.startLocation, driver.endLocation, 6, driver.latestArrival)
         console.log(tripObj)
-        tripObj.tripId = await writeTripToDatabase(tripObj)
-        updateFromDatabase(`trips/${tripObj.tripId}`, { tripId: tripObj.tripId });
-        return tripObj
+        tripObj.tripID = await writeTripToDatabase(tripObj)
+        updateFromDatabase(`trips/${tripObj.tripID}`, { tripID: tripObj.tripID });
+        return tripObj.tripID
     }
 
   /**
@@ -33,7 +33,7 @@ export class Trip {
   */
     toJSON() {
       return {
-        tripId: this.tripId,
+        tripID: this.tripID,
         driver: this.driver.toJSON(), // calling User.js toJSON()
         passenger: this.passenger.toJSON(), // calling User.js toJSON()
         startLocation: this.startLocation,
@@ -52,7 +52,7 @@ export class Trip {
       const driver = User.fromJSON(data.driver); // calling User.js fromJSON()
       const passenger = User.fromJSON(data.passenger) // calling User.js fromJSON()
       const trip = new Trip(
-        data.tripId,
+        data.tripID,
         driver,
         passenger,
         data.startLocation,
