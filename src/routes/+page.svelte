@@ -33,6 +33,7 @@ crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <a href="/navbar">Navbar | </a>
     <a href="/accept2">DAPP | </a>
     <a href="/accept2">DAPP2 | </a>
+    <a href="/tripComplete">tripComplete | </a>
   </div>
 </section>
 
