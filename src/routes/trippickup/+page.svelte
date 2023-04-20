@@ -6,7 +6,7 @@
   import { readFromDatabaseOnValue } from '../firebase/Database';
   import { listenToANode } from '../firebase/Database';
   let availableFlag, tripFlag, fareFlag = true
-  let start, endCoord, userID, localUser
+  let start, endCoord, userID, localUser, tripOBJ
 
   async function fetchData() {
     userID = await getUserID();
@@ -31,14 +31,7 @@
 
   async function tempTripIDListener(childSnapshot){
     let tripID = childSnapshot
-    let tripOBJ = await readFromDatabaseOnValue(`trip/${tripID}`)
-    
-    if (!tripID == null) {
-      console.log("TRIPID obj: " + tripOBJ)
-      console.log("Driver Location: " + tripOBJ.driver.startLocation)
-      endCoord = tripOBJ.driver.startLocation
-    }
-     
+    tripOBJ = await readFromDatabaseOnValue(`trip/${tripID}`)
     console.log("TRIPID LISTENED: " + childSnapshot)
   }
 
@@ -58,6 +51,7 @@
     {/if}
     {#if (availableFlag == false && fareFlag == false) } 
     <h3>Match Found: Pickup Enroute</h3>
+    {$endCoord = tripOBJ.driver.startLocation}
     <RouteMap {start} {endCoord}></RouteMap>
     
     {/if}
@@ -74,5 +68,3 @@
 {:else}
   <h3>Loading User Data...</h3>
 {/if}
-
-
