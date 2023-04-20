@@ -41,7 +41,7 @@
   
   async function acceptPassenger (passenger) {
     console.log("Accepted: " + passenger.firstName + " " + passenger.lastName)
-    let tripID = Trip.makeTrip(User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`)),User.fromJSON(passenger))
+    let tripID = await Trip.makeTrip(User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`)),User.fromJSON(passenger))
     let passengerID = await findUserByPhone(passenger.phoneNumber)
     console.log("post find: " + tripID)
     updateFromDatabase(`users/${passengerID}`, { tempTripID: tripID });
