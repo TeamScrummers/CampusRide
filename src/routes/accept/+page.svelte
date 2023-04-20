@@ -43,7 +43,7 @@
     console.log("Accepted: " + passenger.firstName + " " + passenger.lastName)
     let tripID = Trip.makeTrip(User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`)),User.fromJSON(passenger))
     let passengerID = await findUserByPhone(passenger.phoneNumber)
-    console.log("post find")
+    console.log("post find: " + tripID)
     updateFromDatabase(`users/${passengerID}`, { tempTripID: tripID });
     updateFromDatabase(`users/${passengerID}`, { available: false });
     console.log("post update")
