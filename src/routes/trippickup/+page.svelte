@@ -26,12 +26,13 @@
   async function availableListener(childSnapshot){
     availableFlag = childSnapshot
     console.log("AVAILABLE LISTENED: " + childSnapshot)
+    console.log("fareFlag: " + fareFlag)
   }
 
   async function tempTripIDListener(childSnapshot){
     let tripID = childSnapshot
     // rip trip data
-    readFromDatabaseOnValue(`trip/${tripID}`)
+    console.log("TRIPID obj: " + readFromDatabaseOnValue(`trip/${tripID}`))
     console.log("TRIPID LISTENED: " + childSnapshot)
   }
 
@@ -45,11 +46,11 @@
       <button type="button" class="mode-button" on:click={() => {fareFlag = false} }>Accept</button>
       <Map></Map>
     {/if}
-    {#if (localUser.available == true && fareFlag == false) } 
+    {#if (availableFlag == true && fareFlag == false) } 
       <h3>Looking For A Match...</h3>
       <Map></Map>
     {/if}
-    {#if (localUser.available == false && fareFlag == false) } 
+    {#if (availableFlag == false && fareFlag == false) } 
     <h3>Match Found: Pickup Enroute</h3>
     <RouteMap {start} {endCoord}></RouteMap>
     
