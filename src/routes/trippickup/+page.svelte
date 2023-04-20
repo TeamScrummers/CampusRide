@@ -31,8 +31,10 @@
 
   async function tempTripIDListener(childSnapshot){
     let tripID = childSnapshot
-    tripOBJ = await readFromDatabaseOnValue(`trip/${tripID}`)
+    tripOBJ = await readFromDatabaseOnValue(`trips/${childSnapshot}`)
     console.log("TRIPID LISTENED: " + childSnapshot)
+    console.log(await tripOBJ)
+    endCoord = tripOBJ.driver.startLocation
   }
 
   fetchData();
@@ -51,7 +53,6 @@
     {/if}
     {#if (availableFlag == false && fareFlag == false) } 
     <h3>Match Found: Pickup Enroute</h3>
-    {$endCoord = tripOBJ.driver.startLocation}
     <RouteMap {start} {endCoord}></RouteMap>
     
     {/if}
