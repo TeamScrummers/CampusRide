@@ -31,8 +31,14 @@
 
   async function tempTripIDListener(childSnapshot){
     let tripID = childSnapshot
-    // rip trip data
-    console.log("TRIPID obj: " + readFromDatabaseOnValue(`trip/${tripID}`))
+    let tripOBJ = await readFromDatabaseOnValue(`trip/${tripID}`)
+    
+    if (!tripID == null) {
+      console.log("TRIPID obj: " + tripOBJ)
+      console.log("Driver Location: " + tripOBJ.driver.startLocation)
+      endCoord = tripOBJ.driver.startLocation
+    }
+     
     console.log("TRIPID LISTENED: " + childSnapshot)
   }
 
