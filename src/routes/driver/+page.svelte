@@ -55,12 +55,6 @@
         <input type="time" bind:value={timeInput} on:input={handleTimeInput} />
       </form>
     </div>
-    <div class="vehicle-type-overlay">
-        <h4 style="color:#000000;text-align:center">What type of vehicle do you have?</h4>
-        <form style="text-align:center; padding:10px">
-          <input type="text" bind:value={vehicleType} />
-        </form>
-    </div>
     <div class = "button-container">
       <button type="button" class="mode-button" on:click={() => submitDriver() }>Submit</button>
     </div>
@@ -87,7 +81,7 @@
     cursor: pointer;
     opacity: .7;
     height: 50px;
-    width: 75%;
+    width: 25%;
     font-size: 40px;
     font-style: italic;
     display: inline-block;
