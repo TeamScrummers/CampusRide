@@ -1,6 +1,6 @@
 export class Trip {
-    constructor(tripId, driver, passengers, startLocation, endLocation, fare, date) {
-      this.tripId = tripId;
+    constructor(tripID, driver, passengers, startLocation, endLocation, fare, date) {
+      this.tripID = tripID;
       this.driver = driver;
       this.passengers = passengers;
       this.startLocation = startLocation;
@@ -12,7 +12,7 @@ export class Trip {
     // Convert Trip object to JSON data
     toJSON() {
       return {
-        tripId: this.tripId,
+        tripID: this.tripID,
         driver: this.driver.toJSON(), // calling User.js toJSON()
         passengers: this.passengers.map((passenger) => passenger.toJSON()), // calling User.js toJSON()
         startLocation: this.startLocation,
@@ -27,7 +27,7 @@ export class Trip {
       const driver = User.fromJSON(data.driver); // calling User.js toJSON()
       const passengers = data.passengers.map((passenger) => User.fromJSON(passenger)); // calling User.js fromJSON()
       const trip = new Trip(
-        data.tripId,
+        data.tripID,
         driver,
         passengers,
         data.startLocation,

@@ -6,7 +6,7 @@
   import { readFromDatabaseOnValue } from '../firebase/Database';
   import { listenToANode } from '../firebase/Database';
   let availableFlag, tripFlag, fareFlag = true
-  let start, endCoord, userID, localUser
+  let start, endCoord, userID, localUser, tripOBJ
 
   async function fetchData() {
     userID = await getUserID();
@@ -26,13 +26,15 @@
   async function availableListener(childSnapshot){
     availableFlag = childSnapshot
     console.log("AVAILABLE LISTENED: " + childSnapshot)
+    console.log("fareFlag: " + fareFlag)
   }
 
   async function tempTripIDListener(childSnapshot){
-    tripID = childSnapshot
-    // rip trip data
-    readFromDatabaseOnValue(`trip/${tripID}`)
+    let tripID = childSnapshot
+    tripOBJ = await readFromDatabaseOnValue(`trips/${childSnapshot}`)
     console.log("TRIPID LISTENED: " + childSnapshot)
+    console.log(await tripOBJ)
+    endCoord = tripOBJ.driver.startLocation
   }
 
   fetchData();
@@ -45,11 +47,11 @@
       <button type="button" class="mode-button" on:click={() => {fareFlag = false} }>Accept</button>
       <Map></Map>
     {/if}
-    {#if (localUser.available == true && fareFlag == false) } 
+    {#if (availableFlag == true && fareFlag == false) } 
       <h3>Looking For A Match...</h3>
       <Map></Map>
     {/if}
-    {#if (localUser.available == false && fareFlag == false) } 
+    {#if (availableFlag == false && fareFlag == false) } 
     <h3>Match Found: Pickup Enroute</h3>
     <RouteMap {start} {endCoord}></RouteMap>
     
@@ -67,5 +69,3 @@
 {:else}
   <h3>Loading User Data...</h3>
 {/if}
-
-
