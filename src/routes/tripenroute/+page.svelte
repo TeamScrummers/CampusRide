@@ -5,6 +5,7 @@
   import { getUserID } from '../firebase/Auth';
   import { readFromDatabaseOnValue } from '../firebase/Database';
   import { listenToANode } from '../firebase/Database';
+  import { checkIfArrived } from '../map/routeCalculation';
   import { goto } from '$app/navigation';
 
   let availableFlag, tripFlag, fareFlag = true

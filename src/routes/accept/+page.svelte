@@ -6,6 +6,7 @@
   import RouteMap from "../map/routeMap.svelte";
   import { getAddress, getDriveDistance, getDriveTime } from "../map/routeCalculation";
   import { Trip } from "../firebase/Trip";
+    import { goto } from "$app/navigation";
   const userID = getUserID()
   export let passengers = []
   export let localUser = new User()
@@ -48,6 +49,7 @@
     updateFromDatabase(`users/${passengerID}`, { available: false });
     updateFromDatabase(`users/${userID}`, { tempTripID: tripID });
     console.log("post update")
+    goto('/trippickup')
   }
 
   async function getMapRoute(startCoordinates, endCoordinates) {
@@ -65,8 +67,14 @@
 
 
   let isDrawerOpen = false;
-  function toggleDrawer() {
-    isDrawerOpen = !isDrawerOpen;
+  async function toggleDrawer() {
+    if (isDrawerOpen == true) {
+      await driverMode()
+      isDrawerOpen = !isDrawerOpen;
+    }
+    else {
+      isDrawerOpen = !isDrawerOpen;
+    } 
   }
 
   driverMode()

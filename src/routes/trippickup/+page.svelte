@@ -5,8 +5,10 @@
   import { getUserID } from '../firebase/Auth';
   import { readFromDatabaseOnValue } from '../firebase/Database';
   import { listenToANode } from '../firebase/Database';
-  import { getDriveDistance } from '../map/routeCalculation';
-    import { goto } from '$app/navigation';
+  import { checkIfArrived } from '../map/routeCalculation';
+  import { goto } from '$app/navigation';
+    import { locateUser } from '../map/locateuser';
+  
   let availableFlag, tripFlag, fareFlag = true
   let arrivedFlag = false
   let start, endCoord, userID, localUser, tripOBJ
@@ -36,12 +38,20 @@
     tripOBJ = await readFromDatabaseOnValue(`trips/${childSnapshot}`)
     console.log("TRIPID LISTENED: " + childSnapshot)
     console.log(await tripOBJ)
-    endCoord = tripOBJ.driver.startLocation
+    if (localUser.mode == 'passenger') {
+      endCoord = tripOBJ.driver.startLocation
+    }
+    if (localUser.mode == 'driver') {
+      endCoord = tripOBJ.passenger.startLocation
+    }
   }
 
   fetchData();
-  setInterval(function() {
-    checkIfArrived(arrivedFlag)
+  setInterval(async function() {
+    locateUser()
+    start = await readFromDatabaseOnValue(`users/${userID}/startLocation`)
+    endCoord = await tripOBJ.passenger.startLocation
+    await checkIfArrived(arrivedFlag, start, endCoord)
   }, 10000); // Executes checkIfArrived every 10 seconds (10000ms)
 </script>
 
@@ -67,8 +77,8 @@
     {/if}
     
   {:else if (localUser.mode === 'driver')}
-    <p>Routing driver to passenger</p>
-    <RouteMap></RouteMap>
+    <p>Routing driver to passenger pick up location</p>
+    <RouteMap {start} {endCoord}></RouteMap>
   {:else}
     <h4>ERROR: Invalid App Mode</h4>
   {/if}
