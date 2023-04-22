@@ -88,4 +88,14 @@ export async function geocodeAddress(address) {
     const [longitude, latitude] = data.features[0].center
     return [longitude, latitude]
 }
+
+export async function checkIfArrived(arrivedFlag) {
+    if (await getDriveDistance(start, endCoord) <= 0.02) { // 105.6 ft
+      console.log("Driver Arrived!")
+      arrivedFlag = true
+    }
+    else {
+      arrivedFlag = false
+    }
+  }
   

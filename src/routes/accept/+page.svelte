@@ -46,6 +46,7 @@
     console.log("post find: " + tripID)
     updateFromDatabase(`users/${passengerID}`, { tempTripID: tripID });
     updateFromDatabase(`users/${passengerID}`, { available: false });
+    updateFromDatabase(`users/${userID}`, { tempTripID: tripID });
     console.log("post update")
   }
 
