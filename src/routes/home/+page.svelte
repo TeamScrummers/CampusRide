@@ -68,41 +68,31 @@
   </div>
 </section>
 -->
-
-
-
-<div class="page">
-  <div class="map">
-  <Map></Map>
-</div>
+  <div class="map-container">
+    <Map />
+  </div>
+  <!-- Driver/Passenger Content Divs -->
   <div class="trip-cost">$50</div>
-
-  <div style="z-index: 100;">
+  <div class = "map-overlay">
     {#if mode === 'passenger'}
         <Passenger></Passenger>
-    {:else}
     {/if}
-    
     {#if mode === 'driver'}
         <Driver></Driver>
-    {:else}
     {/if}
   </div>
 
+  <!-- Mode Swap Div -->
   <div class="mode-switch-container">
     {#if mode === 'passenger'}
       <label class="mode-label" for="mode-switch-container">Passenger</label>
     {:else}
       <label class="mode-label" for="mode-switch-container" style="opacity: .3">Passenger</label>
     {/if}
-    
     <label class="mode-switch">
       <input type="checkbox" id="mode-switch-input" on:change={toggleMode}>
       <span class="mode-slider round"></span>
     </label>
-
-    
-
     {#if mode === 'driver'}
       <label class="mode-label" for="mode-switch-container">Driver</label>
     {:else}
@@ -110,13 +100,13 @@
     {/if}
   </div>
 
+  <!-- Drawer Div -->
   <div class={`drawer ${isDrawerOpen ? "open" : ""}`}>
     <div class="handle" on:click={toggleDrawer}>
       <svg class="icon" viewBox="0 0 24 24">
         <path d="M7,12L12,7L17,12H7Z" />
       </svg>
     </div>
-
     {#if (settingsMode === false)}
     <div class="profilePage">
       <Profile></Profile>
@@ -137,9 +127,18 @@
       </div>
     {/if}
   </div>
-</div>
+
 
 <style>
+
+.map-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+  }
 
 .page {
   background: none;
@@ -154,21 +153,17 @@
 
 .trip-cost {
     display: flex;
+    flex-direction: row;
     justify-content: center;
-    align-items: center;
-    align-content: center;
-    width: 60px;
-    height: 30px;
     border-radius: 15px;
     background-color: black;
     color: white;
     font-size: 16px;
     font-weight: bold;
-    margin: auto;
-    z-index: 99;
-    position: fixed;
-    top: 0px;
-    right: 50%;
+    z-index: 1;
+    max-width: 50px;
+    max-height: 30px;
+    margin: 0 auto;
   }
 
   .alignButtons{
@@ -201,17 +196,20 @@
       width: 0px; /* hide the default scrollbar */
   }
 
-  .map-overlay{
+  .map-overlay {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     color:#000000;
-    text-align:center;
     background-color: lightgray;
-    position: relative;
     margin-top: 10px;
     margin-left: 10px;
     padding: 10px;
     height: auto;
-    width: fit-content;
     z-index: 1;
+    max-width: 300px;
+    max-height: 400px;
+    margin: 0 auto;
     }
   .location-overlay{
     position: relative;
@@ -374,15 +372,6 @@ input[type="checkbox"]:checked + .mode-slider:before {
   width: 100%;
   height: 100%;
   border: none;
-}
-.drawer iframe {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
 }
 
 .backButton {
