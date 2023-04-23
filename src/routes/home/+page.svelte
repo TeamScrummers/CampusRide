@@ -17,6 +17,9 @@
   import { linkUtil } from "../utils/linkUtils"
   import Profile from '../profile/profile.svelte';
   import Settings from '../settings/settings.svelte'
+  import Driver from '../driver/driver.svelte';
+  import Passenger from '../passenger/passenger.svelte';
+  
 
   let isDriverMode = false;
   let settingsMode = false;
@@ -67,60 +70,106 @@
 -->
 
 
-<div class="mode-switch-container">
-  {#if mode === 'passenger'}
-    <label class="mode-label" for="mode-switch-container">Passenger</label>
-    <div class="iframe-container">
-      <iframe id="iframe1" src="./passenger"></iframe>
-    </div>
-  {:else}
-    <label class="mode-label" for="mode-switch-container" style="opacity: .3">Passenger</label>
-  {/if}
-  
-  <label class="mode-switch">
-    <input type="checkbox" id="mode-switch-input" on:change={toggleMode}>
-    <span class="mode-slider round"></span>
-  </label>
-  
-  {#if mode === 'driver'}
-    <label class="mode-label" for="mode-switch-container">Driver</label>
-    <div class="iframe-container">
-      <iframe id="iframe1" src="./driver"></iframe>
-    </div>
-  {:else}
-    <label class="mode-label" for="mode-switch-container" style="opacity: .3">Driver</label>
-  {/if}
+
+<div class="page">
+  <div class="map">
+  <Map></Map>
 </div>
+  <div class="trip-cost">$50</div>
 
-<div class={`drawer ${isDrawerOpen ? "open" : ""}`}>
-  <div class="handle" on:click={toggleDrawer}>
-    <svg class="icon" viewBox="0 0 24 24">
-      <path d="M7,12L12,7L17,12H7Z" />
-    </svg>
+  <div style="z-index: 100;">
+    {#if mode === 'passenger'}
+        <Passenger></Passenger>
+    {:else}
+    {/if}
+    
+    {#if mode === 'driver'}
+        <Driver></Driver>
+    {:else}
+    {/if}
   </div>
 
-  {#if (settingsMode === false)}
-  <div class="profilePage">
-    <Profile></Profile>
-  </div>  
-  <div class="alignButtons">
-    <button class="settings-button" on:click={changeSettingsMode}>
-      <i class="fa fa-cog"></i>
-    </button>
-    <button class="backButton" on:click={null}>Sign Out</button>
+  <div class="mode-switch-container">
+    {#if mode === 'passenger'}
+      <label class="mode-label" for="mode-switch-container">Passenger</label>
+    {:else}
+      <label class="mode-label" for="mode-switch-container" style="opacity: .3">Passenger</label>
+    {/if}
+    
+    <label class="mode-switch">
+      <input type="checkbox" id="mode-switch-input" on:change={toggleMode}>
+      <span class="mode-slider round"></span>
+    </label>
+
+    
+
+    {#if mode === 'driver'}
+      <label class="mode-label" for="mode-switch-container">Driver</label>
+    {:else}
+      <label class="mode-label" for="mode-switch-container" style="opacity: .3">Driver</label>
+    {/if}
   </div>
-  {/if}
-  {#if (settingsMode === true)}
-  <div class="settingsPage">
-    <Settings></Settings>
-  </div>
-    <div class="alignButtons">
-      <button class="backButton" on:click={changeSettingsMode}>Back</button>
+
+  <div class={`drawer ${isDrawerOpen ? "open" : ""}`}>
+    <div class="handle" on:click={toggleDrawer}>
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M7,12L12,7L17,12H7Z" />
+      </svg>
     </div>
-  {/if}
+
+    {#if (settingsMode === false)}
+    <div class="profilePage">
+      <Profile></Profile>
+    </div>  
+    <div class="alignButtons">
+      <button class="settings-button" on:click={changeSettingsMode}>
+        <i class="fa fa-cog"></i>
+      </button>
+      <button class="backButton" on:click={null}>Sign Out</button>
+    </div>
+    {/if}
+    {#if (settingsMode === true)}
+    <div class="settingsPage">
+      <Settings></Settings>
+    </div>
+      <div class="alignButtons">
+        <button class="backButton" on:click={changeSettingsMode}>Back</button>
+      </div>
+    {/if}
+  </div>
 </div>
 
 <style>
+
+.page {
+  background: none;
+  background-color: none;
+}
+
+.map {
+  display: flex;
+  position: relative;
+  z-index: -1;
+}
+
+.trip-cost {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    width: 60px;
+    height: 30px;
+    border-radius: 15px;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    margin: auto;
+    z-index: 99;
+    position: fixed;
+    top: 0px;
+    right: 50%;
+  }
 
   .alignButtons{
     display: flex;
