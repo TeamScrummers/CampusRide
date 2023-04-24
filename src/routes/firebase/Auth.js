@@ -7,13 +7,20 @@ import { goto } from '$app/navigation'
 const auth = getAuth();
 const database = getDatabase(app);
 
-export function handleOnRegister(email, password){
+export function handleOnRegister(email, password, firstName, lastName, vehicleColor, vehicleMake, vehicleModel, vehicleYear, licensePlate){
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
             set(ref(database, 'users/' + user.uid), {
                 email: email,
-                password: password
+                password: password,
+                firstName: firstName,
+                lastName: lastName,
+                vehicleColor: vehicleColor,
+                vehicleMake: vehicleMake,
+                vehicleModel: vehicleModel,
+                vehicleYear: vehicleYear,
+                licensePlate: licensePlate
             })
                 .then(() => {
                     alert('User created successfully');
@@ -28,6 +35,7 @@ export function handleOnRegister(email, password){
             alert(errorMessage);
         });
 }
+
 
 /**
  * @brief Handles loging in with Firebase Auth, logs time when last login. 
