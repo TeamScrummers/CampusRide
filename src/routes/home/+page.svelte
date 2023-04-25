@@ -6,6 +6,7 @@
 </svelte:head>
 
 <script>
+
   import Map from '../map/map.svelte';
   import { goto } from '$app/navigation'
   import { onMount } from 'svelte';
@@ -23,6 +24,8 @@
 
   let isDriverMode = false;
   let settingsMode = false;
+  const tripCost = writable(10); // initialize with a default value of 10
+
 
 	function driverMode() {
 		appMode.set("Driver")
@@ -51,6 +54,15 @@
   function changeSettingsMode() {
     settingsMode = !settingsMode;
   }
+
+  function calculateTripCost() {
+    // Code to calculate the trip cost
+    const newTripCost = 20; // This is just an example
+
+    // Update the trip cost variable
+    tripCost.set(newTripCost);
+  }
+  calculateTripCost();
 </script>
 
 <!-- <Navbar data={ linkUtil } /> -->
@@ -72,7 +84,7 @@
     <Map />
   </div>
   <!-- Driver/Passenger Content Divs -->
-  <div class="trip-cost">$50</div>
+  <div class="trip-cost">${$tripCost}</div>
   <div class = "map-overlay">
     {#if mode === 'passenger'}
         <Passenger></Passenger>
