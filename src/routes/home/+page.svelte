@@ -249,7 +249,7 @@
   color: #333;
   position: absolute;
   top: 10px;
-  right: 10px;
+  right: 50px;
 }
 .mode-label {
   text-transform: uppercase;
