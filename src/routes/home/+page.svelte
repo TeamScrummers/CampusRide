@@ -85,14 +85,7 @@
   </div>
   <!-- Driver/Passenger Content Divs -->
   <div class="trip-cost">${$tripCost}</div>
-  <div class = "map-overlay">
-    {#if mode === 'passenger'}
-        <Passenger></Passenger>
-    {/if}
-    {#if mode === 'driver'}
-        <Driver></Driver>
-    {/if}
-  </div>
+
 
   <!-- Mode Swap Div -->
   <div class="mode-switch-container">
@@ -141,7 +134,57 @@
   </div>
 
 
+  
+
+    <!-- Second Bottom Drawer Div -->
+    <div class={`bottom-drawer ${isDrawerOpen ? "open" : ""}`}>
+      <div class="drawer-content">
+        <div class = "map-overlay">
+          {#if mode === 'passenger'}
+              <Passenger></Passenger>
+          {/if}
+          {#if mode === 'driver'}
+              <Driver></Driver>
+          {/if}
+        </div>
+      </div>
+      <div class="handle" on:click={toggleDrawer}>
+        <svg class="icon" viewBox="0 0 24 24">
+          <path d="M7,12L12,7L17,12H7Z" />
+        </svg>
+      </div>
+     </div>
+
+
 <style>
+
+.bottom-drawer {
+  position: fixed;
+  left: 0;
+  bottom: 0; /* Set the initial position on screen */
+  width: 100%;
+  height: 300px;
+  background-color: #fff;
+  transition: bottom 0.3s ease-in-out;
+}
+
+.bottom-drawer.open {
+  bottom: 0; /* Slide up the drawer when open */
+}
+
+.drawer-content {
+  padding: 16px;
+}
+
+.handle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  background-color: #eee;
+  cursor: pointer;
+}
 
 .map-container {
     position: fixed;
@@ -338,6 +381,7 @@ input[type="checkbox"]:checked + .mode-slider:before {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   transition: transform 0.3s ease-out; /* Use transform instead of height */
+  z-index: 100;
 }
   .drawer.open {
     transform: translateX(30vh); /* Move the drawer back onto the screen */
