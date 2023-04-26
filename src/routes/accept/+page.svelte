@@ -6,14 +6,13 @@
   import RouteMap from "../map/routeMap.svelte";
   import { getAddress, getDriveDistance, getDriveTime } from "../map/routeCalculation";
   import { Trip } from "../firebase/Trip";
-    import { goto } from "$app/navigation";
   const userID = getUserID()
   export let passengers = []
   export let localUser = new User()
   let sortedFlag =  false
   let mapFlag = true
-  let start
-  let endCoord
+  let start;
+  let endCoord;
 
   // Function to sort passengers by drive time
   async function sortByDriveTime(passengers) {
@@ -47,9 +46,7 @@
     console.log("post find: " + tripID)
     updateFromDatabase(`users/${passengerID}`, { tempTripID: tripID });
     updateFromDatabase(`users/${passengerID}`, { available: false });
-    updateFromDatabase(`users/${userID}`, { tempTripID: tripID });
     console.log("post update")
-    goto('/trippickup')
   }
 
   async function getMapRoute(startCoordinates, endCoordinates) {
@@ -66,15 +63,9 @@
   }
 
 
-  let isDrawerOpen = false;
-  async function toggleDrawer() {
-    if (isDrawerOpen == true) {
-      await driverMode()
-      isDrawerOpen = !isDrawerOpen;
-    }
-    else {
-      isDrawerOpen = !isDrawerOpen;
-    } 
+  let isDrawerOpen = true;
+  function toggleDrawer() {
+    isDrawerOpen = !isDrawerOpen;
   }
 
   driverMode()
