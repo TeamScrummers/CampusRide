@@ -447,7 +447,8 @@ input[type="checkbox"]:checked + .mode-slider:before {
 }
 .drawer.open .handle {
   right: 200px;
-  transform: translate(-50%, -50%) rotate(0deg); /* adjust the transform property for open state */
+  transform: translate(-50%, -50%) rotate(180deg); /* adjust the transform property for open state */
+  box-shadow: -5px 0 10px rgba(0, 0, 0, 0.2);
 }
 .handle:hover {
   transform: translateX(10px) translateY(-50%);
