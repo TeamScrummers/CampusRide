@@ -54,18 +54,14 @@
         <Geocoder></Geocoder>
       </div>
     </div>
-
     <div class="time-overlay">
       <h4 class="overlay-subtitle">When do you need to be there?</h4>
       <form class="time-form">
         <input type="time" class="time-input" bind:value={timeInput} on:input={handleTimeInput} />
       </form>
     </div>
-
-    <div class="button-container">
-      <button type="button" class="mode-button" on:click={() => submitPassenger() }>GO</button>
-    </div>
-
+    <button type="button" class="mode-button" on:click={() => submitPassenger() }>GO</button>
+  </div>
 </section>
 
 <style>
@@ -91,10 +87,10 @@
   .overlay-title {
     color: #000000;
     font-size: 20px;
-    font-weight: Arial;
+    font-weight: bold;
     position: relative;
     margin-bottom: 10px;
-    bottom: -150px;
+    bottom: -155px;
   }
  /* Text for everything */
   .overlay-subtitle {    
@@ -142,16 +138,15 @@
     color: #FFFFFF;
     padding: 10px 20px;
     border-radius: 50%;
-    height: 50px;
+    /* height: 50px; */
     cursor: pointer;
     transition: opacity 0.2s ease-in-out;
     position: relative;
-    top: -200px;
-    left: 30px;
     font-size: 20px;
     font-weight: bold;
     border: 2px solid #222222;
-    transform: translate(-50%, -50%);
+    bottom: -150px;
+    /* transform: translate(-50%, -50%); */
   }
 
   .mode-button:hover {
