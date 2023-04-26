@@ -84,8 +84,6 @@
     <Map />
   </div>
   <!-- Driver/Passenger Content Divs -->
-  <div class="trip-cost">${$tripCost}</div>
-
 
   <!-- Mode Swap Div -->
   <div class="mode-switch-container">
