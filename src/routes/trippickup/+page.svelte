@@ -69,3 +69,40 @@
 {:else}
   <h3>Loading User Data...</h3>
 {/if}
+
+<style>
+  h3 {
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .mode-button {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .mode-button:hover {
+    background-color: #3e8e41;
+  }
+
+  .map-container {
+    height: 400px;
+    margin-bottom: 20px;
+  }
+
+  p {
+    text-align: center;
+    font-size: 16px;
+    color: #777;
+  }
+</style>
