@@ -5,14 +5,18 @@
   import { getUserID } from '../firebase/Auth';
   import { readFromDatabaseOnValue } from '../firebase/Database';
   import { listenToANode } from '../firebase/Database';
+  import { checkIfArrived } from '../map/routeCalculation';
+  import { goto } from '$app/navigation';
+    import { locateUser } from '../map/locateuser';
+  
   let availableFlag, tripFlag, fareFlag = true
+  let arrivedFlag = false
   let start, endCoord, userID, localUser, tripOBJ
 
   async function fetchData() {
-    userID = await getUserID();
-    localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`));
+    userID = await getUserID()
+    localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
     start = await localUser.startLocation
-    //endCoord = *drivercoords*
     console.log(localUser)
 
     listenToANode(`users/${userID}/available`, availableListener)
@@ -34,10 +38,21 @@
     tripOBJ = await readFromDatabaseOnValue(`trips/${childSnapshot}`)
     console.log("TRIPID LISTENED: " + childSnapshot)
     console.log(await tripOBJ)
-    endCoord = tripOBJ.driver.startLocation
+    if (localUser.mode == 'passenger') {
+      endCoord = tripOBJ.driver.startLocation
+    }
+    if (localUser.mode == 'driver') {
+      endCoord = tripOBJ.passenger.startLocation
+    }
   }
 
   fetchData();
+  setInterval(async function() {
+    locateUser()
+    start = await readFromDatabaseOnValue(`users/${userID}/startLocation`)
+    endCoord = await tripOBJ.passenger.startLocation
+    await checkIfArrived(arrivedFlag, start, endCoord)
+  }, 10000); // Executes checkIfArrived every 10 seconds (10000ms)
 </script>
 
 {#if localUser}
@@ -47,22 +62,23 @@
       <button type="button" class="mode-button" on:click={() => {fareFlag = false} }>Accept</button>
       <Map></Map>
     {/if}
-    {#if (availableFlag == true && fareFlag == false) } 
+    {#if (availableFlag == true && fareFlag == false && arrivedFlag == false) } 
       <h3>Looking For A Match...</h3>
       <Map></Map>
     {/if}
-    {#if (availableFlag == false && fareFlag == false) } 
-    <h3>Match Found: Pickup Enroute</h3>
-    <RouteMap {start} {endCoord}></RouteMap>
-    
+    {#if (availableFlag == false && fareFlag == false && arrivedFlag == false) } 
+      <h3>Match Found: Pickup Enroute</h3>
+      <RouteMap {start} {endCoord}></RouteMap>
     {/if}
-    <p>Default</p>
-
-
-
+    {#if (availableFlag == false && fareFlag == false && arrivedFlag == true) } 
+      <h3>Your ride is outside!</h3>
+      <button type="button" class="mode-button" on:click={() => {goto('/tripenroute')} }>Continue</button>
+      <RouteMap {start} {endCoord}></RouteMap>
+    {/if}
+    
   {:else if (localUser.mode === 'driver')}
-    <p>Routing driver to passenger</p>
-    <RouteMap></RouteMap>
+    <p>Routing driver to passenger pick up location</p>
+    <RouteMap {start} {endCoord}></RouteMap>
   {:else}
     <h4>ERROR: Invalid App Mode</h4>
   {/if}

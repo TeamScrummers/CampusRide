@@ -98,3 +98,14 @@ export async function calculateFare(start, endCoord) {
     // Maybe write to db once fare is calculated?
     return .75*(await getDriveDistance(start, endCoord) <= 0.02)
   }
+
+export async function checkIfArrived(arrivedFlag, start, endCoord) {
+    if (await getDriveDistance(start, endCoord) <= 0.02) { // 105.6 ft
+      console.log("Driver Arrived!")
+      arrivedFlag = true
+    }
+    else {
+      arrivedFlag = false
+    }
+  }
+  
