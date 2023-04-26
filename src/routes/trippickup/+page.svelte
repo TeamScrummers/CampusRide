@@ -59,7 +59,7 @@
       // goto('/tripenroute')
       clearInterval(tripPickUpInterval)
     }
-  }, 10000); // Executes checkIfArrived every 10 seconds (10000ms)
+  }, 5000); // Executes checkIfArrived every 5 seconds (5000ms)
 </script>
 {#await fetchData()}
 <p>Loading...</p>
