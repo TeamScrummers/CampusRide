@@ -5,6 +5,7 @@
     let passwordReg;
     let firstName = '';
     let lastName = '';
+    let phoneNumber = '';
     let vehicleMake = '';
     let vehicleModel = '';
     let vehicleYear = '';
@@ -14,23 +15,26 @@
 
 
 <body>
-    <form on:submit={ handleOnRegister(emailReg, passwordReg, firstName, lastName, vehicleColor, vehicleMake, vehicleModel, vehicleYear, licensePlate) }>
+    <form on:submit={ handleOnRegister(emailReg, passwordReg, firstName, lastName, phoneNumber, vehicleColor, vehicleMake, vehicleModel, vehicleYear, licensePlate) }>
         <div class="container">
             <h1>Register</h1>
             <hr>
             <h2>Personal Information</h2>
     
             <label for="email"><b>Email</b> <span style="color: red;">*</span></label>
-            <input type="text" name="email" placeholder="email" bind:value={emailReg} required>
+            <input type="text" name="email" placeholder="Email" bind:value={emailReg} required>
 
             <label for="password"><b>Password</b> <span style="color: red;">*</span></label>
-            <input type="password" name="password" placeholder="password" bind:value={passwordReg} required>
+            <input type="password" name="password" placeholder="Password" bind:value={passwordReg} required>
 
             <label for="fName"><b>First Name</b> <span style="color: red;">*</span></label>
-            <input type="text" name="fName" placeholder="Firstname" bind:value={firstName} required>
+            <input type="text" name="fName" placeholder="First Name" bind:value={firstName} required>
             
             <label for="lName"><b>Last Name</b> <span style="color: red;">*</span></label>
-            <input type="text" name="lName" placeholder="Lastname" bind:value={lastName} required>
+            <input type="text" name="lName" placeholder="Last Name" bind:value={lastName} required>
+
+            <label for="phoneNumber"><b>Phone Number</b> <span style="color: red;">*</span></label>
+            <input type="text" name="phoneNumber" placeholder="Phone Number" bind:value={phoneNumber} required>
     
             <h2>Vehicle Information</h2>
 

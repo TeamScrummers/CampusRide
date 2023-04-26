@@ -277,7 +277,7 @@
   }
 
   .settingsPage{
-    padding-top: 100%;
+    /* padding-top: 100%; */
     display: flex;
     height: 90%;
     overflow: scroll;

@@ -104,13 +104,13 @@ export async function calculateFare(start, endCoord) {
   }
 }
 
-export async function checkIfArrived(arrivedFlag, start, endCoord) {
+export async function checkIfArrived(start, endCoord) {
     if (await getDriveDistance(start, endCoord) <= 0.02) { // 105.6 ft
       console.log("Driver Arrived!")
-      arrivedFlag = true
+      return true
     }
     else {
-      arrivedFlag = false
+      return false
     }
   }
   
