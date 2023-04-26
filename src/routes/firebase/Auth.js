@@ -7,7 +7,7 @@ import { goto } from '$app/navigation'
 const auth = getAuth();
 const database = getDatabase(app);
 
-export function handleOnRegister(email, password, firstName, lastName, vehicleColor, vehicleMake, vehicleModel, vehicleYear, licensePlate){
+export function handleOnRegister(email, password, firstName, lastName, phoneNumber, vehicleColor, vehicleMake, vehicleModel, vehicleYear, licensePlate){
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
@@ -16,6 +16,7 @@ export function handleOnRegister(email, password, firstName, lastName, vehicleCo
                 password: password,
                 firstName: firstName,
                 lastName: lastName,
+                phoneNumber: phoneNumber,
                 vehicleColor: vehicleColor,
                 vehicleMake: vehicleMake,
                 vehicleModel: vehicleModel,
@@ -24,6 +25,7 @@ export function handleOnRegister(email, password, firstName, lastName, vehicleCo
             })
                 .then(() => {
                     alert('User created successfully');
+                    goto('/login')
                 })
                 .catch((error) => {
                     alert(error);

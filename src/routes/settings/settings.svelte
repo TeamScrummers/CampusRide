@@ -38,7 +38,7 @@
     <button type="submit">Save Changes</button>
     </form> -->
 
-    <form>
+    <!-- <form>
     <h2>Update Payment Info</h2>
     <div class="form-group">
         <label for="card-number">Card Number</label>
@@ -53,7 +53,7 @@
         <input type="text" id="security-code">
     </div>
     <button type="submit">Save Changes</button>
-    </form>
+    </form> -->
     <!-- <button on:click={handleBack}>Back</button> -->
 </div>
 

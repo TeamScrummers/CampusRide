@@ -7,13 +7,14 @@
   import { listenToANode } from '../firebase/Database';
   import { checkIfArrived } from '../map/routeCalculation';
   import { goto } from '$app/navigation';
-    import { locateUser } from '../map/locateuser';
+  import { locateUser } from '../map/locateuser';
   
   let availableFlag, tripFlag, fareFlag = true
-  let arrivedFlag = false
+  let arrivedFlag
   let start, endCoord, userID, localUser, tripOBJ
 
   async function fetchData() {
+    arrivedFlag = false
     userID = await getUserID()
     localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
     start = await localUser.startLocation
@@ -47,11 +48,16 @@
   }
 
   fetchData();
-  setInterval(async function() {
+  const tripPickUpInterval = setInterval(async function() {
     locateUser()
     start = await readFromDatabaseOnValue(`users/${userID}/startLocation`)
     endCoord = await tripOBJ.passenger.startLocation
-    await checkIfArrived(arrivedFlag, start, endCoord)
+    if (await checkIfArrived(start, endCoord) && arrivedFlag == false) {
+      // alert("Driver Arrived!")
+      arrivedFlag = true
+      // goto('/tripenroute')
+      clearInterval(tripPickUpInterval)
+    }
   }, 10000); // Executes checkIfArrived every 10 seconds (10000ms)
 </script>
 
@@ -77,8 +83,15 @@
     {/if}
     
   {:else if (localUser.mode === 'driver')}
-    <p>Routing driver to passenger pick up location</p>
-    <RouteMap {start} {endCoord}></RouteMap>
+    {#if (arrivedFlag == false) } 
+      <p>Routing driver to passenger pick up location</p>
+      <RouteMap {start} {endCoord}></RouteMap>
+    {/if}
+    {#if (arrivedFlag == true) } 
+      <h3>You've arrived at the pickup location!</h3>
+      <button type="button" class="mode-button" on:click={() => {goto('/tripenroute')} }>Continue</button>
+      <RouteMap {start} {endCoord}></RouteMap>
+    {/if}
   {:else}
     <h4>ERROR: Invalid App Mode</h4>
   {/if}
