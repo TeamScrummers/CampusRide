@@ -1,15 +1,40 @@
-<!-- trip enroute page -->
+<script>
+  import Map from '../map/map.svelte';
+  import RouteMap from '../map/routeMap.svelte';
+  import { User } from '../matching/User';
+  import { getUserID } from '../firebase/Auth';
+  import { readFromDatabaseOnValue } from '../firebase/Database';
+  import { listenToANode } from '../firebase/Database';
+  import { checkIfArrived } from '../map/routeCalculation';
+  import { goto } from '$app/navigation';
 
-<section class="content">
-  <div class="container">
-    <h1>Trip Enroute</h1>
-    <a href="/">Back </a>
-  </div>
-</section>
+  let availableFlag, tripFlag, fareFlag = true
+  let arrivedFlag = false
+  let start, endCoord, userID, localUser, tripOBJ
 
-<style>
-  :global(#logo svg) {
-    fill: white;
-    height: 60px;
+  async function fetchData() {
+    userID = await getUserID()
+    localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
+    start = await localUser.startLocation
+    end = await localUser.endLocation
   }
-</style>
+
+  fetchData();
+  setInterval(function() {
+    checkIfArrived(arrivedFlag)
+  }, 10000); // Executes checkIfArrived every 10 seconds (10000ms)
+</script>
+
+{#if localUser}
+  {#if (arrivedFlag == false) } 
+    <h3>Trip Enroute: To Destination</h3>
+    <RouteMap {start} {endCoord}></RouteMap>
+  {/if}
+  {#if (arrivedFlag == true) } 
+    <h3>You've Arrived!</h3>
+    <button type="button" class="mode-button" on:click={() => {goto('/tripComplete')} }>Continue</button>
+    <RouteMap {start} {endCoord}></RouteMap>
+  {/if}
+{:else}
+  <h3>Loading...</h3>
+{/if}
