@@ -18,6 +18,7 @@
     type="range"
     min="0"
     max="100"
+    step="5"
     value={value}
     on:input={handleChange}
     class="slider"
