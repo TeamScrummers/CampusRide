@@ -20,8 +20,8 @@
   import Settings from '../settings/settings.svelte'
   import Driver from '../driver/driver.svelte';
   import Passenger from '../passenger/passenger.svelte';
+  import { calculateFare } from '../map/routeCalculation';
   
-
   let isDriverMode = false;
   let settingsMode = false;
   const tripCost = writable(10); // initialize with a default value of 10
@@ -57,7 +57,7 @@
 
   function calculateTripCost() {
     // Code to calculate the trip cost
-    const newTripCost = 20; // This is just an example
+    const newTripCost = 15 // This is just an example, imported is calculateFare 
 
     // Update the trip cost variable
     tripCost.set(newTripCost);
