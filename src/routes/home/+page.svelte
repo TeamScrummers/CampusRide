@@ -301,7 +301,6 @@
     flex-direction: row;
     justify-content: center;
     color:#000000;
-    background-color: lightgray;
     margin-top: 10px;
     margin-left: 10px;
     padding: 10px;
