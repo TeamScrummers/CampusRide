@@ -5,19 +5,20 @@
   import { getUserID } from '../firebase/Auth';
   import { readFromDatabaseOnValue } from '../firebase/Database';
   import { listenToANode } from '../firebase/Database';
-  import { checkIfArrived } from '../map/routeCalculation';
+  import { calculateFare, checkIfArrived } from '../map/routeCalculation';
   import { goto } from '$app/navigation';
   import { locateUser } from '../map/locateuser';
   
   let availableFlag, tripFlag, fareFlag = true
   let arrivedFlag
-  let start, endCoord, userID, localUser, tripOBJ
+  let start, endCoord, userID, localUser, tripOBJ, fare
 
   async function fetchData() {
     arrivedFlag = false
     userID = await getUserID()
     localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
     start = await localUser.startLocation
+    fare = await calculateFare(start, localUser.endLocation)
     console.log(localUser)
 
     listenToANode(`users/${userID}/available`, availableListener)
@@ -60,11 +61,13 @@
     }
   }, 10000); // Executes checkIfArrived every 10 seconds (10000ms)
 </script>
-
+{#await fetchData()}
+<p>Loading...</p>
+{:then}
 {#if localUser}
   {#if (localUser.mode === 'passenger') }
     {#if (fareFlag == true)}
-      <h3>Total Trip Fare Will Be $6.</h3>
+      <h3>Total Trip Fare Will Be ${(fare).toFixed(2)}.</h3>
       <button type="button" class="mode-button" on:click={() => {fareFlag = false} }>Accept</button>
       <Map></Map>
     {/if}
@@ -98,6 +101,9 @@
 {:else}
   <h3>Loading User Data...</h3>
 {/if}
+{:catch error}
+  <p>Error: {error.message}</p>
+{/await}
 
 <style>
   h3 {
