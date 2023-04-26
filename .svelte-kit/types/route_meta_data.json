@@ -15,9 +15,6 @@
 	"/auth": [
 		"src/routes/+layout.js"
 	],
-	"/driver": [
-		"src/routes/+layout.js"
-	],
 	"/home": [
 		"src/routes/+layout.js"
 	],
@@ -31,9 +28,6 @@
 		"src/routes/+layout.js"
 	],
 	"/notifications": [
-		"src/routes/+layout.js"
-	],
-	"/passenger": [
 		"src/routes/+layout.js"
 	],
 	"/payment": [
