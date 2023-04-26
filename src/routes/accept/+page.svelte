@@ -1,17 +1,18 @@
 <script>
   import { getUserID } from "../firebase/Auth";
-  import { searchFromDatabase, readFromDatabaseOnValue, writeTripToDatabase, findUserByPhone, updateFromDatabase} from "../firebase/Database";
+  import { searchFromDatabase, readFromDatabaseOnValue, findUserByPhone, updateFromDatabase} from "../firebase/Database";
   import { User } from "../matching/User";
-  import Map from '../map/map.svelte';
   import RouteMap from "../map/routeMap.svelte";
   import { calculateFare, getAddress, getDriveDistance, getDriveTime } from "../map/routeCalculation";
   import { Trip } from "../firebase/Trip";
   import Slider from "./Slider.svelte";
+  import { goto } from "$app/navigation";
+
   const userID = getUserID()
   export let passengers = []
   export let localUser = new User()
   let sortedFlag =  false
-  let mapFlag = true
+  let mapFlag = false
   let start, endCoord, timerId
   let sliderValue = 50
 
@@ -26,7 +27,7 @@
       if (driveDistance > sliderValue) {
         continue;
       }
-      console.log("Pushing: " + JSON.stringify(passenger))
+      // console.log("Pushing: " + JSON.stringify(passenger))
       passengersWithDriveTime.push({
         ...passenger,
         driveTime
@@ -54,7 +55,9 @@
     console.log("post find: " + tripID)
     updateFromDatabase(`users/${passengerID}`, { tempTripID: tripID });
     updateFromDatabase(`users/${passengerID}`, { available: false });
+    updateFromDatabase(`users/${userID}`, { tempTripID: tripID });
     console.log("post update")
+    goto('/trippickup')
   }
 
   async function getMapRoute(startCoordinates, endCoordinates) {
@@ -88,16 +91,21 @@
     }, 1000); // 1 second
   };
 
-
-
-
   let isDrawerOpen = true;
-  function toggleDrawer() {
-    isDrawerOpen = !isDrawerOpen;
+  async function toggleDrawer() {
+    if (isDrawerOpen == true) {
+      // passengers = await sortByDriveTime(passengers);
+      isDrawerOpen = !isDrawerOpen;
+    }
+    else {
+      isDrawerOpen = !isDrawerOpen;
+    }
   }
 
   driverMode()
 </script>
+
+<!-- Slider Div -->
 <div class="slider-container">
   <p><b>Range:</b></p>
   <Slider bind:value={sliderValue} on:valueChanged={handleSliderChange} />
@@ -124,7 +132,7 @@
         <h4>Loading, please wait.</h4>
       {:then [distance1, distance2, time1, time2, fare]}
         <div>
-          <h6><strong>{passengers[0].firstName} {passengers[0].lastName}</strong></h6>
+          <h4><strong>{passengers[0].firstName} {passengers[0].lastName}</strong></h4>
           <p><strong>Pickup Location:</strong> {address}</p>
           <p><strong>Estimated Trip Time:</strong> {(time1 + time2).toFixed(1)} minutes</p>
           <p><strong>Distance to Pickup:</strong> {(distance1).toFixed(1)} miles</p>
@@ -159,16 +167,17 @@
   .slider-container {
     background-color: white;
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 5px;
+    left: 5px;
     display: flex;
     align-items: center;
     font-size: 14px;
     color: black;
-    border: 2px solid black;
+    /* border: 2px solid black; */
     border-radius: 10px;
     padding: 4px;
     z-index: 1;
+    box-shadow: 5px 0 10px rgba(0, 0, 0, 0.2);
   }
 
   .passenger-info {
@@ -189,11 +198,12 @@
     box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.2);
     overflow: hidden;
     transition: height 0.3s ease-out;
-    overflow-y: scroll
+    overflow-y: scroll;
+    padding: 10px;
   }
 
   .drawer.open {
-    height: 270px;
+    height: 300px;
   }
 
   .handle {
@@ -231,7 +241,7 @@
   .buttons {
     display: flex;
     justify-content: space-between;
-  margin-top: 16px;
+    margin-top: 16px;
   }
   .accept-button, .decline-button {
   padding: 8px 16px;
