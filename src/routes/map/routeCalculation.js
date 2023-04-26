@@ -89,3 +89,12 @@ export async function geocodeAddress(address) {
     return [longitude, latitude]
 }
   
+/**
+ * Update needed
+ * @param {*} start 
+ * @param {*} endCoord 
+ */
+export async function calculateFare(start, endCoord) {
+    // Maybe write to db once fare is calculated?
+    return .75*(await getDriveDistance(start, endCoord) <= 0.02)
+  }
