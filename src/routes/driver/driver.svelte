@@ -86,10 +86,10 @@
   .overlay-title {
     color: #000000;
     font-size: 20px;
-    font-weight: bold;
+    font-weight: Arial;
     position: relative;
     margin-bottom: 10px;
-    bottom: -155px;
+    bottom: -150px;
   }
  /* Text for everything */
   .overlay-subtitle {    
@@ -137,15 +137,16 @@
     color: #FFFFFF;
     padding: 10px 20px;
     border-radius: 50%;
-    /* height: 50px; */
+    height: 50px;
     cursor: pointer;
     transition: opacity 0.2s ease-in-out;
     position: relative;
+    top: -200px;
+    left: 30px;
     font-size: 20px;
     font-weight: bold;
     border: 2px solid #222222;
-    bottom: -150px;
-    /* transform: translate(-50%, -50%); */
+    transform: translate(-50%, -50%);
   }
 
   .mode-button:hover {
@@ -176,6 +177,5 @@
   .button-container {
     text-align: center;
   }
-
 
 </style>
