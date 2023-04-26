@@ -60,7 +60,7 @@
     goto('/trippickup')
   }
 
-  async function getMapRoute(startCoordinates, endCoordinates) {
+  export async function getMapRoute(startCoordinates, endCoordinates) {
     start = startCoordinates;
     endCoord = endCoordinates;
     console.log("getMapRoute Start:"+ start + " End:" + endCoord);
