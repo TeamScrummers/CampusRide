@@ -30,9 +30,6 @@
 	"/matching": [
 		"src/routes/+layout.js"
 	],
-	"/matchmakingtest": [
-		"src/routes/+layout.js"
-	],
 	"/notifications": [
 		"src/routes/+layout.js"
 	],
