@@ -15,6 +15,9 @@
 	"/auth": [
 		"src/routes/+layout.js"
 	],
+	"/driver": [
+		"src/routes/+layout.js"
+	],
 	"/home": [
 		"src/routes/+layout.js"
 	],
