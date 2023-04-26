@@ -150,7 +150,7 @@
     left: 30px;
     font-size: 20px;
     font-weight: bold;
-    border: none;
+    border: 2px solid #222222;
     transform: translate(-50%, -50%);
   }
 
@@ -183,7 +183,5 @@
     text-align: center;
   }
 
-
-  
 
 </style>
