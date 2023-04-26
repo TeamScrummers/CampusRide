@@ -95,9 +95,14 @@ export async function geocodeAddress(address) {
  * @param {*} endCoord 
  */
 export async function calculateFare(start, endCoord) {
-    // Maybe write to db once fare is calculated?
-    return .75*(await getDriveDistance(start, endCoord) <= 0.02)
+  let driveDistance = await getDriveDistance(start, endCoord)
+  if (driveDistance <= 7) {
+    return 5 // Lowest fare cost
   }
+  else {
+    return .75*(driveDistance)
+  }
+}
 
 export async function checkIfArrived(arrivedFlag, start, endCoord) {
     if (await getDriveDistance(start, endCoord) <= 0.02) { // 105.6 ft
