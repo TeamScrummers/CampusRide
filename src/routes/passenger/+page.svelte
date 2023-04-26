@@ -87,7 +87,7 @@
     cursor: pointer;
     opacity: .7;
     height: 50px;
-    width: 25%;
+    width: 100%;
     font-size: 40px;
     font-style: italic;
     display: inline-block;

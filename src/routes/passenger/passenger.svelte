@@ -46,61 +46,144 @@
 </script>
 
 <section>
-  <div class = "map-overlay">
+  <div class="map-overlay">
     <div class="location-overlay">
-      <h4 style="color:#000000;text-align:center;font-weight: bold">Passenger Mode</h4>
-      <h4 style="color:#000000;text-align:center">Where are you going?</h4>
-      <div style="display: flex; justify-content: center; align-items: center;">
+      <h4 class="overlay-title">Passenger Mode</h4>
+      <h4 class="overlay-subtitle">Where are you going to?</h4>
+      <div class="geocoder-container">
         <Geocoder></Geocoder>
       </div>
     </div>
 
-    <div class = "time-overlay">
-      
-
-      <h4 style="color:#000000;text-align:center">When do you need to be there?</h4>
-      <form style="text-align:center; padding:10px">
-        <input type="time" bind:value={timeInput} on:input={handleTimeInput} />
+    <div class="time-overlay">
+      <h4 class="overlay-subtitle">When do you need to be there?</h4>
+      <form class="time-form">
+        <input type="time" class="time-input" bind:value={timeInput} on:input={handleTimeInput} />
       </form>
     </div>
-    <div class = "button-container">
-      <button type="button" class="mode-button" on:click={() => submitPassenger() }>Submit</button>
+
+    <div class="button-container">
+      <button type="button" class="mode-button" on:click={() => submitPassenger() }>GO</button>
     </div>
-  </div>
+
 </section>
 
 <style>
-  .location-overlay{
-    position: relative;
+  .map-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 999;
   }
 
-  .time-overlay{
-    position: relative;
+  .location-overlay {
+    margin-bottom: 10px;
     text-align: center;
   }
-    
+
+  .overlay-title {
+    color: #000000;
+    font-size: 20px;
+    font-weight: Arial;
+    position: relative;
+    margin-bottom: 10px;
+    bottom: -150px;
+  }
+ /* Text for everything */
+  .overlay-subtitle {    
+    color: #000000;
+    font-size: 20px;
+    font-weight: normal;
+    margin-bottom: 20px;
+    position: relative;
+    bottom: -150px;
+  }
+
+  .geocoder-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    bottom: -140px;
+  }
+
+  .time-overlay {
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .time-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .time-input {
+    font-size: 2rem;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    background-color: #FFFFFF;
+    color: #000000;
+    position: relative;
+    bottom: -140px;
+  }
+
   .mode-button {
-    position: relative;
     background-color: #04AA6D;
-    color: white;
-    margin: 10px 10;
-    cursor: pointer;
-    opacity: .7;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border-radius: 50%;
     height: 50px;
-    width: 25%;
-    font-size: 40px;
-    font-style: italic;
-    display: inline-block;
-    font-size: 25px;
-  }
-
-  .button-container {
-    text-align: center;
-    text-align: center;
+    cursor: pointer;
+    transition: opacity 0.2s ease-in-out;
+    position: relative;
+    top: -200px;
+    left: 30px;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    transform: translate(-50%, -50%);
   }
 
   .mode-button:hover {
-    opacity: 1;
+    background-color: darkgreen;
+    opacity: 0.9;
+  }
+  .mode-button.loading::after {
+  content: "";
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  margin-left: 0.5em;
+  border-radius: 50%;
+  border: 0.2em solid white;
+  border-color: white transparent white transparent;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+  .button-container {
     text-align: center;
   }
+
+
+  
+
 </style>

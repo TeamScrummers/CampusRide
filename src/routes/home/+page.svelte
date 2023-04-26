@@ -156,7 +156,52 @@
      </div>
 
 
+     <!-- Go button container -->
+<!-- <div class="go-button-container">
+  <button class="go-button" on:click={calculateTripCost}>GO</button>
+</div> -->
+
 <style>
+
+.go-button {
+  background-color: green;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 50%;
+  height: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  bottom: -200px;
+  transform: translate(-50%, -50%);
+}
+
+.go-button:hover {
+  background-color: darkgreen;
+}
+
+.go-button.loading::after {
+  content: "";
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  margin-left: 0.5em;
+  border-radius: 50%;
+  border: 0.2em solid white;
+  border-color: white transparent white transparent;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 .bottom-drawer {
   position: fixed;
