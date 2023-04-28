@@ -13,6 +13,8 @@
   import Driver from '../driver/driver.svelte';
   import Passenger from '../passenger/passenger.svelte';
   import { calculateFare } from '../map/routeCalculation';
+  import { handleSignOut } from '../firebase/Auth';
+
   
   let isDriverMode = false;
   let settingsMode = false;
@@ -61,6 +63,7 @@
     tripCost.set(newTripCost);
   }
   calculateTripCost();
+
 </script>
 
   <div class="map-container">
@@ -101,7 +104,7 @@
       <button class="settings-button" on:click={changeSettingsMode}>
         <i class="fa fa-cog"></i>
       </button>
-      <button class="backButton" on:click={null}>Sign Out</button>
+      <button class="backButton" on:click={handleSignOut}>Sign Out</button>
     </div>
     {/if}
     {#if (settingsMode === true)}

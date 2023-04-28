@@ -83,3 +83,14 @@ export function getUserID() {
       return null;
     }
   }
+
+  export function handleSignOut() {
+    signOut(auth).then(() => {
+    // Sign-out successful.
+    goto('/login')
+    console.log("Sign-out successful")
+    }).catch((error) => {
+    // An error happened.
+    console.log("An error happened")
+    });
+  }
