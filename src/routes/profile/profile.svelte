@@ -9,6 +9,7 @@
 
     let fullName = 'John Doe';
     let email = 'johndoe@example.com';
+    let phoneNumber = '5555555555'
     let vehicleMake = 'Toyota';
     let vehicleModel = 'Camry';
     let vehicleYear = '2020';
@@ -41,6 +42,7 @@
       localUser.firstName = nameOBJ.firstName
       localUser.lastName = nameOBJ.lastName
       localUser.email = email
+      localUser.phoneNumber = phoneNumber
       localUser.vehicleMake = vehicleMake
       localUser.vehicleModel = vehicleModel
       localUser.vehicleYear = vehicleYear
@@ -55,6 +57,7 @@
       localUser = await readFromDatabaseOnValue(`users/${userID}`)
       fullName = localUser.firstName + " " + localUser.lastName
       email = localUser.email
+      phoneNumber = localUser.phoneNumber
       // Need these registered to each user.
       vehicleMake = localUser.vehicleMake
       vehicleModel = localUser.vehicleModel
@@ -78,6 +81,10 @@
       <label>
         Email:
         <input type="email" bind:value={email} />
+      </label>
+      <label>
+        Phone Number:
+        <input type="text" bind:value={phoneNumber} />
       </label>
       <h2>Vehicle Information</h2>
       <label>
@@ -116,7 +123,7 @@
         margin: 0 auto;
         padding: 20px;
         overflow: scroll;
-        height: auto;
+        height: 100%;
     }
 
     .container::-webkit-scrollbar {
