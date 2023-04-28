@@ -7,16 +7,25 @@ import { goto } from '$app/navigation'
 const auth = getAuth();
 const database = getDatabase(app);
 
-export function handleOnRegister(email, password){
+export function handleOnRegister(email, password, firstName, lastName, phoneNumber, vehicleColor, vehicleMake, vehicleModel, vehicleYear, licensePlate){
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
             set(ref(database, 'users/' + user.uid), {
                 email: email,
-                password: password
+                password: password,
+                firstName: firstName,
+                lastName: lastName,
+                phoneNumber: phoneNumber,
+                vehicleColor: vehicleColor,
+                vehicleMake: vehicleMake,
+                vehicleModel: vehicleModel,
+                vehicleYear: vehicleYear,
+                licensePlate: licensePlate
             })
                 .then(() => {
-                    alert('User Registered Successfully');
+                    alert('User created successfully');
+                    goto('/login')
                 })
                 .catch((error) => {
                     alert(error);
@@ -28,6 +37,7 @@ export function handleOnRegister(email, password){
             alert(errorMessage);
         });
 }
+
 
 /**
  * @brief Handles loging in with Firebase Auth, logs time when last login. 
@@ -43,7 +53,7 @@ export function handleOnLogin(email, password){
                 last_login: lgDate,
             })
                 .then(() => {
-                    //alert('user logged in successfully')
+                    //alert('User logged in successfully')
                     console.log(getUserID())
                     goto('/home')
                 })
@@ -59,7 +69,6 @@ export function handleOnLogin(email, password){
         });
 }
 
-
 /**
  * Gets the currently authenicated user's ID. 
  * @returns {string|null} - Returns the user's unique ID as a string or null if no user is logged in.
@@ -73,4 +82,15 @@ export function getUserID() {
       // User not logged in or has just logged out.
       return null;
     }
+  }
+
+  export function handleSignOut() {
+    signOut(auth).then(() => {
+    // Sign-out successful.
+    goto('/login')
+    console.log("Sign-out successful")
+    }).catch((error) => {
+    // An error happened.
+    console.log("An error happened")
+    });
   }

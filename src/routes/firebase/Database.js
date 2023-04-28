@@ -1,7 +1,8 @@
 import { app } from "./initialFirebase"
-import { getDatabase, ref, onValue, set, get, child, update, 
-    orderByChild,equalTo, query, limitToFirst, push, } from "firebase/database";
+import {  getDatabase, ref, onValue, set, get, child, update } from "firebase/database";
+import {  orderByChild, equalTo, query, limitToFirst, push } from "firebase/database";
 import { User } from "../matching/User";
+
 const database = getDatabase(app);
 
 /**
@@ -19,8 +20,8 @@ const database = getDatabase(app);
  * it should be in the format: { key1:value1, key2:value2,...}
  */
 export function createANodeInDatabase(path, data){
-    set(ref(database, path), data);
-    console.log("The provided data has been written to the database.");
+  set(ref(database, path), data);
+  console.log("The provided data has been written to the database.");
 }
 
 
@@ -30,7 +31,7 @@ export function createANodeInDatabase(path, data){
  * Local function that searches the database and returns a single entry.
  * The return is a promise, since getting data from Firebase is
  * considered slow. To ensure that there are no issues with undefined
- * data, this function MUST be called by an async-await function.
+ * data, this MUST be called by an async-await
  * 
  * @param table The first node of the JSON list. To match with
  * entity-relationship, this would be the table name, the FROM
@@ -42,7 +43,7 @@ export function createANodeInDatabase(path, data){
  * entity-relationship, this would be the value stored, the right
  * compare of the WHERE clause.
  * @returns A promise for an entry in the database. Therefore it should 
- * be paired with the await keyword in an async function.
+ * be paired with the await keyword in an async function
  */
 export function searchFromDatabase(table, key, value){
     const selectQ = query(ref(database, table), orderByChild(key), equalTo(value));
@@ -82,11 +83,11 @@ export function updateFromDatabase(path, data){
  * @returns {Promise<string>} Promise that resolves to the generated key
  */
 export function pushAnObjectToDatabase(path, object){
-    const newObjectRef = push(ref(database, path), object);
-    return get(newObjectRef).then((snapshot) => {
-      return snapshot.key;
-    });
-  }
+  const newObjectRef = push(ref(database, path), object);
+  return get(newObjectRef).then((snapshot) => {
+    return snapshot.key;
+  });
+}
 
 /**
  * @brief Deletes data from real time database
@@ -121,6 +122,17 @@ export async function loopThroughDatabaseOnce(path, action) {
   const snapshot = await get(databaseRef);
   snapshot.forEach((childSnapshot) => {
     action(childSnapshot);
+  });
+};
+
+/**
+ * @brief Loops through every entry in a Firebase path and performs an action on each entry.
+ * @param {path} path - Firebase path to be read
+ * @param  action - Action to be performed on each entry. The actionshould take a single argument, which is the child snapshot.
+*/
+export async function listenToANode(path, action){
+  onValue(ref(database, path), (snapshot) => {
+      action(snapshot.val())
   });
 };
 
@@ -192,5 +204,20 @@ export async function writeTripToDatabase(trip) {
     const tripId = result;
     //console.log(`Trip with TripId ${tripId} has been written to the database`);
     return tripId;
+}
+
+/**
+ * @function findUserByPhone
+ * @param {string} phoneNumber - The phone number of the user to search for.
+ * @returns {Promise<string|null>} A promise that resolves to the user ID with the given phone number, or null if none are found.
+ */
+
+export async function findUserByPhone(phoneNumber) {
+  const table = "users";
+  const key = "phoneNumber";
+  const value = phoneNumber;
+  const result = await searchFromDatabase(table, key, value);
+  //console.log(Object.keys(result)[0])
+  return Object.keys(result)[0];
 }
 

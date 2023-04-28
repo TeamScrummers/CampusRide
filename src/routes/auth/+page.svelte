@@ -1,26 +1,62 @@
 <script>
     import{ handleOnRegister } from "../firebase/Auth"
+    
     let emailReg;
     let passwordReg;
+    let firstName = '';
+    let lastName = '';
+    let phoneNumber = '';
+    let vehicleMake = '';
+    let vehicleModel = '';
+    let vehicleYear = '';
+    let licensePlate = '';
+    let vehicleColor = '';
 </script>
 
 
 <body>
-<form on:submit={ handleOnRegister(emailReg, passwordReg) }>
-    <div class="container">
-        <h1>Register</h1>
-        <hr>
+    <form on:submit={ handleOnRegister(emailReg, passwordReg, firstName, lastName, phoneNumber, vehicleColor, vehicleMake, vehicleModel, vehicleYear, licensePlate) }>
+        <div class="container">
+            <h1>Register</h1>
+            <hr>
+            <h2>Personal Information</h2>
+    
+            <label for="email"><b>Email</b> <span style="color: red;">*</span></label>
+            <input type="text" name="email" placeholder="Email" bind:value={emailReg} required>
 
-        <label for="email"><b>Email</b></label>
-        <input type="text" name="email" placeholder="email" bind:value={emailReg}>
+            <label for="password"><b>Password</b> <span style="color: red;">*</span></label>
+            <input type="password" name="password" placeholder="Password" bind:value={passwordReg} required>
 
-        <label for="password"><b>Password</b></label>
-        <input type="password" name="password" placeholder="password" bind:value={passwordReg}>
-        <button name="submitData" class="registerbtn">Register</button>
+            <label for="fName"><b>First Name</b> <span style="color: red;">*</span></label>
+            <input type="text" name="fName" placeholder="First Name" bind:value={firstName} required>
+            
+            <label for="lName"><b>Last Name</b> <span style="color: red;">*</span></label>
+            <input type="text" name="lName" placeholder="Last Name" bind:value={lastName} required>
 
-        <hr>
-    </div>
-</form>
+            <label for="phoneNumber"><b>Phone Number</b> <span style="color: red;">*</span></label>
+            <input type="text" name="phoneNumber" placeholder="Phone Number" bind:value={phoneNumber} required>
+    
+            <h2>Vehicle Information</h2>
+
+            <label for="vColor"><b>Vehicle Color</b></label>
+            <input type="text" name="vColor" placeholder="Color" bind:value={vehicleColor}>
+    
+            <label for="vMake"><b>Vehicle Make</b></label>
+            <input type="text" name="vMake" placeholder="Make" bind:value={vehicleMake}>
+    
+            <label for="vModel"><b>Vehicle Model</b></label>
+            <input type="text" name="vModel" placeholder="Model" bind:value={vehicleModel}>
+    
+            <label for="vYear"><b>Vehicle Year</b></label>
+            <input type="text" name="vYear" placeholder="xxxx" bind:value={vehicleYear}>
+
+            <label for="lpn"><b>License Plate #</b></label>
+            <input type="text" name="lpn" placeholder="123ABC" bind:value={licensePlate}>
+    
+            <button name="submitData" class="registerbtn">Register</button>
+            <hr>
+        </div>
+    </form>
 
 <div class="container signin">
     <p>Already have an account? <a href="../login">Sign in</a>.</p>
@@ -32,7 +68,6 @@
 <style>
     body {
         font-family: Arial, Helvetica, sans-serif;
-        background-color: black;
     }
 
     * {

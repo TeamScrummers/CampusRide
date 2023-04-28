@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation'
 	import Map from '../map/map.svelte';
 	import { User } from './User.js';
+	import { Trip } from "./Trip";
 	import { get } from "svelte/store";
     import { appMode } from "../firebase/Store";
 	

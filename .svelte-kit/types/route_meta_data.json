@@ -15,9 +15,6 @@
 	"/auth": [
 		"src/routes/+layout.js"
 	],
-	"/driveracceptingTest": [
-		"src/routes/+layout.js"
-	],
 	"/driver": [
 		"src/routes/+layout.js"
 	],
@@ -33,13 +30,7 @@
 	"/matching": [
 		"src/routes/+layout.js"
 	],
-	"/matchmakingtest": [
-		"src/routes/+layout.js"
-	],
 	"/notifications": [
-		"src/routes/+layout.js"
-	],
-	"/passenger": [
 		"src/routes/+layout.js"
 	],
 	"/payment": [
@@ -49,6 +40,9 @@
 		"src/routes/+layout.js"
 	],
 	"/payment/success": [
+		"src/routes/+layout.js"
+	],
+	"/tripComplete": [
 		"src/routes/+layout.js"
 	],
 	"/tripenroute": [
