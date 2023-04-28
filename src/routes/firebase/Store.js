@@ -3,9 +3,9 @@ import { User } from '../matching/User.js';
 import { writable } from 'svelte/store'
 
 export const storedID = writable('Loading...')
-export const storedLocation = writable('Loading...')
 export const passengerLocation = writable('Loading...')
 export const driverLocation = writable('Loading...')
+export const storedLocation = writable('Loading...')
 export const destinationCoords = writable('Loading...')
 export const latestArrival = writable('Loading...')
 export const userCoords = writable('Loading...')

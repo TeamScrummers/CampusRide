@@ -1,5 +1,4 @@
 <script>
-    import { get } from "firebase/database";
 	async function checkout() {
 		await fetch("api/stripeCheckout", {
 			method: "POST",
