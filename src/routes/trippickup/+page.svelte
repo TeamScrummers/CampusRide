@@ -8,6 +8,7 @@
   import { calculateFare, checkIfArrived } from '../map/routeCalculation';
   import { goto } from '$app/navigation';
   import { locateUser } from '../map/locateuser';
+  import {sendTheUserAPushNotifcation} from '../firebase/PushNotifications'
   
   let availableFlag, tripFlag, fareFlag = true
   let arrivedFlag
@@ -77,6 +78,7 @@
     {/if}
     {#if (availableFlag == false && fareFlag == false && arrivedFlag == false) } 
       <h3>Match Found: Pickup Enroute</h3>
+      {sendTheUserAPushNotifcation('Match found!', 'A drive has been found and is enroute!')}
       <RouteMap {start} {endCoord}></RouteMap>
     {/if}
     {#if (availableFlag == false && fareFlag == false && arrivedFlag == true) } 
