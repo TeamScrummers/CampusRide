@@ -1,9 +1,37 @@
 <script>
     import { goto } from '$app/navigation'
-    
+    import { getUserID } from '../firebase/Auth';
+    import { readFromDatabaseOnValue, updateFromDatabase } from '../firebase/Database';
+
     function handleBack() {
       goto('./profile');
     }
+
+    const userID = getUserID()
+    let localUser
+    
+
+    let currentPassword = '';
+    let tmpPassword = '';
+    let newPassword = '';
+    let confirmPassword = '';
+
+    async function fetchData() {
+      // Not a user object.
+      localUser = await readFromDatabaseOnValue(`users/${userID}`)
+      currentPassword = localUser.password
+      console.log('Fetched curr pass');
+    }
+
+    async function changePassword() {
+        if((tmpPassword === currentPassword) && (newPassword === confirmPassword) ) {
+            localUser.password = newPassword;
+            updateFromDatabase(`users/${userID}`,localUser);
+            console.log('Password changed');
+        }
+    }
+
+    fetchData()
 </script>
 
 <div class="container">
@@ -12,17 +40,17 @@
     <h2>Change Password</h2>
     <div class="form-group">
         <label for="current-password">Current Password</label>
-        <input type="password" id="current-password">
+        <input type="password" id="current-password" bind:value={tmpPassword}>
     </div>
     <div class="form-group">
         <label for="new-password">New Password</label>
-        <input type="password" id="new-password">
+        <input type="password" id="new-password" bind:value={newPassword}>
     </div>
     <div class="form-group">
         <label for="confirm-password">Confirm Password</label>
-        <input type="password" id="confirm-password">
+        <input type="password" id="confirm-password" bind:value={confirmPassword}>
     </div>
-    <button type="submit">Save Changes</button>
+    <button type="submit" on:click={changePassword}>Save Changes</button>
     </form>
 
     <!-- <form>
