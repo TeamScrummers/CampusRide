@@ -113,6 +113,9 @@
         cursor: pointer;
         width: 50%;
         opacity: 0.9;
+        position: relative;
+        left: 280px;
+        border-radius: 10px; /* round off the edges */
     }
 
     .registerbtn:hover {

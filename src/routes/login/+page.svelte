@@ -54,13 +54,13 @@
     }
 
     img {
-        width: 40%;
-        height: 90px;
+        width: 130px;
+        height: 100px;
         border-radius: 50%;
         overflow: hidden;
         position: absolute;
         top: -80px;
-        left: 120px;
+        left: 130px;
     }
 
     input[type=text],
@@ -83,7 +83,7 @@
         border: 1px solid #f1f1f1;
         margin-bottom: 25px;
         position: relative;
-        left: -50px;
+        /* left: -50px; */
     }
     h1{
         text-align: center;
