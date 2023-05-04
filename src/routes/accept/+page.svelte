@@ -199,11 +199,12 @@
     overflow: hidden;
     transition: height 0.3s ease-out;
     overflow-y: scroll;
-    padding: 10px;
+
   }
 
   .drawer.open {
     height: 300px;
+    padding: 10px;    
   }
 
   .handle {
