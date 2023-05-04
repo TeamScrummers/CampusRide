@@ -54,3 +54,29 @@
   {/if}
 {/if}
 Test
+
+<style>
+  h3 {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  .route-map {
+    height: 400px;
+    margin-bottom: 24px;
+  }
+
+  .mode-button {
+    background-color: #0080FF;
+    color: #FFFFFF;
+    font-size: 18px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .mode-button:hover {
+    background-color: #0040FF;
+  }
+</style>
