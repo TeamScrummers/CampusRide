@@ -34,7 +34,7 @@
 
 <style>
     body {
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: 'Konkhmer Sleokchher', sans-serif;
     }
 
     * {
