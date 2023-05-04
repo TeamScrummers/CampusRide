@@ -117,6 +117,9 @@
     {/if}
   </div>
 
+  <!-- Dim background element -->
+<div class={`dim-overlay ${isSideDrawerOpen ? "open" : ""}`}></div>
+
   <!-- Second Bottom Drawer Div -->
   <div class={`bottom-drawer ${isBottomDrawerOpen ? "open" : ""}`}>
     <!-- Bottom Handle Div -->
@@ -228,6 +231,21 @@
 
 .bottom-handle:hover {
   transform: translateX(-50%) translateY(-10px);
+}
+
+.dim-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+  display: none;
+}
+
+.dim-overlay.open {
+  display: block;
 }
 
 .map-container {
