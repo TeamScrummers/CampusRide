@@ -13,6 +13,10 @@
     let vehicleColor = '';
 </script>
 
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
+</head>
+
 
 <body>
     <form on:submit={ handleOnRegister(emailReg, passwordReg, firstName, lastName, phoneNumber, vehicleColor, vehicleMake, vehicleModel, vehicleYear, licensePlate) }>
@@ -67,19 +71,17 @@
 
 <style>
     body {
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: 'Josefin Sans', sans-serif;
     }
 
     * {
         box-sizing: border-box;
     }
 
-
     .container {
         padding: 16px;
         background-color: white;
     }
-
 
     input[type=text],
     input[type=password] {
@@ -89,6 +91,7 @@
         display: list-block;
         border: none;
         background: #f1f1f1;
+        font-family: 'Josefin Sans', sans-serif;
     }
 
     input[type=text]:focus,
@@ -97,12 +100,10 @@
         outline: none;
     }
 
-
     hr {
         border: 1px solid #f1f1f1;
         margin-bottom: 25px;
     }
-
 
     .registerbtn {
         background-color: #04AA6D;
@@ -115,21 +116,22 @@
         opacity: 0.9;
         position: relative;
         left: 280px;
-        border-radius: 10px; /* round off the edges */
+        border-radius: 10px;
+        font-family: 'Josefin Sans', sans-serif;
     }
 
     .registerbtn:hover {
         opacity: 1;
     }
 
-
     a {
         color: dodgerblue;
+        font-family: 'Josefin Sans', sans-serif;
     }
-
 
     .signin {
         background-color: #f1f1f1;
         text-align: center;
+        font-family: 'Josefin Sans', sans-serif;
     }
 </style>

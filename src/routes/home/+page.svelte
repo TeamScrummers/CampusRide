@@ -66,6 +66,10 @@
 
 </script>
 
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
+</head>
+
   <div class="map-container">
     <Map />
   </div>
@@ -190,6 +194,7 @@
   box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   transition: height 0.3s ease-out;
+  font-family: 'Josefin Sans', sans-serif;
   /* overflow-y: scroll */
 }
 

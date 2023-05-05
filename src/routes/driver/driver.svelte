@@ -133,21 +133,20 @@
   }
 
   .mode-button {
-    background-color: #04AA6D;
-    color: #FFFFFF;
-    padding: 10px 20px;
-    border-radius: 50%;
-    /* height: 50px; */
-    cursor: pointer;
-    transition: opacity 0.2s ease-in-out;
-    position: relative;
-    font-size: 20px;
-    font-weight: bold;
-    border: 2px solid #222222;
-    bottom: -150px;
-    /* transform: translate(-50%, -50%); */
-  }
-
+  background-color: #04AA6D;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+  position: relative;
+  font-size: 20px;
+  font-weight: bold;
+  bottom: -150px;
+  width: 150px;
+  height: 50px;
+  outline: none;
+}
   .mode-button:hover {
     background-color: darkgreen;
     opacity: 0.9;
