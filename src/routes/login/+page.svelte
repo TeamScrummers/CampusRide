@@ -4,6 +4,10 @@
     let passwordLog;
 </script>
 
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
+</head>
+
 <body>
     <form on:submit={handleOnLogin(emailLog, passwordLog)}>
         <div class="container">
@@ -34,7 +38,7 @@
 
 <style>
     body {
-        font-family: 'Konkhmer Sleokchher', sans-serif;
+        font-family: 'Josefin Sans', sans-serif;
     }
 
     * {
@@ -102,6 +106,7 @@
         position: relative;
         left: 0px;
         border-radius: 10px; /* round off the edges */
+        font-family: 'Josefin Sans', sans-serif;
         
     }
 
@@ -111,6 +116,7 @@
 
     a {
         color: dodgerblue;
+        font-family: 'Josefin Sans', sans-serif;
     }
 
     .signin {
@@ -119,5 +125,6 @@
         position: relative;
         top: 10px;
         left: 10px;
+        font-family: 'Josefin Sans', sans-serif;
     }
 </style>
