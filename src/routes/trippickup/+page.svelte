@@ -25,12 +25,8 @@
     listenToANode(`users/${userID}/available`, availableListener)
     listenToANode(`users/${userID}/tempTripID`, tempTripIDListener)
   }
-  
-  function returnValue (value) {
-    return value
-  }
 
-  async function availableListener(childSnapshot){
+  async function availableListener(childSnapshot) {
     availableFlag = childSnapshot
     console.log("AVAILABLE LISTENED: " + childSnapshot)
     console.log("fareFlag: " + fareFlag)
@@ -62,6 +58,7 @@
       clearInterval(tripPickUpInterval)
     }
   }, 5000); // Executes checkIfArrived every 5 seconds (5000ms)
+
 </script>
 {#await fetchData()}
 <p>Loading app mode...</p>
