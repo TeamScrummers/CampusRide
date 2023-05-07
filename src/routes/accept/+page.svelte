@@ -24,7 +24,7 @@
     for (const passenger of passengers) {
       const driveTime = await getDriveTime(localUser.startLocation, passenger.startLocation) + await getDriveTime(passenger.startLocation, localUser.endLocation);
       const driveDistance = await getDriveDistance(localUser.startLocation, passenger.startLocation)
-      if (driveDistance > sliderValue) {
+      if (driveDistance > sliderValue || passenger.available != true) {
         continue;
       }
       // console.log("Pushing: " + JSON.stringify(passenger))
@@ -127,7 +127,7 @@
           getDriveTime(localUser.startLocation, passengers[0].startLocation),
           getDriveTime(passengers[0].startLocation, localUser.endLocation),
           calculateFare(localUser.startLocation, passengers[0].startLocation),
-          getMapRoute(localUser.startLocation, passengers[0].startLocation)
+          getMapRoute(localUser.startLocation, passengers[0].startLocation),
         ])}
         <h4>Loading, please wait.</h4>
       {:then [distance1, distance2, time1, time2, fare]}
@@ -139,6 +139,8 @@
           <!-- <p><strong>Total Trip Distance:</strong> {(distance1 + distance2).toFixed(1)} miles</p> -->
           <p><strong>Trip Fare:</strong> ${(fare).toFixed(2)} </p> 
           <p><strong>Driver Payment:</strong> ${(fare-1).toFixed(2)} </p>
+          <!-- <p><strong>Availability:</strong> {passengers[0].available} </p> -->
+          
           <p>
             <button class="accept-button" on:click|stopPropagation={() => acceptPassenger(passengers[0])}>Accept</button>
             <button class="decline-button" on:click|stopPropagation={() => declinePassenger(passengers[0])}>Decline</button>
