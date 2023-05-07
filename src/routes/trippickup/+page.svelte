@@ -50,6 +50,7 @@
   }
 
   fetchData();
+
   const tripPickUpInterval = setInterval(async function() {
     locateUser()
     start = await readFromDatabaseOnValue(`users/${userID}/startLocation`)
@@ -63,7 +64,7 @@
   }, 5000); // Executes checkIfArrived every 5 seconds (5000ms)
 </script>
 {#await fetchData()}
-<p>Loading...</p>
+<p>Loading app mode...</p>
 {:then}
 {#if localUser}
   {#if (localUser.mode === 'passenger') }
@@ -88,9 +89,11 @@
     {/if}
     
   {:else if (localUser.mode === 'driver')}
-    {#if (arrivedFlag == false) } 
-      <p>Routing driver to passenger pick up location</p>
-      <RouteMap {start} {endCoord}></RouteMap>
+    {#if (arrivedFlag == false) }
+      {#if tripOBJ}
+        <p>Routing you to {tripOBJ.passenger.firstName} {tripOBJ.passenger.lastName}'s pick up location</p>
+        <RouteMap {start} {endCoord}></RouteMap>
+      {/if}
     {/if}
     {#if (arrivedFlag == true) } 
       <h3>You've arrived at the pickup location!</h3>

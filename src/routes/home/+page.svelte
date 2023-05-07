@@ -1,37 +1,16 @@
 <script>
   import Map from '../map/map.svelte';
-  import { goto } from '$app/navigation'
-  import { onMount } from 'svelte';
-  // Accessing Stores
-	import { writable } from 'svelte/store'
-  import { destinationCoords, latestArrival, userCoords, appMode} from '../firebase/Store.js';
-  import Geocoder from '../map/geocoder.svelte';
-  import Navbar from "../navbar/navbar.svelte"
-  import { linkUtil } from "../utils/linkUtils"
   import Profile from '../profile/profile.svelte';
   import Settings from '../settings/settings.svelte'
   import Driver from '../driver/driver.svelte';
   import Passenger from '../passenger/passenger.svelte';
-  import { calculateFare } from '../map/routeCalculation';
   import { handleSignOut } from '../firebase/Auth';
 
-  
-  let isDriverMode = false;
   let settingsMode = false;
-  const tripCost = writable(10); // initialize with a default value of 10
-
-
-	function driverMode() {
-		appMode.set("Driver")
-    // add user to matchmaking pool (call the function)
-		goto('/driver')
-	}
-	function passengerMode() {
-		appMode.set("Passenger")
-    // add user to matchmaking pool (call the function)
-		goto('/passenger')
-	}
   let mode = 'passenger';
+  let isSideDrawerOpen = false;
+  let isBottomDrawerOpen = true;
+
   function toggleMode() {
     if (mode === 'passenger') {
       mode = 'driver';
@@ -39,9 +18,7 @@
       mode = 'passenger';
     }
   }
-  let isSideDrawerOpen = false;
-  let isBottomDrawerOpen = true;
-  
+
   function toggleSideDrawer() {
     console.log("Toggling Side Drawer")
     isSideDrawerOpen = !isSideDrawerOpen;
@@ -54,15 +31,6 @@
   function changeSettingsMode() {
     settingsMode = !settingsMode;
   }
-
-  function calculateTripCost() {
-    // Code to calculate the trip cost
-    const newTripCost = 15 // This is just an example, imported is calculateFare 
-
-    // Update the trip cost variable
-    tripCost.set(newTripCost);
-  }
-  calculateTripCost();
 
 </script>
 
