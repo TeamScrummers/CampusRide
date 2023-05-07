@@ -11,7 +11,6 @@
   import { User } from '../matching/User';
   import {sendTheUserAPushNotifcation, sendDriverArrivedNotifcation, sendPassengerAvailableNotifcation, sendDriverAcceptedNotifcation} from "../firebase/PushNotifications"
 
-
   let timeInput = '';
   function handleTimeInput(event) {
     timeInput = event.target.value;

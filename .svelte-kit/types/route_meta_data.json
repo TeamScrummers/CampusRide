@@ -15,9 +15,6 @@
 	"/auth": [
 		"src/routes/+layout.js"
 	],
-	"/driver": [
-		"src/routes/+layout.js"
-	],
 	"/home": [
 		"src/routes/+layout.js"
 	],
@@ -42,7 +39,7 @@
 	"/payment/success": [
 		"src/routes/+layout.js"
 	],
-	"/tripComplete": [
+	"/tripcomplete": [
 		"src/routes/+layout.js"
 	],
 	"/tripenroute": [
