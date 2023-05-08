@@ -64,7 +64,7 @@
         overflow: hidden;
         position: absolute;
         top: -80px;
-        left: 130px;
+        left: 140px;
     }
 
     input[type=text],
