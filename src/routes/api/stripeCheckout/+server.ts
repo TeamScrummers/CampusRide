@@ -7,7 +7,7 @@ import { get } from 'svelte/store';
 import { fareStore } from '../../firebase/Store'
 
 const userID = getUserID()
-let fare = 2
+let fare = 7.31
 fareStore.subscribe(value => {
     fare = value
   });
@@ -41,8 +41,8 @@ export const POST: RequestHandler = async ({request}) => {
         },
       ],
         mode: 'payment',
-        success_url: "http://localhost:3030/tripenroute",
-        cancel_url: "http://localhost:3030/tripenroute",
+        success_url: "http://localhost:3030/trippickup",
+        cancel_url: "http://localhost:3030/trippickup",
     });
     return new Response(
         JSON.stringify({ url: session.url }), // url to pass to frontend

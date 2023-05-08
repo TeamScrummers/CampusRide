@@ -12,7 +12,7 @@ export const appMode = writable('N/A') // 4 possible states: N/A (error), Availa
 export const userObj = writable('')
 
 // Hacky
-export const fareStore = writable(1)
+export const fareStore = writable(5.32)
 export const tempA = writable('Loading...')
 export const tempB = writable('Loading...')
 
