@@ -1,5 +1,5 @@
 <script>
-	async function checkout() {
+	export async function checkout() {
 		await fetch("api/stripeCheckout", {
 			method: "POST",
 			headers: {

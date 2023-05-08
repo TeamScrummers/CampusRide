@@ -5,10 +5,13 @@
   import { getUserID } from '../firebase/Auth';
   import { readFromDatabaseOnValue } from '../firebase/Database';
   import { listenToANode } from '../firebase/Database';
-  import { calculateFare, checkIfArrived } from '../map/routeCalculation';
+  import { calculateFare, checkIfArrived, getAddress } from '../map/routeCalculation';
   import { goto } from '$app/navigation';
   import { locateUser } from '../map/locateuser';
   import {sendTheUserAPushNotifcation} from '../firebase/PushNotifications'
+  import { checkout } from '../payment/payment'
+  import { writable } from 'svelte/store';
+  import { fareStore } from '../firebase/Store';
   
   let availableFlag, tripFlag, fareFlag = true
   let arrivedFlag
@@ -59,7 +62,13 @@
     }
   }, 5000); // Executes checkIfArrived every 5 seconds (5000ms)
 
+  function acceptFare () {
+    fareStore.set(fare)
+    checkout()
+  }
+  
 </script>
+
 {#await fetchData()}
 <p>Loading app mode...</p>
 {:then}
@@ -76,19 +85,20 @@
     {/if}
     {#if (availableFlag == false && fareFlag == false && arrivedFlag == false) } 
       <h3>Match Found: Pickup Enroute</h3>
-      {sendTheUserAPushNotifcation('Match found!', 'A drive has been found and is enroute!')}
+      {sendTheUserAPushNotifcation('Match found!', 'A driver has been found and is enroute!')}
       <RouteMap {start} {endCoord}></RouteMap>
     {/if}
     {#if (availableFlag == false && fareFlag == false && arrivedFlag == true) } 
       <h3>Your ride is outside!</h3>
-      <button type="button" class="mode-button" on:click={() => {goto('/tripenroute')} }>Continue</button>
+      <button type="button" class="mode-button" on:click={() => {acceptFare()} }>Submit Payment</button>
       <RouteMap {start} {endCoord}></RouteMap>
     {/if}
     
   {:else if (localUser.mode === 'driver')}
     {#if (arrivedFlag == false) }
       {#if tripOBJ}
-        <p>Routing you to {tripOBJ.passenger.firstName} {tripOBJ.passenger.lastName}'s pick up location</p>
+        <p>Routing you to {tripOBJ.passenger.firstName} {tripOBJ.passenger.lastName}'s pick up location.</p>
+        <!-- <p>{getAddress(tripOBJ.passenger.startLocation)}</p> -->
         <RouteMap {start} {endCoord}></RouteMap>
       {/if}
     {/if}
