@@ -1,5 +1,9 @@
 export class User {
   constructor(firstName, lastName, phoneNumber, startLocation = null, endLocation = null, available = false, latestArrival = null, mode) {
+    if (!firstName || !lastName || !phoneNumber) {
+      throw new Error('Required user data is missing');
+    }
+
     this.firstName = firstName;
     this.lastName = lastName;
     this.phoneNumber = phoneNumber;
@@ -30,7 +34,16 @@ export class User {
    * @returns - An object of User class
   */
   static fromJSON(data) {
-    const user = new User(data.firstName, data.lastName, data.phoneNumber, data.startLocation, data.endLocation, data.available, data.latestArrival ? new Date(data.latestArrival) : null, data.mode);
+    const user = new User(
+      data.firstName,
+      data.lastName,
+      data.phoneNumber,
+      data.startLocation,
+      data.endLocation,
+      data.available,
+      data.latestArrival ? new Date(data.latestArrival) : null,
+      data.mode
+    );
     return user;
   }
 }

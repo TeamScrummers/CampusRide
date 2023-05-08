@@ -9,8 +9,8 @@
   import { goto } from "$app/navigation";
 
   const userID = getUserID()
-  export let passengers = []
-  export let localUser = new User()
+  let passengers = []
+  let localUser
   let sortedFlag =  false
   let mapFlag = false
   let start, endCoord, timerId
@@ -50,7 +50,7 @@
   
   async function acceptPassenger (passenger) {
     console.log("Accepted: " + passenger.firstName + " " + passenger.lastName)
-    let tripID = await Trip.makeTrip(User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`)),User.fromJSON(passenger))
+    let tripID = await Trip.makeTrip(await readFromDatabaseOnValue(`users/${userID}/`),passenger)
     let passengerID = await findUserByPhone(passenger.phoneNumber)
     console.log("post find: " + tripID)
     updateFromDatabase(`users/${passengerID}`, { tempTripID: tripID });

@@ -34,8 +34,8 @@ export class Trip {
     toJSON() {
       return {
         tripID: this.tripID,
-        driver: this.driver.toJSON(), // calling User.js toJSON()
-        passenger: this.passenger.toJSON(), // calling User.js toJSON()
+        driver: this.driver,
+        passenger: this.passenger, 
         startLocation: this.startLocation,
         endLocation: this.endLocation,
         fare: this.fare,
@@ -49,8 +49,8 @@ export class Trip {
    * @returns - An object of Trip class
   */
     static fromJSON(data) {
-      const driver = User.fromJSON(data.driver); // calling User.js fromJSON()
-      const passenger = User.fromJSON(data.passenger) // calling User.js fromJSON()
+      const driver = data.driver
+      const passenger = data.passenger 
       const trip = new Trip(
         data.tripID,
         driver,

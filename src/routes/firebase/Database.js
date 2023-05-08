@@ -146,9 +146,8 @@ export async function readUserFromDatabase(userId) {
     const userJson = await readFromDatabaseOnValue(path);
     // If user exists in the database, parse the JSON into a User object
     if (userJson) {
-      const user = User.fromJSON(userJson);
       console.log(`User with userId ${userId} has been read from the database`);
-      return user;
+      return userJson;
     }
     // If user does not exist in the database, return null
     console.log(`User with userId ${userId} was not found in the database`);
