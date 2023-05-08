@@ -63,6 +63,7 @@
   }, 5000); // Executes checkIfArrived every 5 seconds (5000ms)
 
   function acceptFare () {
+    fareFlag = false
     fareStore.set(fare)
     checkout()
   }
@@ -76,7 +77,7 @@
   {#if (localUser.mode === 'passenger') }
     {#if (fareFlag == true)}
       <h3>Total Trip Fare Will Be ${(fare).toFixed(2)}.</h3>
-      <button type="button" class="mode-button" on:click={() => {fareFlag = false} }>Accept</button>
+      <button type="button" class="mode-button" on:click={() => {acceptFare()} }>Accept</button>
       <Map></Map>
     {/if}
     {#if (availableFlag == true && fareFlag == false && arrivedFlag == false) } 
@@ -90,7 +91,7 @@
     {/if}
     {#if (availableFlag == false && fareFlag == false && arrivedFlag == true) } 
       <h3>Your ride is outside!</h3>
-      <button type="button" class="mode-button" on:click={() => {acceptFare()} }>Submit Payment</button>
+      <button type="button" class="mode-button" on:click={() => {goto('/tripenroute')} }>Continue</button>
       <RouteMap {start} {endCoord}></RouteMap>
     {/if}
     
