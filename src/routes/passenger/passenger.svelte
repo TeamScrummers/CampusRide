@@ -32,7 +32,7 @@
     updateFromDatabase(`users/${userID}`, {latestArrival: timeOutput.toISOString()})
     updateFromDatabase(`users/${userID}`, {mode: "passenger"})
     // Write endLocation
-    var localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
+    var localUser = await readFromDatabaseOnValue(`users/${userID}/`)
 
     // Makes a DB Field for later manipulation
     updateFromDatabase(`users/${userID}`, { tempTripID: "" });

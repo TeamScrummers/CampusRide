@@ -3,7 +3,7 @@
   import RouteMap from '../map/routeMap.svelte';
   import { User } from '../matching/User';
   import { getUserID } from '../firebase/Auth';
-  import { readFromDatabaseOnValue } from '../firebase/Database';
+  import { createANodeInDatabase, pushAnObjectToDatabase, readFromDatabaseOnValue } from '../firebase/Database';
   import { listenToANode } from '../firebase/Database';
   import { calculateFare, checkIfArrived, getAddress } from '../map/routeCalculation';
   import { goto } from '$app/navigation';
@@ -20,7 +20,8 @@
   async function fetchData() {
     arrivedFlag = false
     userID = await getUserID()
-    localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
+    // alert(userID)
+    localUser = await readFromDatabaseOnValue(`users/${userID}/`)
     start = await localUser.startLocation
     fare = await calculateFare(start, localUser.endLocation)
     console.log(localUser)
@@ -62,10 +63,10 @@
     }
   }, 5000); // Executes checkIfArrived every 5 seconds (5000ms)
 
-  function acceptFare () {
+  async function acceptFare () {
     fareFlag = false
-    fareStore.set(fare)
-    checkout()
+    await createANodeInDatabase(`users/${userID}/tempFare/`, fare)
+    // checkout()
   }
   
 </script>

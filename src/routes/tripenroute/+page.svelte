@@ -15,7 +15,7 @@
 
   async function fetchData() {
     userID = await getUserID()
-    localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
+    localUser = await readFromDatabaseOnValue(`users/${userID}/`)
     tripOBJ = await readFromDatabaseOnValue(`trips/${localUser.tempTripID}/`)
     console.log("tripenroute tripobj:")
     console.log(await tripOBJ)
