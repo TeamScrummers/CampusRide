@@ -21,7 +21,7 @@ const database = getDatabase(app);
  */
 export function createANodeInDatabase(path, data){
   set(ref(database, path), data);
-  console.log("The provided data has been written to the database.");
+  // console.log("The provided data has been written to the database.");
 }
 
 

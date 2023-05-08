@@ -38,7 +38,7 @@
   }
 
   async function driverMode() {
-    localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
+    localUser = await readFromDatabaseOnValue(`users/${userID}/`)
     const passengersObj = await searchFromDatabase("users", "mode", "passenger");
     const passengersArray = Object.keys(passengersObj).map(key => passengersObj[key])
     // Sorts passengers by distance from driver. 

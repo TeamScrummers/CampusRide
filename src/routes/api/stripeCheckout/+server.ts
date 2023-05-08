@@ -1,19 +1,7 @@
 // localhost:3030/api/stripeCheckout
 import type { RequestHandler } from '@sveltejs/kit';
-import { PUBLIC_STRIPE_KEY } from '$env/static/public'
-import { readFromDatabaseOnValue } from '../../firebase/Database'
-import { getUserID } from '../../firebase/Auth.js';
-import { get } from 'svelte/store';
-import { fareStore } from '../../firebase/Store'
-
-const userID = getUserID()
-let fare = 7.31
-fareStore.subscribe(value => {
-    fare = value
-  });
-fare = fare*100
-
 import Stripe from 'stripe';
+import { PUBLIC_STRIPE_KEY } from '$env/static/public'
 
 const stripe = new Stripe(PUBLIC_STRIPE_KEY, {
     apiVersion: '2022-11-15'
@@ -21,17 +9,13 @@ const stripe = new Stripe(PUBLIC_STRIPE_KEY, {
 
 export const POST: RequestHandler = async ({request}) => {
     const data = await request.json()
-
-    const User = await readFromDatabaseOnValue(`users/${userID}/`)
-    if (User) {
-        const fare = (await readFromDatabaseOnValue(`trips/${User.tempTripID}/fare/`))*100
-    }
+    
     // Gives us a checkout URL
     const session = await stripe.checkout.sessions.create({
         line_items: [ // all arguments are required
         {
           price_data: {
-            unit_amount: fare,
+            unit_amount: data.fare,
             currency: 'usd',
             product_data: {
               name: 'CampusRide Fare'
