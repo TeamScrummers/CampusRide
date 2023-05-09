@@ -1,7 +1,6 @@
 import { updateFromDatabase } from '../firebase/Database.js';
 import { getUserID } from '../firebase/Auth.js';
 
-
 /**
 *  Attempts to locate the user using the Geolocation API.
 *  If Geolocation is not supported by the browser, logs an error message to the console.
@@ -15,7 +14,6 @@ export function locateUser() {
     navigator.geolocation.getCurrentPosition(geolocateSuccess, geolocateError);
   }
 }
-
 
 /**
 * Async function to pull user's coords then write them to database.
@@ -31,11 +29,9 @@ async function geolocateSuccess(position) {
   // Updating DB
   updateFromDatabase(`users/${userID}`, {startLocation: coords});
   return coords
-
-  // Debug
-  //console.log("UID: " + userID + ' Starting Coords: ' + coords)
 }
 
+// Error handeling.
 function geolocateError() {
   console.log("ERROR: Geolocation error in /src/routes/map/locateuser.svelte")
 }
