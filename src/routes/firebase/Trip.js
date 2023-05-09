@@ -1,4 +1,3 @@
-import { User } from "../matching/User";
 import { writeTripToDatabase, updateFromDatabase} from "./Database";
 
 export class Trip {
@@ -19,9 +18,7 @@ export class Trip {
      * @returns - New Trip Obj based off of user pair & db data
     */
     static async makeTrip(driver, passenger) {
-        //console.log(driver)
         const tripObj = new Trip('', driver, passenger, passenger.startLocation, driver.endLocation, 6, driver.latestArrival)
-        console.log(tripObj)
         tripObj.tripID = await writeTripToDatabase(tripObj)
         updateFromDatabase(`trips/${tripObj.tripID}`, { tripID: tripObj.tripID });
         return tripObj.tripID

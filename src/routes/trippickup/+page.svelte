@@ -1,47 +1,40 @@
 <script>
   import Map from '../map/map.svelte';
   import RouteMap from '../map/routeMap.svelte';
-  import { User } from '../matching/User';
   import { getUserID } from '../firebase/Auth';
-  import { createANodeInDatabase, pushAnObjectToDatabase, readFromDatabaseOnValue } from '../firebase/Database';
+  import { createANodeInDatabase, readFromDatabaseOnValue } from '../firebase/Database';
   import { listenToANode } from '../firebase/Database';
-  import { calculateFare, checkIfArrived, getAddress } from '../map/routeCalculation';
+  import { calculateFare, checkIfArrived } from '../map/routeCalculation';
   import { goto } from '$app/navigation';
   import { locateUser } from '../map/locateuser';
   import {sendTheUserAPushNotifcation} from '../firebase/PushNotifications'
-  import { checkout } from '../payment/payment'
-  import { writable } from 'svelte/store';
-  import { fareStore } from '../firebase/Store';
   
-  let availableFlag, tripFlag, fareFlag = true
+  let availableFlag, fareFlag = true
   let arrivedFlag
   let start, endCoord, userID, localUser, tripOBJ, fare
 
+  // Fetch data from DB & start listeners to look for changes in DB values.
   async function fetchData() {
     arrivedFlag = false
-    userID = await getUserID()
-    // alert(userID)
+    userID = getUserID()
+
     localUser = await readFromDatabaseOnValue(`users/${userID}/`)
     start = await localUser.startLocation
     fare = await calculateFare(start, localUser.endLocation)
-    console.log(localUser)
 
     listenToANode(`users/${userID}/available`, availableListener)
     listenToANode(`users/${userID}/tempTripID`, tempTripIDListener)
   }
 
+
   async function availableListener(childSnapshot) {
     availableFlag = childSnapshot
-    console.log("AVAILABLE LISTENED: " + childSnapshot)
-    console.log("fareFlag: " + fareFlag)
+    //Notification if available flag changes.
     sendTheUserAPushNotifcation('Match found!', 'Enroute to destination now!')
   }
 
   async function tempTripIDListener(childSnapshot){
-    let tripID = childSnapshot
     tripOBJ = await readFromDatabaseOnValue(`trips/${childSnapshot}`)
-    console.log("TRIPID LISTENED: " + childSnapshot)
-    console.log(await tripOBJ)
     if (localUser.mode == 'passenger') {
       endCoord = tripOBJ.driver.startLocation
     }
@@ -52,23 +45,28 @@
 
   fetchData();
 
+  
+  /**
+   * Anonymous function that calls the `locateUser` and `checkIfArrived` functions every 5 seconds until the user has arrived.
+   * @returns {void}
+   */
   const tripPickUpInterval = setInterval(async function() {
     locateUser()
     start = await readFromDatabaseOnValue(`users/${userID}/startLocation`)
     endCoord = await tripOBJ.passenger.startLocation
-    if (await checkIfArrived(start, endCoord) && arrivedFlag == false) {
-      // alert("Driver Arrived!")
+    if (checkIfArrived(start, endCoord) && arrivedFlag == false) {
       arrivedFlag = true
-      // goto('/tripenroute')
       sendTheUserAPushNotifcation('Arrived!', 'Driver is at pick up location!')
       clearInterval(tripPickUpInterval)
       
     }
   }, 5000); // Executes checkIfArrived every 5 seconds (5000ms)
 
+  // Handles storing fare price in DB & eventually will trigger stripe passenger payment. 
   async function acceptFare () {
     fareFlag = false
-    await createANodeInDatabase(`users/${userID}/tempFare/`, fare)
+    createANodeInDatabase(`users/${userID}/tempFare/`, fare)
+    // Best logical time to request payment, but app will crash after payment is completed. 
     // checkout()
   }
   
@@ -102,7 +100,6 @@
     {#if (arrivedFlag == false) }
       {#if tripOBJ}
         <p>Routing you to {tripOBJ.passenger.firstName} {tripOBJ.passenger.lastName}'s pick up location.</p>
-        <!-- <p>{getAddress(tripOBJ.passenger.startLocation)}</p> -->
         <RouteMap {start} {endCoord}></RouteMap>
       {/if}
     {/if}
