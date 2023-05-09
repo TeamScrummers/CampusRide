@@ -8,14 +8,13 @@
     let version = 'v4.5.1'
     let accessToken = PUBLIC_MAPBOX_TOKEN
     let types = [ 'neighborhood', 'address', 'poi' ]
-    // let allTypes = [ 'country', 'region', 'postcode', 'district', 'place', 'locality', 'neighborhood', 'address', 'poi' ]
     let placeholder = 'Search'
     let customStylesheetUrl
     let value = null
     let proximity
 
     // Bounding box for geocoder results.
-    // Later we can take user's location & +/- to get bounding box. 
+    // Later we can take user's location coords & +/- lat/long to get bounding box. 
     let bbox = [
         -96.50398611767645, // minLon
         30.322750148689025, // minLat
@@ -23,6 +22,7 @@
         30.861262344023288  // maxLat 
     ]
 
+    // Options object to pass to beyonk's library geocoder svelte component.
     options = {
         version,
         accessToken,
@@ -42,11 +42,6 @@
         const { result } = data.detail
         const userID = getUserID();
         updateFromDatabase(`users/${userID}`, {endLocation: result.center[0] + ',' + result.center[1]});
-    }
-    function onLoad (data) {
-        // get user geolocation
-        const { result } =  data.detail
-        console.log("geocoder data: " + result)
     }
     
 </script>

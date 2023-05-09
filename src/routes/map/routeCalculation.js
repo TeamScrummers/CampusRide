@@ -90,9 +90,10 @@ export async function geocodeAddress(address) {
 }
   
 /**
- * Update needed
- * @param {*} start 
- * @param {*} endCoord 
+ * Calculates the fare for a ride based on the start and end coordinates.
+ * @param {number[]} start - Starting coordinates as an array [longitude, latitude].
+ * @param {number[]} endCoord - Ending coordinates as an array [longitude, latitude].
+ * @returns {number} - Calculated fare.
  */
 export async function calculateFare(start, endCoord) {
   let driveDistance = await getDriveDistance(start, endCoord)
@@ -104,13 +105,18 @@ export async function calculateFare(start, endCoord) {
   }
 }
 
+/**
+ * Checks if the user has arrived at their destination
+ * @param {Array} start - The starting coordinates [longitude, latitude]
+ * @param {Array} endCoord - The destination coordinates [longitude, latitude]
+ * @returns {boolean} Returns true if the user has arrived, false otherwise
+ */
 export async function checkIfArrived(start, endCoord) {
-    if (await getDriveDistance(start, endCoord) <= 0.02) { // 105.6 ft
-      console.log("Driver Arrived!")
-      return true
-    }
-    else {
-      return false
-    }
+  if (await getDriveDistance(start, endCoord) <= 0.02) { // 105.6 ft
+    return true
   }
+  else {
+    return false
+  }
+}
   

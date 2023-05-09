@@ -1,10 +1,11 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
+import { PUBLIC_FIREBASE_KEY } from '$env/static/public'
 
 export let app;
 
 if(!getApps().lenth){
         app = initializeApp({
-                apiKey: "",
+                apiKey: PUBLIC_FIREBASE_KEY,
                 authDomain: "campusride-b34e2.firebaseapp.com",
                 databaseURL: "https://campusride-b34e2-default-rtdb.firebaseio.com",
                 projectId: "campusride-b34e2",

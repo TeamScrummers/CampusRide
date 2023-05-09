@@ -7,6 +7,8 @@ const stripe = new Stripe(PUBLIC_STRIPE_KEY, {
     apiVersion: '2022-11-15'
 });
 
+
+// This handles our checkout() responses
 export const POST: RequestHandler = async ({request}) => {
     const data = await request.json()
     
@@ -25,8 +27,9 @@ export const POST: RequestHandler = async ({request}) => {
         },
       ],
         mode: 'payment',
+        // After payment links
         success_url: "http://localhost:3030/login",
-        cancel_url: "http://localhost:3030/cancel",
+        cancel_url: "http://localhost:3030/payment/cancel",
     });
     return new Response(
         JSON.stringify({ url: session.url }), // url to pass to frontend
