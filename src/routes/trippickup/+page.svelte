@@ -34,6 +34,7 @@
     availableFlag = childSnapshot
     console.log("AVAILABLE LISTENED: " + childSnapshot)
     console.log("fareFlag: " + fareFlag)
+    sendTheUserAPushNotifcation('Match found!', 'Enroute to destination now!')
   }
 
   async function tempTripIDListener(childSnapshot){
@@ -59,7 +60,9 @@
       // alert("Driver Arrived!")
       arrivedFlag = true
       // goto('/tripenroute')
+      sendTheUserAPushNotifcation('Arrived!', 'Driver is at pick up location!')
       clearInterval(tripPickUpInterval)
+      
     }
   }, 5000); // Executes checkIfArrived every 5 seconds (5000ms)
 
@@ -87,7 +90,6 @@
     {/if}
     {#if (availableFlag == false && fareFlag == false && arrivedFlag == false) } 
       <h3>Match Found: Pickup Enroute</h3>
-      {sendTheUserAPushNotifcation('Match found!', 'A driver has been found and is enroute!')}
       <RouteMap {start} {endCoord}></RouteMap>
     {/if}
     {#if (availableFlag == false && fareFlag == false && arrivedFlag == true) } 

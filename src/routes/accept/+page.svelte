@@ -1,12 +1,13 @@
 <script>
   import { getUserID } from "../firebase/Auth";
   import { searchFromDatabase, readFromDatabaseOnValue, findUserByPhone, updateFromDatabase} from "../firebase/Database";
-  import { User } from "../matching/User";
   import RouteMap from "../map/routeMap.svelte";
   import { calculateFare, getAddress, getDriveDistance, getDriveTime } from "../map/routeCalculation";
   import { Trip } from "../firebase/Trip";
   import Slider from "./Slider.svelte";
   import { goto } from "$app/navigation";
+    import { dateToISO, stringToDate } from "../matching/MatchMaking";
+    import { latestArrival } from "../firebase/Store";
 
   const userID = getUserID()
   let passengers = []
@@ -17,17 +18,41 @@
   let sliderValue = 50
 
   // Function to sort passengers by drive time
-  async function sortByDriveTime(passengers) {
+  async function sortPassengerArray(passengers) {
     const passengersObj = await searchFromDatabase("users", "mode", "passenger");
     passengers = Object.keys(passengersObj).map(key => passengersObj[key])
     const passengersWithDriveTime = [];
     for (const passenger of passengers) {
       const driveTime = await getDriveTime(localUser.startLocation, passenger.startLocation) + await getDriveTime(passenger.startLocation, localUser.endLocation);
       const driveDistance = await getDriveDistance(localUser.startLocation, passenger.startLocation)
-      if (driveDistance > sliderValue || passenger.available != true) {
+      const destinationDistance = await getDriveDistance(localUser.endLocation, passenger.endLocation)
+
+      let currentTime = new Date();
+      let estimatedTime = new Date();
+      
+      estimatedTime = estimatedTime.setMinutes(currentTime.getMinutes() + driveTime);
+      let hourFromNow = new Date();
+      hourFromNow.setMinutes(hourFromNow.getMinutes() + 60);
+      let driverLatestArrival = Date.parse(localUser.latestArrival)
+
+      if (driveDistance > sliderValue || passenger.available != true ) {
         continue;
       }
-      // console.log("Pushing: " + JSON.stringify(passenger))
+      if (Date.parse(passenger.latestArrival) <= currentTime ) {
+        continue;
+      }
+      if (estimatedTime >= Date.parse(passenger.latestArrival) || estimatedTime >= hourFromNow || Date.parse(passenger.latestArrival) <= currentTime ) {
+        continue;
+      }
+      if (estimatedTime >= driverLatestArrival) {
+        continue;
+      }
+      // handles if destinations are too far apart
+      if (destinationDistance > .25) {
+        continue;
+      }
+      // debug
+      // alert("Current Time: " + dateToISO(currentTime)  +" Pushing: " + passenger.lastName + " " + passenger.latestArrival)
       passengersWithDriveTime.push({
         ...passenger,
         driveTime
@@ -42,7 +67,7 @@
     const passengersObj = await searchFromDatabase("users", "mode", "passenger");
     const passengersArray = Object.keys(passengersObj).map(key => passengersObj[key])
     // Sorts passengers by distance from driver. 
-    passengers = await sortByDriveTime(passengersArray)
+    passengers = await sortPassengerArray(passengersArray)
 
     console.log(passengers);
     sortedFlag = true
@@ -81,7 +106,7 @@
   async function updateSlider (event) {
     console.log('Slider value changed:', event.detail);
     sliderValue = event.detail;
-    passengers = await sortByDriveTime(passengers);
+    passengers = await sortPassengerArray(passengers);
   }
 
   const handleSliderChange = async (event) => {
@@ -94,7 +119,7 @@
   let isDrawerOpen = true;
   async function toggleDrawer() {
     if (isDrawerOpen == true) {
-      // passengers = await sortByDriveTime(passengers);
+      // passengers = await sortPassengerArray(passengers);
       isDrawerOpen = !isDrawerOpen;
     }
     else {
@@ -140,6 +165,7 @@
           <p><strong>Trip Fare:</strong> ${(fare).toFixed(2)} </p> 
           <p><strong>Driver Payment:</strong> ${(fare-1).toFixed(2)} </p>
           <!-- <p><strong>Availability:</strong> {passengers[0].available} </p> -->
+          <!-- <p><strong>Latest Arrival:</strong> {stringToDate(passengers[0].latestArrival)} </p> -->
           
           <p>
             <button class="accept-button" on:click|stopPropagation={() => acceptPassenger(passengers[0])}>Accept</button>

@@ -8,6 +8,7 @@
   import { checkIfArrived } from '../map/routeCalculation';
   import { goto } from '$app/navigation';
   import { locateUser } from '../map/locateuser';
+  import { checkout } from '../payment/payment';
 
   let dataFlag = false
   let arrivedFlag = false
@@ -48,9 +49,17 @@
     <RouteMap {start} {endCoord}></RouteMap>
   {/if}
   {#if (arrivedFlag == true) } 
-    <h3>You've Arrived!</h3>
-    <button type="button" class="mode-button" on:click={() => {goto('/payment')} }>Continue</button>
+    {#if (localUser.mode == 'passenger') }
+      <h3>You've Arrived!</h3>
+      <button type="button" class="mode-button" on:click={() => {checkout()} }>Payment</button>
+      <RouteMap {start} {endCoord}></RouteMap>
+    {/if }
+    {#if (localUser.mode == 'driver') } 
+    <h3>You've arrived!</h3>
+    <button type="button" class="mode-button" on:click={() => {goto('/login')} }>Reset App</button>
     <RouteMap {start} {endCoord}></RouteMap>
+  {/if}
+
   {/if}
 {/if}
 Test
@@ -67,16 +76,18 @@ Test
   }
 
   .mode-button {
-    background-color: #0080FF;
-    color: #FFFFFF;
-    font-size: 18px;
-    padding: 8px 16px;
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
   }
 
   .mode-button:hover {
-    background-color: #0040FF;
+    background-color: #3e8e41;
   }
 </style>
