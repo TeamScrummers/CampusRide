@@ -1,3 +1,7 @@
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
+</head>
+
 <script>
   import Map from '../map/map.svelte';
   import Profile from '../profile/profile.svelte';
@@ -11,6 +15,7 @@
   let isSideDrawerOpen = false;
   let isBottomDrawerOpen = true;
 
+  // Toggle function for app mode slider.
   function toggleMode() {
     if (mode === 'passenger') {
       mode = 'driver';
@@ -19,28 +24,26 @@
     }
   }
 
+  // Toggle function for side drawer (profile content).
   function toggleSideDrawer() {
-    console.log("Toggling Side Drawer")
     isSideDrawerOpen = !isSideDrawerOpen;
   }
+  // Toggle function for bottom drawer (driver/passenger input).
   function toggleBottomDrawer() {
-    console.log("Toggling Bottom Drawer")
     isBottomDrawerOpen = !isBottomDrawerOpen;
   }
 
+  // Button inside side drawer to swap side drawer to settings mode. 
   function changeSettingsMode() {
     settingsMode = !settingsMode;
   }
 
 </script>
 
-<head>
-  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
-</head>
-
-  <div class="map-container">
-    <Map />
-  </div>
+<!-- Interactive background map for decoration -->
+<div class="map-container">
+  <Map />
+</div>
 
   <!-- Mode Swap Div -->
   <div class="mode-switch-container">

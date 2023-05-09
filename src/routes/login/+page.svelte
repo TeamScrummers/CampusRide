@@ -23,16 +23,9 @@
             <button name="submitData" class="registerbtn">Login</button>
 
             <p>Don't have an account? <a href="../auth">Register</a>.</p>
-            
-
             <hr>
         </div>
     </form>
-
-    <!-- <div class="container signin">
-        <p>Don't have an account? <a href="../auth">Register</a>.</p>
-        <p>Return home <a href="/">Home</a>.</p>
-    </div> -->
 </body>
 
 

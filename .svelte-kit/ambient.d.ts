@@ -121,6 +121,7 @@ declare module '$env/static/private' {
 declare module '$env/static/public' {
 	export const PUBLIC_MAPBOX_TOKEN: string;
 	export const PUBLIC_STRIPE_KEY: string;
+	export const PUBLIC_FIREBASE_KEY: string;
 }
 
 /**
@@ -237,6 +238,7 @@ declare module '$env/dynamic/public' {
 	export const env: {
 		PUBLIC_MAPBOX_TOKEN: string;
 		PUBLIC_STRIPE_KEY: string;
+		PUBLIC_FIREBASE_KEY: string;
 		[key: `PUBLIC_${string}`]: string | undefined;
 	}
 }

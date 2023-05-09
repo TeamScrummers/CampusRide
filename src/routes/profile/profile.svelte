@@ -1,73 +1,63 @@
 <script>
-    import { goto } from '$app/navigation'
-    import { getUserID } from '../firebase/Auth';
-    import { readFromDatabaseOnValue, updateFromDatabase } from '../firebase/Database';
+  import { goto } from '$app/navigation'
+  import { getUserID } from '../firebase/Auth';
+  import { readFromDatabaseOnValue, updateFromDatabase } from '../firebase/Database';
 
-    const userID = getUserID()
-    let localUser
-    
-
-    let fullName = 'John Doe';
-    let email = 'johndoe@example.com';
-    let phoneNumber = '5555555555'
-    let vehicleMake = 'Toyota';
-    let vehicleModel = 'Camry';
-    let vehicleYear = '2020';
-    let licensePlate = 'ABC123';
-    let vehicleColor = 'Blue';
-
-    function handleSubmit(event) {
-      event.preventDefault();
-      // code to submit the form data
-    }
+  const userID = getUserID()
+  let localUser
   
-    function handleSignOut() {
-      // code to sign out the user
-    }
+  // Default Data
+  let fullName = 'John Doe';
+  let email = 'johndoe@example.com';
+  let phoneNumber = '5555555555'
+  let vehicleMake = 'Toyota';
+  let vehicleModel = 'Camry';
+  let vehicleYear = '2020';
+  let licensePlate = 'ABC123';
+  let vehicleColor = 'Blue';
 
-    function handleSettings() {
-      goto('./settings');
-    }
+  function handleSubmit(event) {
+    event.preventDefault();
+    // code to submit the form data
+  }
 
-    function getFirstAndLastName(fullName) {
-      const names = fullName.split(' ');
-      const firstName = names[0];
-      const lastName = names[names.length - 1];
-      return { firstName, lastName };
-    }
+  function getFirstAndLastName(fullName) {
+    const names = fullName.split(' ');
+    const firstName = names[0];
+    const lastName = names[names.length - 1];
+    return { firstName, lastName };
+  }
 
-    
-    async function dataSubmit() {
-      let nameOBJ = getFirstAndLastName(fullName)
-      localUser.firstName = nameOBJ.firstName
-      localUser.lastName = nameOBJ.lastName
-      localUser.email = email
-      localUser.phoneNumber = phoneNumber
-      localUser.vehicleMake = vehicleMake
-      localUser.vehicleModel = vehicleModel
-      localUser.vehicleYear = vehicleYear
-      localUser.licensePlate = licensePlate
-      localUser.vehicleColor = vehicleColor
+  // stores data in localUser then updates DB with obj. 
+  async function dataSubmit() {
+    let nameOBJ = getFirstAndLastName(fullName)
+    localUser.firstName = nameOBJ.firstName
+    localUser.lastName = nameOBJ.lastName
+    localUser.email = email
+    localUser.phoneNumber = phoneNumber
+    localUser.vehicleMake = vehicleMake
+    localUser.vehicleModel = vehicleModel
+    localUser.vehicleYear = vehicleYear
+    localUser.licensePlate = licensePlate
+    localUser.vehicleColor = vehicleColor
 
-      updateFromDatabase(`users/${userID}`,localUser)
-    }
+    updateFromDatabase(`users/${userID}`,localUser)
+  }
 
-    async function fetchData() {
-      // Not a user object.
-      localUser = await readFromDatabaseOnValue(`users/${userID}`)
-      fullName = localUser.firstName + " " + localUser.lastName
-      email = localUser.email
-      phoneNumber = localUser.phoneNumber
-      // Need these registered to each user.
-      vehicleMake = localUser.vehicleMake
-      vehicleModel = localUser.vehicleModel
-      vehicleYear = localUser.vehicleYear
-      licensePlate = localUser.licensePlate
-      vehicleColor = localUser.vehicleColor
+  async function fetchData() {
+    localUser = await readFromDatabaseOnValue(`users/${userID}`)
+    fullName = localUser.firstName + " " + localUser.lastName
+    email = localUser.email
+    phoneNumber = localUser.phoneNumber
+    vehicleMake = localUser.vehicleMake
+    vehicleModel = localUser.vehicleModel
+    vehicleYear = localUser.vehicleYear
+    licensePlate = localUser.licensePlate
+    vehicleColor = localUser.vehicleColor
 
-    }
+  }
 
-    fetchData()
+  fetchData()
 </script>
 
 <div class="container">
@@ -110,12 +100,7 @@
       <button on:click={dataSubmit}>Save</button>
     </div>
     </form>
-  <!-- <button on:click={handleSignOut}>Sign Out</button>
-  <button class="settings-button" on:click={handleSettings}>
-    <i class="fa fa-cog"></i>
-  </button> -->
 </div>
-
 
 <style>
     .container {

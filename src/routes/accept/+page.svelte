@@ -6,8 +6,6 @@
   import { Trip } from "../firebase/Trip";
   import Slider from "./Slider.svelte";
   import { goto } from "$app/navigation";
-    import { dateToISO, stringToDate } from "../matching/MatchMaking";
-    import { latestArrival } from "../firebase/Store";
 
   const userID = getUserID()
   let passengers = []
@@ -51,8 +49,6 @@
       if (destinationDistance > .25) {
         continue;
       }
-      // debug
-      // alert("Current Time: " + dateToISO(currentTime)  +" Pushing: " + passenger.lastName + " " + passenger.latestArrival)
       passengersWithDriveTime.push({
         ...passenger,
         driveTime
@@ -69,26 +65,21 @@
     // Sorts passengers by distance from driver. 
     passengers = await sortPassengerArray(passengersArray)
 
-    console.log(passengers);
     sortedFlag = true
   }
   
   async function acceptPassenger (passenger) {
-    console.log("Accepted: " + passenger.firstName + " " + passenger.lastName)
     let tripID = await Trip.makeTrip(await readFromDatabaseOnValue(`users/${userID}/`),passenger)
     let passengerID = await findUserByPhone(passenger.phoneNumber)
-    console.log("post find: " + tripID)
     updateFromDatabase(`users/${passengerID}`, { tempTripID: tripID });
     updateFromDatabase(`users/${passengerID}`, { available: false });
     updateFromDatabase(`users/${userID}`, { tempTripID: tripID });
-    console.log("post update")
     goto('/trippickup')
   }
 
   async function getMapRoute(startCoordinates, endCoordinates) {
     start = startCoordinates;
     endCoord = endCoordinates;
-    console.log("getMapRoute Start:"+ start + " End:" + endCoord);
     // Update RouteMap with new coordinates
     start = startCoordinates
     endCoord = endCoordinates
@@ -104,7 +95,6 @@
   }
 
   async function updateSlider (event) {
-    console.log('Slider value changed:', event.detail);
     sliderValue = event.detail;
     passengers = await sortPassengerArray(passengers);
   }

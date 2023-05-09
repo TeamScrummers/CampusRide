@@ -1,7 +1,6 @@
 import { app } from "./initialFirebase"
 import {  getDatabase, ref, onValue, set, get, child, update } from "firebase/database";
 import {  orderByChild, equalTo, query, limitToFirst, push } from "firebase/database";
-import { User } from "../matching/User";
 
 const database = getDatabase(app);
 
@@ -21,7 +20,6 @@ const database = getDatabase(app);
  */
 export function createANodeInDatabase(path, data){
   set(ref(database, path), data);
-  // console.log("The provided data has been written to the database.");
 }
 
 
@@ -46,12 +44,12 @@ export function createANodeInDatabase(path, data){
  * be paired with the await keyword in an async function
  */
 export function searchFromDatabase(table, key, value){
-    const selectQ = query(ref(database, table), orderByChild(key), equalTo(value));
-    return new Promise(resolve => {
-        onValue(selectQ, (snapshot) => {
-            resolve(snapshot.val());
-        })  
-    })
+  const selectQ = query(ref(database, table), orderByChild(key), equalTo(value));
+  return new Promise(resolve => {
+      onValue(selectQ, (snapshot) => {
+          resolve(snapshot.val());
+      })  
+  })
 }
 
 /**
@@ -60,11 +58,11 @@ export function searchFromDatabase(table, key, value){
  * @returns - Promise at path location
 */
 export function readFromDatabaseOnValue(path){
-    return new Promise(resolve => {
-        onValue(ref(database, path), (snapshot) => {
-            resolve(snapshot.val());
-        })
-    })
+  return new Promise(resolve => {
+      onValue(ref(database, path), (snapshot) => {
+          resolve(snapshot.val());
+      })
+  })
 };
 
 /**
@@ -95,8 +93,7 @@ export function pushAnObjectToDatabase(path, object){
  * @param {string} field - Field to be deleted
 */
 export function deleteDataFromDatabase(path, field) {
-    console.log("Deleting...")
-    update(ref(database, path), { [field]: null });
+  update(ref(database, path), { [field]: null });
 }
 
 /**
@@ -105,11 +102,11 @@ export function deleteDataFromDatabase(path, field) {
  * @param {function} action - Action to be performed on each entry. The action function should take a single argument, which is the child snapshot.
 */
 export function loopThroughDatabase(path, action){
-    onValue(ref(database, path), (snapshot) => {
-        snapshot.forEach((childSnapshot) => {
-            action(childSnapshot);
-        });
-    });
+  onValue(ref(database, path), (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+          action(childSnapshot);
+      });
+  });
 };
 
 /**
@@ -142,17 +139,15 @@ export async function listenToANode(path, action){
  * @returns {object|null} - The User object, or null if the user was not found
  */
 export async function readUserFromDatabase(userId) {
-    const path = `users/${userId}`;
-    const userJson = await readFromDatabaseOnValue(path);
-    // If user exists in the database, parse the JSON into a User object
-    if (userJson) {
-      console.log(`User with userId ${userId} has been read from the database`);
-      return userJson;
-    }
-    // If user does not exist in the database, return null
-    console.log(`User with userId ${userId} was not found in the database`);
-    return null;
+  const path = `users/${userId}`;
+  const userJson = await readFromDatabaseOnValue(path);
+  // If user exists in the database, parse the JSON into a User object
+  if (userJson) {
+    return userJson;
   }
+  // If user does not exist in the database, return null
+  return null;
+}
 
 /**
  * Writes a User object to the db
@@ -166,8 +161,6 @@ export async function writeUserToDatabase(userId, user) {
 
   // Write the JSON object to the database
   await createANodeInDatabase(path, userJson);
-
-  console.log(`User with userId ${userId} has been written to the database`);
 }
 
 /**
@@ -176,18 +169,16 @@ export async function writeUserToDatabase(userId, user) {
  * @returns {object|null} - The Trip object, or null if the Trip was not found
  */
 export async function readTripFromDatabase(TripId) {
-    const path = `trips/${TripId}`;
-    const tripJson = await readFromDatabaseOnValue(path);
-    // If Trip exists in the database, parse the JSON into a Trip object
-    if (tripJson) {
-      const trip = Trip.fromJSON(tripJson);
-      //console.log(`Trip with TripId ${TripId} has been read from the database`);
-      return trip;
-    }
-    // If trip does not exist in the database, return null
-    //console.log(`Trip with TripId ${TripId} was not found in the database`);
-    return null;
+  const path = `trips/${TripId}`;
+  const tripJson = await readFromDatabaseOnValue(path);
+  // If Trip exists in the database, parse the JSON into a Trip object
+  if (tripJson) {
+    const trip = Trip.fromJSON(tripJson);
+    return trip;
   }
+  // If trip does not exist in the database, return null
+  return null;
+}
 
 /**
 * @brief Writes a trip object to the db
@@ -195,14 +186,11 @@ export async function readTripFromDatabase(TripId) {
 * @returns - New realtime database tripId of the new trip entry
 */
 export async function writeTripToDatabase(trip) {
-    const path = 'trips';
-    const tripJson = trip.toJSON();
-    //console.log('tripJson:', tripJson);
-    const result = await pushAnObjectToDatabase(path, tripJson);
-    //console.log('push result:', result);
-    const tripId = result;
-    //console.log(`Trip with TripId ${tripId} has been written to the database`);
-    return tripId;
+  const path = 'trips';
+  const tripJson = trip.toJSON();
+  const result = await pushAnObjectToDatabase(path, tripJson);
+  const tripId = result;
+  return tripId;
 }
 
 /**
@@ -210,13 +198,11 @@ export async function writeTripToDatabase(trip) {
  * @param {string} phoneNumber - The phone number of the user to search for.
  * @returns {Promise<string|null>} A promise that resolves to the user ID with the given phone number, or null if none are found.
  */
-
 export async function findUserByPhone(phoneNumber) {
   const table = "users";
   const key = "phoneNumber";
   const value = phoneNumber;
   const result = await searchFromDatabase(table, key, value);
-  //console.log(Object.keys(result)[0])
   return Object.keys(result)[0];
 }
 
