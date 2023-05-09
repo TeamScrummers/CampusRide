@@ -1,43 +1,21 @@
-<!-- Preloading Mapbox Scripts -->
-<svelte:head>
-  <script type="module" src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
-  <script type="module" src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js"></script>
-  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
-</svelte:head>
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
+</head>
 
 <script>
-
   import Map from '../map/map.svelte';
-  import { goto } from '$app/navigation'
-  import { onMount } from 'svelte';
-  // Accessing Stores
-	import { writable } from 'svelte/store'
-  import { destinationCoords, latestArrival, userCoords, appMode} from '../firebase/Store.js';
-  import Geocoder from '../map/geocoder.svelte';
-  import Navbar from "../navbar/navbar.svelte"
-  import { linkUtil } from "../utils/linkUtils"
   import Profile from '../profile/profile.svelte';
   import Settings from '../settings/settings.svelte'
   import Driver from '../driver/driver.svelte';
   import Passenger from '../passenger/passenger.svelte';
-  import { calculateFare } from '../map/routeCalculation';
-  
-  let isDriverMode = false;
+  import { handleSignOut } from '../firebase/Auth';
+
   let settingsMode = false;
-  const tripCost = writable(10); // initialize with a default value of 10
-
-
-	function driverMode() {
-		appMode.set("Driver")
-    // add user to matchmaking pool (call the function)
-		goto('/driver')
-	}
-	function passengerMode() {
-		appMode.set("Passenger")
-    // add user to matchmaking pool (call the function)
-		goto('/passenger')
-	}
   let mode = 'passenger';
+  let isSideDrawerOpen = false;
+  let isBottomDrawerOpen = true;
+
+  // Toggle function for app mode slider.
   function toggleMode() {
     if (mode === 'passenger') {
       mode = 'driver';
@@ -45,47 +23,27 @@
       mode = 'passenger';
     }
   }
-  let isDrawerOpen = false;
-  
-  function toggleDrawer() {
-    isDrawerOpen = !isDrawerOpen;
+
+  // Toggle function for side drawer (profile content).
+  function toggleSideDrawer() {
+    isSideDrawerOpen = !isSideDrawerOpen;
+  }
+  // Toggle function for bottom drawer (driver/passenger input).
+  function toggleBottomDrawer() {
+    isBottomDrawerOpen = !isBottomDrawerOpen;
   }
 
+  // Button inside side drawer to swap side drawer to settings mode. 
   function changeSettingsMode() {
     settingsMode = !settingsMode;
   }
 
-  function calculateTripCost() {
-    // Code to calculate the trip cost
-    const newTripCost = 15 // This is just an example, imported is calculateFare 
-
-    // Update the trip cost variable
-    tripCost.set(newTripCost);
-  }
-  calculateTripCost();
 </script>
 
-<!-- <Navbar data={ linkUtil } /> -->
-<!--
-  <section>
-  <div class = "map-overlay">
-    <div class="location-overlay">
-      <h4 style="color:#000000;text-align:center">Driving or Riding?</h4>
-    </div>
-     Make the map auto locate the user for effect -->
-   <!--<div class = "button-container">
-      <button type="button" class="mode-button" on:click={() => passengerMode()}>Passenger Mode</button>
-      <button type="button" class="mode-button" on:click={() => driverMode()}>Driver Mode</button>
-    </div>
-  </div>
-</section>
--->
-  <div class="map-container">
-    <Map />
-  </div>
-  <!-- Driver/Passenger Content Divs -->
-  <div class="trip-cost">${$tripCost}</div>
-
+<!-- Interactive background map for decoration -->
+<div class="map-container">
+  <Map />
+</div>
 
   <!-- Mode Swap Div -->
   <div class="mode-switch-container">
@@ -105,9 +63,10 @@
     {/if}
   </div>
 
-  <!-- Drawer Div -->
-  <div class={`drawer ${isDrawerOpen ? "open" : ""}`}>
-    <div class="handle" on:click={toggleDrawer}>
+  <!-- Side Drawer Div -->
+  <div class={`drawer ${isSideDrawerOpen ? "open" : ""}`}>
+    <!-- Side Handle Div -->
+    <div class="handle" on:click={toggleSideDrawer}>
       <svg class="icon" viewBox="0 0 24 24">
         <path d="M7,12L12,7L17,12H7Z" />
       </svg>
@@ -120,7 +79,7 @@
       <button class="settings-button" on:click={changeSettingsMode}>
         <i class="fa fa-cog"></i>
       </button>
-      <button class="backButton" on:click={null}>Sign Out</button>
+      <button class="backButton" on:click={handleSignOut}>Sign Out</button>
     </div>
     {/if}
     {#if (settingsMode === true)}
@@ -133,33 +92,24 @@
     {/if}
   </div>
 
+  <!-- Dim background element -->
+<div class={`dim-overlay ${isSideDrawerOpen ? "open" : ""}`}></div>
 
-  
-
-    <!-- Second Bottom Drawer Div -->
-    <div class={`bottom-drawer ${isDrawerOpen ? "open" : ""}`}>
-      <div class="drawer-content">
-        <div class = "map-overlay">
-          {#if mode === 'passenger'}
-              <Passenger></Passenger>
-          {/if}
-          {#if mode === 'driver'}
-              <Driver></Driver>
-          {/if}
-        </div>
-      </div>
-      <div class="handle" on:click={toggleDrawer}>
-        <svg class="icon" viewBox="0 0 24 24">
-          <path d="M7,12L12,7L17,12H7Z" />
-        </svg>
-      </div>
-     </div>
-
-
-     <!-- Go button container -->
-<!-- <div class="go-button-container">
-  <button class="go-button" on:click={calculateTripCost}>GO</button>
-</div> -->
+  <!-- Second Bottom Drawer Div -->
+  <div class={`bottom-drawer ${isBottomDrawerOpen ? "open" : ""}`}>
+    <!-- Bottom Handle Div -->
+    <div class="bottom-handle" on:click={toggleBottomDrawer}>
+    <svg class="bottom-icon" viewBox="0 0 24 24">
+      <path d="M7,12L12,7L17,12H7Z" />
+    </svg>
+    </div>
+    {#if mode === 'passenger'}
+        <Passenger></Passenger>
+    {/if}
+    {#if mode === 'driver'}
+        <Driver></Driver>
+    {/if}
+  </div>
 
 <style>
 
@@ -205,16 +155,23 @@
 
 .bottom-drawer {
   position: fixed;
+  bottom: 0;
   left: 0;
-  bottom: 0; /* Set the initial position on screen */
   width: 100%;
-  height: 300px;
-  background-color: #fff;
-  transition: bottom 0.3s ease-in-out;
+  height: 0;
+  background-color: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  transition: height 0.3s ease-out;
+  font-family: 'Josefin Sans', sans-serif;
+  /* overflow-y: scroll */
 }
 
 .bottom-drawer.open {
-  bottom: 0; /* Slide up the drawer when open */
+  height: 330px;
+  padding: 10px;
 }
 
 .drawer-content {
@@ -227,8 +184,44 @@
   align-items: center;
   width: 100%;
   height: 40px;
-  background-color: #eee;
+  background-color: #00cf23;
   cursor: pointer;
+}
+
+.bottom-handle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 6%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease-out;
+}
+
+.bottom-handle:hover {
+  transform: translateX(-50%) translateY(-10px);
+}
+
+.dim-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+  display: none;
+}
+
+.dim-overlay.open {
+  display: block;
 }
 
 .map-container {
@@ -281,7 +274,7 @@
   }
 
   .settingsPage{
-    padding-top: 100%;
+    /* padding-top: 100%; */
     display: flex;
     height: 90%;
     overflow: scroll;
@@ -301,7 +294,6 @@
     flex-direction: row;
     justify-content: center;
     color:#000000;
-    background-color: lightgray;
     margin-top: 10px;
     margin-left: 10px;
     padding: 10px;
@@ -450,7 +442,8 @@ input[type="checkbox"]:checked + .mode-slider:before {
 }
 .drawer.open .handle {
   right: 200px;
-  transform: translate(-50%, -50%) rotate(0deg); /* adjust the transform property for open state */
+  transform: translate(-50%, -50%) rotate(180deg); /* adjust the transform property for open state */
+  box-shadow: -5px 0 10px rgba(0, 0, 0, 0.2);
 }
 .handle:hover {
   transform: translateX(10px) translateY(-50%);
@@ -464,6 +457,16 @@ input[type="checkbox"]:checked + .mode-slider:before {
   transform: rotate(90deg);
 }
 .handle:hover .icon {
+  fill: black;
+}
+.bottom-icon {
+  width: 30px;
+  height: 30px;
+  fill: grey;
+  transition: fill 0.3s ease-out;
+  z-index: 100;
+}
+.handle:hover .bottom-icon {
   fill: black;
 }
 .iframe2 {

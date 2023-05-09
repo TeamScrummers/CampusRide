@@ -1,9 +1,29 @@
 <script>
     import { goto } from '$app/navigation'
-    
-    function handleBack() {
-      goto('./profile');
+    import { getUserID } from '../firebase/Auth';
+    import { readFromDatabaseOnValue, updateFromDatabase } from '../firebase/Database';
+
+    const userID = getUserID()
+    let localUser
+
+    let currentPassword = '';
+    let tmpPassword = '';
+    let newPassword = '';
+    let confirmPassword = '';
+
+    async function fetchData() {
+      localUser = await readFromDatabaseOnValue(`users/${userID}`)
+      currentPassword = localUser.password
     }
+
+    async function changePassword() {
+        if((tmpPassword === currentPassword) && (newPassword === confirmPassword) ) {
+            localUser.password = newPassword;
+            updateFromDatabase(`users/${userID}`,localUser);
+        }
+    }
+
+    fetchData()
 </script>
 
 <div class="container">
@@ -12,49 +32,18 @@
     <h2>Change Password</h2>
     <div class="form-group">
         <label for="current-password">Current Password</label>
-        <input type="password" id="current-password">
+        <input type="password" id="current-password" bind:value={tmpPassword}>
     </div>
     <div class="form-group">
         <label for="new-password">New Password</label>
-        <input type="password" id="new-password">
+        <input type="password" id="new-password" bind:value={newPassword}>
     </div>
     <div class="form-group">
         <label for="confirm-password">Confirm Password</label>
-        <input type="password" id="confirm-password">
+        <input type="password" id="confirm-password" bind:value={confirmPassword}>
     </div>
-    <button type="submit">Save Changes</button>
+    <button type="submit" on:click={changePassword}>Save Changes</button>
     </form>
-
-    <!-- <form>
-    <h2>Change Name</h2>
-    <div class="form-group">
-        <label for="first-name">First Name</label>
-        <input type="text" id="first-name">
-    </div>
-    <div class="form-group">
-        <label for="last-name">Last Name</label>
-        <input type="text" id="last-name">
-    </div>
-    <button type="submit">Save Changes</button>
-    </form> -->
-
-    <form>
-    <h2>Update Payment Info</h2>
-    <div class="form-group">
-        <label for="card-number">Card Number</label>
-        <input type="text" id="card-number">
-    </div>
-    <div class="form-group">
-        <label for="expiration-date">Expiration Date</label>
-        <input type="text" id="expiration-date">
-    </div>
-    <div class="form-group">
-        <label for="security-code">Security Code</label>
-        <input type="text" id="security-code">
-    </div>
-    <button type="submit">Save Changes</button>
-    </form>
-    <!-- <button on:click={handleBack}>Back</button> -->
 </div>
 
 
