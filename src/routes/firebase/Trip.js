@@ -1,4 +1,3 @@
-import { User } from "../matching/User";
 import { writeTripToDatabase, updateFromDatabase} from "./Database";
 
 export class Trip {
@@ -19,9 +18,7 @@ export class Trip {
      * @returns - New Trip Obj based off of user pair & db data
     */
     static async makeTrip(driver, passenger) {
-        //console.log(driver)
         const tripObj = new Trip('', driver, passenger, passenger.startLocation, driver.endLocation, 6, driver.latestArrival)
-        console.log(tripObj)
         tripObj.tripID = await writeTripToDatabase(tripObj)
         updateFromDatabase(`trips/${tripObj.tripID}`, { tripID: tripObj.tripID });
         return tripObj.tripID
@@ -34,8 +31,8 @@ export class Trip {
     toJSON() {
       return {
         tripID: this.tripID,
-        driver: this.driver.toJSON(), // calling User.js toJSON()
-        passenger: this.passenger.toJSON(), // calling User.js toJSON()
+        driver: this.driver,
+        passenger: this.passenger, 
         startLocation: this.startLocation,
         endLocation: this.endLocation,
         fare: this.fare,
@@ -49,8 +46,8 @@ export class Trip {
    * @returns - An object of Trip class
   */
     static fromJSON(data) {
-      const driver = User.fromJSON(data.driver); // calling User.js fromJSON()
-      const passenger = User.fromJSON(data.passenger) // calling User.js fromJSON()
+      const driver = data.driver
+      const passenger = data.passenger 
       const trip = new Trip(
         data.tripID,
         driver,

@@ -1,30 +1,25 @@
 <script>
   import { getContext } from 'svelte'
   import { contextKey } from '$lib/components.js'
-  import { onMount } from 'svelte';
-  import { get } from 'svelte/store';
-  import { destinationCoords, userCoords} from '../firebase/Store.js'
-  // delete this later??
   import { PUBLIC_MAPBOX_TOKEN } from '$env/static/public'
   import { parseCoordinate } from './routeCalculation.js';
 
-  const { getMap, getMapbox } = getContext(contextKey)
+  const { getMap } = getContext(contextKey)
   const map = getMap()
-  const mapbox = getMapbox()
 
-  // Start / End Points for Routing
-  // let start = [-96.3442924,30.5833155]
-  // let endCoord = [-96.469596,30.642855];
-  //let start = get(userCoords).split(',').map(Number);
-  //var end = get(destinationCoords).split(',').map(Number);
+  // Store basic information as svelte props for future use.
   export let start = [-96.3442924,30.5833155]
   export let endCoord = [-96.469596,30.642855]
-  console.log("directionsDriver: START:"+ start + " END:" + endCoord)
   start = parseCoordinate(start)
   endCoord = parseCoordinate(endCoord)
-  console.log("Parsed:")
-  console.log(start)
-  console.log(endCoord)
+
+  /**
+   * Fetches a driving route from Mapbox API and displays it on the map.
+   * @async
+   * @function getRoute
+   * @param {number[]} endCoord - The ending coordinates of the route in the form of [longitude, latitude].
+   * @returns {Promise<void>} A promise that resolves when the route has been fetched and displayed on the map.
+   */
   async function getRoute(endCoord) {
     const query = await fetch(
       `https://api.mapbox.com/directions/v5/mapbox/driving/${start[0]},${start[1]};${endCoord[0]},${endCoord[1]}?steps=true&geometries=geojson&access_token=${PUBLIC_MAPBOX_TOKEN}`,
@@ -32,7 +27,6 @@
     );
     
     const json = await query.json();
-    console.log("Query JSON:"+ json)
     const data = json.routes[0];
     const route = data.geometry.coordinates;
     const geojson = {
@@ -43,11 +37,11 @@
         coordinates: route
       }
     };
-    // if the route already exists on the map, we'll reset it using setData
+    // if the route already exists on the map, reset it using setData
     if (map.getSource('route')) {
       map.getSource('route').setData(geojson);
     }
-    // otherwise, we'll make a new request
+    // otherwise, make a new request
     else {
       map.addLayer({
         id: 'route',
@@ -67,30 +61,54 @@
         }
       });
     }
-    // add turn instructions here at the end
-    /*
-      const instructions = document.getElementById('instructions');
-      const steps = data.legs[0].steps;
-
-      let tripInstructions = '';
-      for (const step of steps) {
-      tripInstructions += `<li>${step.maneuver.instruction}</li>`;
-      }
-      instructions.innerHTML = 
-        `<h4><strong>Trip Distance: ${Math.floor(data.distance*0.000621371)} miles <br>
-        Trip Duration: ${Math.floor(data.duration / 60)}
-        min </strong></h4><ol>${tripInstructions}</ol>`;
-        */
   }
+  // make an initial directions request that
+  // starts and ends at the same location
+  getRoute(start);
 
-  //map.on('load', () => {
-    // make an initial directions request that
-    // starts and ends at the same location
-    getRoute(start);
-
-    // Add starting point to the map
+  // starting point to the map & other mapbox layering
+  map.addLayer({
+    id: 'point',
+    type: 'circle',
+    source: {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: [
+          {
+            type: 'Feature',
+            properties: {},
+            geometry: {
+              type: 'Point',
+              coordinates: start
+            }
+          }
+        ]
+      }
+    },
+    paint: {
+      'circle-radius': 10,
+      'circle-color': '#3887be'
+    }
+  });
+  const end = {
+    type: 'FeatureCollection',
+    features: [
+      {
+        type: 'Feature',
+        properties: {},
+        geometry: {
+          type: 'Point',
+          coordinates: endCoord
+        }
+      }
+    ]
+  };
+  if (map.getLayer('end')) {
+    map.getSource('end').setData(end);
+  } else {
     map.addLayer({
-      id: 'point',
+      id: 'end',
       type: 'circle',
       source: {
         type: 'geojson',
@@ -102,7 +120,7 @@
               properties: {},
               geometry: {
                 type: 'Point',
-                coordinates: start
+                coordinates: endCoord
               }
             }
           ]
@@ -110,57 +128,14 @@
       },
       paint: {
         'circle-radius': 10,
-        'circle-color': '#3887be'
+        'circle-color': '#f30'
       }
     });
-    const end = {
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          properties: {},
-          geometry: {
-            type: 'Point',
-            coordinates: endCoord
-          }
-        }
-      ]
-    };
-    if (map.getLayer('end')) {
-      map.getSource('end').setData(end);
-    } else {
-      map.addLayer({
-        id: 'end',
-        type: 'circle',
-        source: {
-          type: 'geojson',
-          data: {
-            type: 'FeatureCollection',
-            features: [
-              {
-                type: 'Feature',
-                properties: {},
-                geometry: {
-                  type: 'Point',
-                  coordinates: endCoord
-                }
-              }
-            ]
-          }
-        },
-        paint: {
-          'circle-radius': 10,
-          'circle-color': '#f30'
-        }
-      });
-      }
-      getRoute(endCoord);
-  //});
-</script>
+    }
 
-<!-- <body>
-  <div id="instructions" class = map-overlay></div>
-</body> -->
+    // Function call with endpoint.
+    getRoute(endCoord);
+</script>
 
 <style>
     html {

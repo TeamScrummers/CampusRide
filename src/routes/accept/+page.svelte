@@ -1,25 +1,54 @@
 <script>
   import { getUserID } from "../firebase/Auth";
-  import { searchFromDatabase, readFromDatabaseOnValue, writeTripToDatabase, findUserByPhone, updateFromDatabase} from "../firebase/Database";
-  import { User } from "../matching/User";
-  import Map from '../map/map.svelte';
+  import { searchFromDatabase, readFromDatabaseOnValue, findUserByPhone, updateFromDatabase} from "../firebase/Database";
   import RouteMap from "../map/routeMap.svelte";
-  import { getAddress, getDriveDistance, getDriveTime } from "../map/routeCalculation";
+  import { calculateFare, getAddress, getDriveDistance, getDriveTime } from "../map/routeCalculation";
   import { Trip } from "../firebase/Trip";
-    import { goto } from "$app/navigation";
+  import Slider from "./Slider.svelte";
+  import { goto } from "$app/navigation";
+
   const userID = getUserID()
-  export let passengers = []
-  export let localUser = new User()
+  let passengers = []
+  let localUser
   let sortedFlag =  false
-  let mapFlag = true
-  let start
-  let endCoord
+  let mapFlag = false
+  let start, endCoord, timerId
+  let sliderValue = 50
 
   // Function to sort passengers by drive time
-  async function sortByDriveTime(passengers) {
+  async function sortPassengerArray(passengers) {
+    const passengersObj = await searchFromDatabase("users", "mode", "passenger");
+    passengers = Object.keys(passengersObj).map(key => passengersObj[key])
     const passengersWithDriveTime = [];
     for (const passenger of passengers) {
-      const driveTime = await getDriveTime(localUser.startLocation, passenger.startLocation) + await getDriveDistance(passenger.startLocation, localUser.endLocation);
+      const driveTime = await getDriveTime(localUser.startLocation, passenger.startLocation) + await getDriveTime(passenger.startLocation, localUser.endLocation);
+      const driveDistance = await getDriveDistance(localUser.startLocation, passenger.startLocation)
+      const destinationDistance = await getDriveDistance(localUser.endLocation, passenger.endLocation)
+
+      let currentTime = new Date();
+      let estimatedTime = new Date();
+      
+      estimatedTime = estimatedTime.setMinutes(currentTime.getMinutes() + driveTime);
+      let hourFromNow = new Date();
+      hourFromNow.setMinutes(hourFromNow.getMinutes() + 60);
+      let driverLatestArrival = Date.parse(localUser.latestArrival)
+
+      if (driveDistance > sliderValue || passenger.available != true ) {
+        continue;
+      }
+      if (Date.parse(passenger.latestArrival) <= currentTime ) {
+        continue;
+      }
+      if (estimatedTime >= Date.parse(passenger.latestArrival) || estimatedTime >= hourFromNow || Date.parse(passenger.latestArrival) <= currentTime ) {
+        continue;
+      }
+      if (estimatedTime >= driverLatestArrival) {
+        continue;
+      }
+      // handles if destinations are too far apart
+      if (destinationDistance > .25) {
+        continue;
+      }
       passengersWithDriveTime.push({
         ...passenger,
         driveTime
@@ -30,32 +59,27 @@
   }
 
   async function driverMode() {
-    localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
+    localUser = await readFromDatabaseOnValue(`users/${userID}/`)
     const passengersObj = await searchFromDatabase("users", "mode", "passenger");
     const passengersArray = Object.keys(passengersObj).map(key => passengersObj[key])
     // Sorts passengers by distance from driver. 
-    passengers = await sortByDriveTime(passengersArray)
+    passengers = await sortPassengerArray(passengersArray)
 
-    console.log(passengers);
     sortedFlag = true
   }
   
   async function acceptPassenger (passenger) {
-    console.log("Accepted: " + passenger.firstName + " " + passenger.lastName)
-    let tripID = await Trip.makeTrip(User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`)),User.fromJSON(passenger))
+    let tripID = await Trip.makeTrip(await readFromDatabaseOnValue(`users/${userID}/`),passenger)
     let passengerID = await findUserByPhone(passenger.phoneNumber)
-    console.log("post find: " + tripID)
     updateFromDatabase(`users/${passengerID}`, { tempTripID: tripID });
     updateFromDatabase(`users/${passengerID}`, { available: false });
     updateFromDatabase(`users/${userID}`, { tempTripID: tripID });
-    console.log("post update")
     goto('/trippickup')
   }
 
   async function getMapRoute(startCoordinates, endCoordinates) {
     start = startCoordinates;
     endCoord = endCoordinates;
-    console.log("getMapRoute Start:"+ start + " End:" + endCoord);
     // Update RouteMap with new coordinates
     start = startCoordinates
     endCoord = endCoordinates
@@ -65,64 +89,90 @@
     }, 10) // adjust timeout if map does not refresh
   }
 
+  async function declinePassenger(passenger) {
+    passengers = passengers.filter(p => p !== passenger)
+    getMapRoute(localUser.startLocation, passengers[0].startLocation)
+  }
 
-  let isDrawerOpen = false;
+  async function updateSlider (event) {
+    sliderValue = event.detail;
+    passengers = await sortPassengerArray(passengers);
+  }
+
+  const handleSliderChange = async (event) => {
+    clearTimeout(timerId);
+    timerId = setTimeout(() => {
+      updateSlider(event);
+    }, 1000); // 1 second
+  };
+
+  let isDrawerOpen = true;
   async function toggleDrawer() {
     if (isDrawerOpen == true) {
-      await driverMode()
+      // passengers = await sortPassengerArray(passengers);
       isDrawerOpen = !isDrawerOpen;
     }
     else {
       isDrawerOpen = !isDrawerOpen;
-    } 
+    }
   }
 
   driverMode()
 </script>
 
+<!-- Slider Div -->
+<div class="slider-container">
+  <p><b>Range:</b></p>
+  <Slider bind:value={sliderValue} on:valueChanged={handleSliderChange} />
+</div>
 {#if mapFlag === true}
   <RouteMap {start} {endCoord} key={new Date().getTime()}></RouteMap>
 {/if}
 
 <div class={`drawer ${isDrawerOpen ? "open" : ""}`}>
   <!-- Drawer content goes here -->
-  {#if sortedFlag === true}
-    {#each passengers as passenger}
-      {#await getAddress(passenger.startLocation)}
-        <p>Loading...</p>
-      {:then address}
-        {#await Promise.all([
-            getDriveDistance(localUser.startLocation, passenger.startLocation),
-            getDriveDistance(passenger.startLocation, localUser.endLocation),
-            getDriveTime(localUser.startLocation, passenger.startLocation),
-            getDriveTime(passenger.startLocation, localUser.endLocation)
-          ])}
-          <p>Loading...</p>
-        {:then [distance1, distance2, time1, time2]}
-          <div>
-            <button class="passenger-info" on:click={() => {
-                console.log(passenger.firstName + " " + passenger.lastName + " Button Pressed " + passenger.startLocation)
-                getMapRoute(localUser.startLocation, passenger.startLocation)
-              }}> 
-              <h6><strong>{passenger.firstName} {passenger.lastName}</strong></h6>
-              <p><strong>Pickup Location:</strong> {address}</p>
-              <p><strong>Estimated Trip Time:</strong> {(time1 + time2).toFixed(1)} minutes</p>
-              <p><strong>Total Trip Distance:</strong> {(distance1 + distance2).toFixed(1)} miles</p>
-              <p><strong>Trip Fare:</strong> 6 Dollars</p> 
-              <p><button class="accept-button" on:click|stopPropagation={() => acceptPassenger(passenger)}>Accept</button>
-            </button>
-          </div>
-        {:catch error}
-          <p>{error.message}</p>
-        {/await}
+  
+  {#if sortedFlag === true && passengers.length > 0}
+    {#await getAddress(passengers[0].startLocation)}
+      <p>Loading...</p>
+    {:then address}
+      {#await Promise.all([
+          getDriveDistance(localUser.startLocation, passengers[0].startLocation),
+          getDriveDistance(passengers[0].startLocation, localUser.endLocation),
+          getDriveTime(localUser.startLocation, passengers[0].startLocation),
+          getDriveTime(passengers[0].startLocation, localUser.endLocation),
+          calculateFare(localUser.startLocation, passengers[0].startLocation),
+          getMapRoute(localUser.startLocation, passengers[0].startLocation),
+        ])}
+        <h4>Loading, please wait.</h4>
+      {:then [distance1, distance2, time1, time2, fare]}
+        <div>
+          <h4><strong>{passengers[0].firstName} {passengers[0].lastName}</strong></h4>
+          <p><strong>Pickup Location:</strong> {address}</p>
+          <p><strong>Estimated Trip Time:</strong> {(time1 + time2).toFixed(1)} minutes</p>
+          <p><strong>Distance to Pickup:</strong> {(distance1).toFixed(1)} miles</p>
+          <!-- <p><strong>Total Trip Distance:</strong> {(distance1 + distance2).toFixed(1)} miles</p> -->
+          <p><strong>Trip Fare:</strong> ${(fare).toFixed(2)} </p> 
+          <p><strong>Driver Payment:</strong> ${(fare-1).toFixed(2)} </p>
+          <!-- <p><strong>Availability:</strong> {passengers[0].available} </p> -->
+          <!-- <p><strong>Latest Arrival:</strong> {stringToDate(passengers[0].latestArrival)} </p> -->
+          
+          <p>
+            <button class="accept-button" on:click|stopPropagation={() => acceptPassenger(passengers[0])}>Accept</button>
+            <button class="decline-button" on:click|stopPropagation={() => declinePassenger(passengers[0])}>Decline</button>
+          </p>
+        </div>
       {:catch error}
         <p>{error.message}</p>
       {/await}
-    {/each}
+    {:catch error}
+      <p>{error.message}</p>
+    {/await}
+  {:else if sortedFlag === true && passengers.length === 0}
+    <h4>No passengers available at this time, please try again later.</h4>
   {:else}
     <h4>Loading, please wait.</h4>
   {/if}
-  
 
   <div class="handle" on:click={toggleDrawer}>
     <svg class="icon" viewBox="0 0 24 24">
@@ -132,6 +182,22 @@
 </div>
 
 <style>
+  .slider-container {
+    background-color: white;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: black;
+    /* border: 2px solid black; */
+    border-radius: 10px;
+    padding: 4px;
+    z-index: 1;
+    box-shadow: 5px 0 10px rgba(0, 0, 0, 0.2);
+  }
+
   .passenger-info {
     width: 100%;
     height: auto;
@@ -150,11 +216,13 @@
     box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.2);
     overflow: hidden;
     transition: height 0.3s ease-out;
-    overflow-y: scroll
+    overflow-y: scroll;
+
   }
 
   .drawer.open {
-    height: 250px;
+    height: 300px;
+    padding: 10px;    
   }
 
   .handle {
@@ -192,9 +260,9 @@
   .buttons {
     display: flex;
     justify-content: space-between;
-  margin-top: 16px;
+    margin-top: 16px;
   }
-  .accept-button, .deny-button {
+  .accept-button, .decline-button {
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
@@ -206,7 +274,7 @@
   background-color: #00c853;
   color: white;
   }
-  .deny-button {
+  .decline-button {
   background-color: #f44336;
   color: white;
   }

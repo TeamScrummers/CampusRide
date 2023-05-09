@@ -1,42 +1,39 @@
 <script>
-  import Map from '../map/map.svelte';
   import { locateUser } from '../map/locateuser';
   import { goto } from '$app/navigation'
-  import { latestArrival } from '../firebase/Store.js';
   import Geocoder from '../map/geocoder.svelte';
-  import { readFromDatabaseOnValue, updateFromDatabase } from '../firebase/Database';
+  import { updateFromDatabase } from '../firebase/Database';
   import { getUserID } from '../firebase/Auth.js';
   import { timeStringToDate } from '../passenger/timeStringToDate';
-  import { updateMatchMaking } from '../matching/MatchMaking';
-  import { User } from '../matching/User';
-  import {sendTheUserAPushNotifcation, sendDriverArrivedNotifcation, sendPassengerAvailableNotifcation, sendDriverAcceptedNotifcation} from "../firebase/PushNotifications"
 
 
   let timeInput = ''
-  let vehicleType = ''
+  
+  /**
+  *  Updates the timeInput variable with the value of the input event target.
+  *  @param {Event} event - The input event.
+  *  @return {void}
+  */
   function handleTimeInput(event) {
     timeInput = event.target.value;
   }
 
+  /**
+   * @brief Submits a driver form to the database after converting timeInput to a Date object, and sets the user's availability, latest arrival time, and mode as "driver".
+   * @returns {void}
+   */
   async function submitDriver() {
-    // hh:mm to date obj
+    //  HTML time to JS Date
     let timeOutput = timeStringToDate(timeInput)
 
-    // Updating Svelte Store
-    latestArrival.set(timeOutput)
-
-    // Updating DB
+    // Updating DB & proceeding
     const userID = getUserID()
     locateUser()
     updateFromDatabase(`users/${userID}`, {available: true})
     updateFromDatabase(`users/${userID}`, {latestArrival: timeOutput.toISOString()})
     updateFromDatabase(`users/${userID}`, {mode: "driver"})
-
-    // var localUser = User.fromJSON(await readFromDatabaseOnValue(`users/${userID}/`))
     goto('/accept')
   }
-  
-  //locateUser()
 </script>
 
 <section>
@@ -86,10 +83,10 @@
   .overlay-title {
     color: #000000;
     font-size: 20px;
-    font-weight: Arial;
+    font-weight: bold;
     position: relative;
     margin-bottom: 10px;
-    bottom: -150px;
+    bottom: -155px;
   }
  /* Text for everything */
   .overlay-subtitle {    
@@ -133,22 +130,20 @@
   }
 
   .mode-button {
-    background-color: #04AA6D;
-    color: #FFFFFF;
-    padding: 10px 20px;
-    border-radius: 50%;
-    height: 50px;
-    cursor: pointer;
-    transition: opacity 0.2s ease-in-out;
-    position: relative;
-    top: -200px;
-    left: 30px;
-    font-size: 20px;
-    font-weight: bold;
-    border: none;
-    transform: translate(-50%, -50%);
-  }
-
+  background-color: #04AA6D;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+  position: relative;
+  font-size: 20px;
+  font-weight: bold;
+  bottom: -150px;
+  width: 150px;
+  height: 50px;
+  outline: none;
+}
   .mode-button:hover {
     background-color: darkgreen;
     opacity: 0.9;
@@ -177,5 +172,6 @@
   .button-container {
     text-align: center;
   }
+
 
 </style>

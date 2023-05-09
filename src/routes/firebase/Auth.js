@@ -7,7 +7,23 @@ import { goto } from '$app/navigation'
 const auth = getAuth();
 const database = getDatabase(app);
 
-export function handleOnRegister(email, password, firstName, lastName, vehicleColor, vehicleMake, vehicleModel, vehicleYear, licensePlate){
+/**
+ * @brief Registers a new user with the provided details in the Firebase authentication and logs real time database
+ *
+ * @param {string} email
+ * @param {string} password 
+ * @param {string} firstName
+ * @param {string} lastName
+ * @param {string} phoneNumber
+ * @param {string} vehicleColor
+ * @param {string} vehicleMake
+ * @param {string} vehicleModel
+ * @param {string} vehicleYear
+ * @param {string} licensePlate
+ *
+ * @returns {void}
+ */
+export function handleOnRegister(email, password, firstName, lastName, phoneNumber, vehicleColor, vehicleMake, vehicleModel, vehicleYear, licensePlate){
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
@@ -16,6 +32,7 @@ export function handleOnRegister(email, password, firstName, lastName, vehicleCo
                 password: password,
                 firstName: firstName,
                 lastName: lastName,
+                phoneNumber: phoneNumber,
                 vehicleColor: vehicleColor,
                 vehicleMake: vehicleMake,
                 vehicleModel: vehicleModel,
@@ -24,6 +41,7 @@ export function handleOnRegister(email, password, firstName, lastName, vehicleCo
             })
                 .then(() => {
                     alert('User created successfully');
+                    goto('/login')
                 })
                 .catch((error) => {
                     alert(error);
@@ -52,7 +70,7 @@ export function handleOnLogin(email, password){
             })
                 .then(() => {
                     //alert('User logged in successfully')
-                    console.log(getUserID())
+                    // console.log(getUserID())
                     goto('/home')
                 })
                 .catch((error) => {
@@ -68,7 +86,7 @@ export function handleOnLogin(email, password){
 }
 
 /**
- * Gets the currently authenicated user's ID. 
+ * @brief Gets the currently authenicated user's ID. 
  * @returns {string|null} - Returns the user's unique ID as a string or null if no user is logged in.
  */
 export function getUserID() {
@@ -81,3 +99,19 @@ export function getUserID() {
       return null;
     }
   }
+
+/**
+ * @brief Handles user sign out.
+ * @function handleSignOut
+ * @returns {void}
+ */
+export function handleSignOut() {
+    signOut(auth).then(() => {
+        // Sign-out successful.
+        goto('/login')
+        // console.log("Sign-out successful")
+    }).catch((error) => {
+        // An error happened.
+        // console.log("An error happened")
+    });
+}
