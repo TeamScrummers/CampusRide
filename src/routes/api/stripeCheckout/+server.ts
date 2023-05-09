@@ -25,8 +25,8 @@ export const POST: RequestHandler = async ({request}) => {
         },
       ],
         mode: 'payment',
-        success_url: "http://localhost:3030/trippickup",
-        cancel_url: "http://localhost:3030/trippickup",
+        success_url: "http://localhost:3030/login",
+        cancel_url: "http://localhost:3030/cancel",
     });
     return new Response(
         JSON.stringify({ url: session.url }), // url to pass to frontend

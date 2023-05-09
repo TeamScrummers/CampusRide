@@ -6,9 +6,6 @@
 	"/accept": [
 		"src/routes/+layout.js"
 	],
-	"/admin": [
-		"src/routes/+layout.js"
-	],
 	"/api/stripeCheckout": [
 		"src/routes/api/stripeCheckout/+server.ts"
 	],
