@@ -1,31 +1,23 @@
-To install firebase SDK to app:
-    npm install firebase
+# CampusRide
 
-    -Firestore needs the following dependencies
-        npm install firebase-admin --save
+A matchmaking, ridesharing application. 
 
+## Getting Started
 
-To Run App:
-npm install
-npm run dev
+This application has a fairly simple and quick set up process. It does require the use of npm, which can be acquried by installing Node.js.
 
+### Prerequisites
 
-Dependency
+Node.js: https://nodejs.org/en/download/
 
-	Capacitor:
-		Run the following commands in the desired project directory:
-			npm install @capacitor/core @capacitor/cli @capacitor/android @capacitor/local-notifications
-			npx cap init
-				web asset directory: build (everything can be left as default or select yes)
+### Installing
 
-		You may have to run "npm audit fix" to fix depreciated svelte dependencies
+One command is needed to set up our application:
 
-To build the project
+`npm install`
 
-	npm run build
-	npx cap sync
+## Usage
 
+Upon setting up our application, you can see our testing environment by running the following:
 
-For Testing, download Android Studio. Once downloaded, run:
-	For Linux:
-		npx cap open android
+`npm run dev`
