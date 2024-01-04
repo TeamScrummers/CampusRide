@@ -3,4 +3,4 @@
 # Public
 PUBLIC_MAPBOX_TOKEN=<Mapbox Token>
 PUBLIC_STRIPE_KEY=<Stripe Token>
-PUBLIC_FIREBASE_KEY=<Firebase Token
+PUBLIC_FIREBASE_KEY=<Firebase Token>
